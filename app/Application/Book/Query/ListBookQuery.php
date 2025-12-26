@@ -10,7 +10,7 @@ class ListBookQuery
 {
     public function __construct(
         public ?int $userId = null,
-        public ?int $bookId = null,
+        public ?int $categoryId = null,
         public string $sort = 'created_at',
         public string $direction = 'desc'
     ) {}
