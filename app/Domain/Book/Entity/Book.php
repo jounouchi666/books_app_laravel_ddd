@@ -14,9 +14,9 @@ use App\Domain\Shared\ValueObject\CategoryId;
 final class Book
 {
     private readonly ?BookId $id;
-    private readonly BookTitle $title;
-    private readonly UserId $userId;
-    private readonly CategoryId $categoryId;
+    private BookTitle $title;
+    private UserId $userId;
+    private CategoryId $categoryId;
 
     private function __construct(
         ?BookId $bookId,
@@ -57,6 +57,39 @@ final class Book
         CategoryId $categoryId
     ): self {
         return new self($id, $title, $userId, $categoryId);
+    }
+    
+    /**
+     * タイトル変更
+     *
+     * @param  BookTitle $title
+     * @return void
+     */
+    public function changeTitle(BookTitle $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * ユーザーID変更
+     *
+     * @param  UserId $userId
+     * @return void
+     */
+    public function changeUser(UserId $userId): void
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * カテゴリー変更
+     *
+     * @param  CategoryId $categoryId
+     * @return void
+     */
+    public function changeCategory(CategoryId $categoryId): void
+    {
+        $this->categoryId = $categoryId;
     }
         
     /** Getter */
