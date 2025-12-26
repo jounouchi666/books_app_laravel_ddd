@@ -67,6 +67,8 @@ final class Book
      */
     public function changeTitle(BookTitle $title): void
     {
+        if ($this->title->equals($title)) return;
+
         $this->title = $title;
     }
 
@@ -78,6 +80,8 @@ final class Book
      */
     public function changeUser(UserId $userId): void
     {
+        if ($this->userId->equals($userId)) return;
+
         $this->userId = $userId;
     }
 
@@ -89,6 +93,8 @@ final class Book
      */
     public function changeCategory(CategoryId $categoryId): void
     {
+        if ($this->categoryId->equals($categoryId)) return;
+        
         $this->categoryId = $categoryId;
     }
         
