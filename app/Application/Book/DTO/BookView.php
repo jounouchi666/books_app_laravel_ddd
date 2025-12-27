@@ -16,11 +16,13 @@ final class BookView
         public readonly string $title,
         public readonly int $userId,
         public readonly int $categoryId,
+        public readonly string $categoryTitle
     ) {}
 
         
     /**
      * エンティティからインスタンスを作成
+     * リレーション先の情報を持たないため、$catagoryTitleは''(空文字)
      *
      * @param  Book $book
      * @return self
@@ -33,7 +35,8 @@ final class BookView
             $book->id()->value(),
             $book->title()->value(),
             $book->userId()->value(),
-            $book->categoryId()->value()
+            $book->categoryId()->value(),
+            '',
         );
     }
     
