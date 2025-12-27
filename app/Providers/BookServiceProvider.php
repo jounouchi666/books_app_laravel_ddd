@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Application\Book\Repository\BookSearchRepository;
+use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Domain\Book\Repository\BookRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Repository\BookRepository;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +18,11 @@ class BookServiceProvider extends ServiceProvider
         $this->app->bind(
             BookRepositoryInterface::class,
             BookRepository::class
+        );
+
+        $this->app->bind(
+            BookSearchRepositoryInterface::class,
+            BookSearchRepository::class
         );
     }
 
