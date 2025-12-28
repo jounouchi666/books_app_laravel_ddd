@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use App\Application\Book\Repository\BookSearchRepository;
+
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Domain\Book\Repository\BookRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Repository\BookRepository;
+use App\Infrastructure\Persistence\Eloquent\Repository\BookSearchRepository;
 use Illuminate\Support\ServiceProvider;
 
 class BookServiceProvider extends ServiceProvider
