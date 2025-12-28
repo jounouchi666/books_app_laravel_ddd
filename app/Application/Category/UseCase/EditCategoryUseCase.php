@@ -2,15 +2,15 @@
 
 namespace App\Application\Category\UseCase;
 
-use App\Domain\Category\Exception\CategoryNotFoundException;
+use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
 use App\Domain\Shared\ValueObject\CategoryId;
 
 /**
  * ユースケース
- * Category削除
+ * Category編集系用
  */
-class DeleteCategoryUseCase
+class EditCategoryUseCase
 {
     private CategoryRepositoryInterface $categoryRepository;
 
@@ -23,15 +23,11 @@ class DeleteCategoryUseCase
      * 実行
      *
      * @param  int $id
-     * @return void
+     * @return ?Category
      */
-    function execute(int $id): void
-    {       
-        $CategoryId = new CategoryId($id);
-        $category = $this->categoryRepository->findById($CategoryId);
-        
-        if (is_null($category)) throw new CategoryNotFoundException($CategoryId);
-
-        $this->categoryRepository->delete($CategoryId);
+    function execute(int $id): ?Category
+    {
+        $categoryId = new CategoryId($id);
+        return $this->categoryRepository->findById($categoryId);
     }
 }
