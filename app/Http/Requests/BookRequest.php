@@ -11,7 +11,7 @@ class BookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title'       => ['required', 'string', 'min:2', 'max:100'],
+            'category_id' => ['nullable', 'integer', 'min:1'],
+        ];
+    }
+
+    /**
+     * error messages
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'title.min'     => 'タイトルは2文字以上で入力してください',
+            'title.max'     => 'タイトルは100文字以内で入力してください',
+            'category_id.integer' => '正規のカテゴリーを入力してください'
         ];
     }
 }
