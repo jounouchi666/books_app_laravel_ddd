@@ -3,6 +3,7 @@
 namespace App\Application\Book\UseCase;
 
 use App\Domain\Book\Entity\Book;
+use App\Domain\Book\Exception\BookNotFoundException;
 use App\Domain\Book\Repository\BookRepositoryInterface;
 use App\Domain\Book\ValueObject\BookId;
 
@@ -23,11 +24,17 @@ class EditBookUseCase
      * 実行
      *
      * @param  int $id
-     * @return ?Book
+     * @return Book
      */
-    function execute(int $id): ?Book
+    function execute(int $id): Book
     {
         $bookId = new BookId($id);
-        return $this->bookRepository->findById($bookId);
+        $book = $this->bookRepository->findById($bookId);
+        
+        if (is_null($book)) {
+            throw new BookNotFoundException($bookId);
+        }
+
+        return $book;
     }
 }
