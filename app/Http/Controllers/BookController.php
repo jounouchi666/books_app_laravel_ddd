@@ -8,7 +8,6 @@ use App\Application\Book\UseCase\EditBookUseCase;
 use App\Application\Book\UseCase\ListBookUseCase;
 use App\Application\Book\UseCase\ShowBookUseCase;
 use App\Application\Book\UseCase\UpdateBookUseCase;
-use App\Domain\Book\Exception\BookNotFoundException;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\BookSearchRequest;
 use Illuminate\Http\RedirectResponse;
