@@ -44,11 +44,22 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean'
         ];
     }
 
     public function books() :HasMany
     {
         return $this->hasMany(Book::class);
+    }
+
+    /**
+     * 管理者ユーザー判定
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
     }
 }
