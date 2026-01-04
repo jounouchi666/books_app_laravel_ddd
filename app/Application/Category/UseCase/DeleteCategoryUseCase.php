@@ -2,6 +2,8 @@
 
 namespace App\Application\Category\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\CategoryPermission;
 use App\Domain\Category\Exception\CategoryNotFoundException;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
 use App\Domain\Shared\ValueObject\CategoryId;
@@ -12,12 +14,10 @@ use App\Domain\Shared\ValueObject\CategoryId;
  */
 class DeleteCategoryUseCase
 {
-    private CategoryRepositoryInterface $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository) 
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
+    public function __construct(
+        private CategoryRepositoryInterface $categoryRepository,
+        private AuthorizationService $AuthorizationService
+    ) {}
     
     /**
      * 実行
@@ -26,11 +26,16 @@ class DeleteCategoryUseCase
      * @return void
      */
     function execute(int $id): void
-    {       
+    {
         $CategoryId = new CategoryId($id);
         $category = $this->categoryRepository->findById($CategoryId);
         
         if (is_null($category)) throw new CategoryNotFoundException($CategoryId);
+
+        // 認可
+        $this->AuthorizationService->authorize(
+            CategoryPermission::delete($category)
+        );
 
         $this->categoryRepository->delete($CategoryId);
     }

@@ -2,6 +2,8 @@
 
 namespace App\Application\Category\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\CategoryPermission;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Exception\CategoryNotFoundException;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
@@ -15,12 +17,10 @@ use App\Domain\Shared\ValueObject\UserId;
  */
 class UpdateCategoryUseCase
 {
-    private CategoryRepositoryInterface $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository) 
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
+    public function __construct(
+        private CategoryRepositoryInterface $categoryRepository,
+        private AuthorizationService $AuthorizationService
+    ) {}
     
     /**
      * 実行
@@ -33,9 +33,14 @@ class UpdateCategoryUseCase
     {
         $CategoryId = new CategoryId($id);
         $category = $this->categoryRepository->findById($CategoryId);
-        
+
         if (is_null($category)) throw new CategoryNotFoundException($CategoryId);
         
+        // 認可
+        $this->AuthorizationService->authorize(
+            CategoryPermission::update($category)
+        );
+
         $category->changeTitle(new CategoryTitle($title));
 
         return $this->categoryRepository->save($category);
