@@ -27,6 +27,9 @@ class ListBookQuery
         'created_at' => 'books.created_at'
     ];
 
+    private const SORT_DEFAULT = 'created_at';
+    private const DIRECTION_DEFAULT = 'desc';
+
     public readonly ?int $userId;
     public readonly ?int $categoryId;
     public readonly string $sort;
@@ -35,8 +38,8 @@ class ListBookQuery
     public function __construct(
         ?int $userId = null,
         ?int $categoryId = null,
-        string $sort = 'created_at',
-        string $direction = 'desc'
+        ?string $sort = null,
+        ?string $direction = null
     ) {
         $this->userId = $userId;
         $this->categoryId = $categoryId;
@@ -47,27 +50,31 @@ class ListBookQuery
     /**
      * Sort用フィルター
      *
-     * @param  string $sort
+     * @param  ?string $sort
      * @return string 不正なら強制的に'created_at'を返す
      */
-    private function filterSort(string $sort): string
+    private function filterSort(?string $sort): string
     {
+        if (is_null($sort)) return self::SORT_DEFAULT;
+
         return in_array($sort, self::ALLOWED_SORTS, true)
             ? $sort
-            : 'created_at';
+            : self::SORT_DEFAULT;
     }
     
     /**
      * Direction用フィルター
      *
-     * @param  string $direction
+     * @param  ?string $direction
      * @return string 不正なら強制的に'desc'を返す
      */
-    private function filterDirection(string $direction): string
+    private function filterDirection(?string $direction): string
     {
+        if (is_null($direction)) return self::DIRECTION_DEFAULT;
+
         return in_array($direction, self::ALLOWED_DIRECTIONS, true)
             ? $direction
-            : 'desc';
+            : self::DIRECTION_DEFAULT;
     }
     
     /**
