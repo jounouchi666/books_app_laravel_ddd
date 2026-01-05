@@ -2,6 +2,8 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\BookPermission;
 use App\Domain\Book\Entity\Book;
 use App\Domain\Book\Exception\BookNotFoundException;
 use App\Domain\Book\Repository\BookRepositoryInterface;
@@ -16,12 +18,10 @@ use App\Domain\Shared\ValueObject\UserId;
  */
 class UpdateBookUseCase
 {
-    private BookRepositoryInterface $bookRepository;
-
-    public function __construct(BookRepositoryInterface $bookRepository) 
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(
+        private BookRepositoryInterface $bookRepository,
+        private AuthorizationService $authorizationService
+    ) {}
     
     /**
      * 実行
@@ -39,6 +39,11 @@ class UpdateBookUseCase
         
         if (is_null($book)) throw new BookNotFoundException($bookId);
         
+        // 認可
+        $this->authorizationService->authorize(
+            BookPermission::update($book)
+        );
+
         $book->changeTitle(new BookTitle($title));
         $book->changeUser(new UserId($userId));
         $book->changeCategory(new CategoryId($categoryId));
