@@ -23,12 +23,15 @@ class ListCategoryQuery
         'created_at' => 'categories.created_at'
     ];
 
+    private const SORT_DEFAULT = 'created_at';
+    private const DIRECTION_DEFAULT = 'desc';
+
     public readonly string $sort;
     public readonly string $direction;
 
     public function __construct(
-        string $sort = 'created_at',
-        string $direction = 'desc'
+        ?string $sort = null,
+        ?string $direction = null
     ) {
         $this->sort = $this->filterSort($sort);
         $this->direction = $this->filterDirection($direction);
@@ -37,11 +40,13 @@ class ListCategoryQuery
     /**
      * Sort用フィルター
      *
-     * @param  string $sort
+     * @param  ?string $sort
      * @return string 不正なら強制的に'created_at'を返す
      */
-    private function filterSort(string $sort): string
+    private function filterSort(?string $sort): string
     {
+        if (is_null($sort)) return self::SORT_DEFAULT;
+
         return in_array($sort, self::ALLOWED_SORTS, true)
             ? $sort
             : 'created_at';
@@ -50,11 +55,13 @@ class ListCategoryQuery
     /**
      * Direction用フィルター
      *
-     * @param  string $direction
+     * @param  ?string $direction
      * @return string 不正なら強制的に'desc'を返す
      */
-    private function filterDirection(string $direction): string
+    private function filterDirection(?string $direction): string
     {
+        if (is_null($direction)) return self::DIRECTION_DEFAULT;
+        
         return in_array($direction, self::ALLOWED_DIRECTIONS, true)
             ? $direction
             : 'desc';
