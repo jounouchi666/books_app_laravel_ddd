@@ -2,6 +2,8 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\BookPermission;
 use App\Domain\Book\Exception\BookNotFoundException;
 use App\Domain\Book\Repository\BookRepositoryInterface;
 use App\Domain\Book\ValueObject\BookId;
@@ -12,12 +14,10 @@ use App\Domain\Book\ValueObject\BookId;
  */
 class DeleteBookUseCase
 {
-    private BookRepositoryInterface $bookRepository;
-
-    public function __construct(BookRepositoryInterface $bookRepository) 
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(
+        private BookRepositoryInterface $bookRepository,
+        private AuthorizationService $authorizationService
+    ) {}
     
     /**
      * 実行
@@ -31,6 +31,11 @@ class DeleteBookUseCase
         $book = $this->bookRepository->findById($bookId);
         
         if (is_null($book)) throw new BookNotFoundException($bookId);
+
+        // 認可
+        $this->authorizationService->authorize(
+            BookPermission::delete($book)
+        );
 
         $this->bookRepository->delete($bookId);
     }
