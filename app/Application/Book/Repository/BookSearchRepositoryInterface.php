@@ -2,9 +2,9 @@
 
 namespace App\Application\Book\Repository;
 
-use App\Application\Book\DTO\BookView;
 use App\Application\Book\Query\ListBookQuery;
 use App\Domain\Book\ValueObject\BookId;
+use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
 
 /**
  * インターフェース
@@ -17,7 +17,7 @@ interface BookSearchRepositoryInterface
      * 検索
      *
      * @param  ListBookQuery $query
-     * @return BookView[]
+     * @return BookRecord[]
      */
     public function search(ListBookQuery $query): array;
     
@@ -25,7 +25,7 @@ interface BookSearchRepositoryInterface
      * 単一取得
      *
      * @param  BookId $id
-     * @return BookView
+     * @return BookRecord
      */
-    public function getView(BookId $id): ?BookView;
+    public function getView(BookId $id): ?BookRecord;
 }
