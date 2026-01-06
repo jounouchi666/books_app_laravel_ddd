@@ -2,6 +2,8 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\CurrentUserProvider;
+use App\Application\Book\Assembler\BookViewAssembler;
 use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 
@@ -12,12 +14,11 @@ use App\Application\Book\Repository\BookSearchRepositoryInterface;
  */
 class ListBookUseCase
 {
-    private BookSearchRepositoryInterface $bookRepository;
-
-    public function __construct(BookSearchRepositoryInterface $bookRepository) 
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(
+        private BookSearchRepositoryInterface $bookRepository,
+        private BookViewAssembler $bookViewAssembler,
+        private CurrentUserProvider $currentUserProvider
+    ) {}
     
     /**
      * 実行
@@ -27,6 +28,13 @@ class ListBookUseCase
      */
     function execute(ListBookQuery $query): array
     {
-        return $this->bookRepository->search($query);
+        $currentUser = $this->currentUserProvider->currentUser();
+
+        return array_map(function($bookRecord) use($currentUser) {
+            return $this->bookViewAssembler->fromRecord(
+                $bookRecord,
+                $currentUser
+            );
+        }, $this->bookRepository->search($query));
     }
 }
