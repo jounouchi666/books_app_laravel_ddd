@@ -4,9 +4,10 @@ namespace App\Application\Category\UseCase;
 
 use App\Application\Auth\CurrentUserProvider;
 use App\Application\Category\Assembler\CategoryViewAssembler;
+use App\Application\Category\DTO\CategoryListView;
 use App\Application\Category\Query\ListCategoryQuery;
 use App\Application\Category\Repository\CategorySearchRepositoryInterface;
-
+use App\Application\Category\Service\CategoryAuthorizationService;
 
 /**
  * ユースケース
@@ -15,6 +16,7 @@ use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 class ListCategoryUseCase
 {
     public function __construct(
+        private CategoryAuthorizationService $categoryAuthorizationService,
         private CategorySearchRepositoryInterface $categoryRepository,
         private CategoryViewAssembler $categoryViewAssembler,
         private CurrentUserProvider $currentUserProvider
@@ -24,17 +26,22 @@ class ListCategoryUseCase
      * 実行
      *
      * @param  ListCategoryQuery $query
-     * @return CategoryView[]
+     * @return CategoryListView
      */
-    function execute(ListCategoryQuery $query): array
+    public function execute(ListCategoryQuery $query): CategoryListView
     {
         $currentUser = $this->currentUserProvider->currentUser();
 
-        return array_map(function($categoryRecord) use($currentUser) {
+        $categoryViews = array_map(function($categoryRecord) use($currentUser) {
             return $this->categoryViewAssembler->fromRecord(
                 $categoryRecord,
                 $currentUser
             );
         }, $this->categoryRepository->search($query));
+
+        return new CategoryListView(
+            $categoryViews,
+            $this->categoryAuthorizationService->canCreate($currentUser)
+        );
     }
 }
