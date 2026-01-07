@@ -2,8 +2,8 @@
 
 namespace App\Application\Category\Repository;
 
-use App\Application\Category\DTO\CategoryView;
 use App\Application\Category\Query\ListCategoryQuery;
+use App\Infrastructure\Persistence\Eloquent\DTO\CategoryRecord;
 
 /**
  * インターフェース
@@ -16,7 +16,7 @@ interface CategorySearchRepositoryInterface
      * 検索
      *
      * @param  ListCategoryQuery $query
-     * @return CategoryView[]
+     * @return CategoryRecord[]
      */
     public function search(ListCategoryQuery $query): array;
 }
