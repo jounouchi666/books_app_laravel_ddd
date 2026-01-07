@@ -12,6 +12,17 @@ use App\Domain\User\Entity\User;
 class BookAuthorizationService
 {
     /**
+     * 新規作成権限
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function canCreate(User $user) : bool
+    {
+        return $user->hasId();
+    }
+
+    /**
      * 編集権限
      *
      * @param  UserId $ownerId
