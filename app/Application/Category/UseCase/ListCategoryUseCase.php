@@ -2,6 +2,8 @@
 
 namespace App\Application\Category\UseCase;
 
+use App\Application\Auth\CurrentUserProvider;
+use App\Application\Category\Assembler\CategoryViewAssembler;
 use App\Application\Category\Query\ListCategoryQuery;
 use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 
@@ -12,12 +14,11 @@ use App\Application\Category\Repository\CategorySearchRepositoryInterface;
  */
 class ListCategoryUseCase
 {
-    private CategorySearchRepositoryInterface $categoryRepository;
-
-    public function __construct(CategorySearchRepositoryInterface $categoryRepository) 
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
+    public function __construct(
+        private CategorySearchRepositoryInterface $categoryRepository,
+        private CategoryViewAssembler $categoryViewAssembler,
+        private CurrentUserProvider $currentUserProvider
+    ) {}
     
     /**
      * 実行
@@ -27,6 +28,13 @@ class ListCategoryUseCase
      */
     function execute(ListCategoryQuery $query): array
     {
-        return $this->categoryRepository->search($query);
+        $currentUser = $this->currentUserProvider->currentUser();
+
+        return array_map(function($categoryRecord) use($currentUser) {
+            return $this->categoryViewAssembler->fromRecord(
+                $categoryRecord,
+                $currentUser
+            );
+        }, $this->categoryRepository->search($query));
     }
 }
