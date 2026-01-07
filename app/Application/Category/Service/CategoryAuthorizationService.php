@@ -11,6 +11,17 @@ use App\Domain\User\Entity\User;
 class CategoryAuthorizationService
 {
     /**
+     * 新規作成権限
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function canCreate(User $user) : bool
+    {
+        return $user->hasId() && $user->isAdmin();
+    }
+
+    /**
      * 編集権限
      *
      * @param  User $user
@@ -18,9 +29,7 @@ class CategoryAuthorizationService
      */
     public function canUpdate(User $user): bool
     {
-        if (!$user->hasId()) return false;
-        
-        return $user->isAdmin();
+        return $user->hasId() && $user->isAdmin();
     }
 
     /**
@@ -31,8 +40,6 @@ class CategoryAuthorizationService
      */
     public function canDelete(User $user): bool
     {
-        if (!$user->hasId()) return false;
-        
-        return $user->isAdmin();
+        return $user->hasId() && $user->isAdmin();
     }
 }
