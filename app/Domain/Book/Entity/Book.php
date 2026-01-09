@@ -16,13 +16,13 @@ final class Book
     private readonly ?BookId $id;
     private BookTitle $title;
     private UserId $userId;
-    private CategoryId $categoryId;
+    private ?CategoryId $categoryId;
 
     private function __construct(
         ?BookId $bookId,
         BookTitle $title,
         UserId $userId,
-        CategoryId $categoryId
+        ?CategoryId $categoryId
     ) {
         $this->id = $bookId;
         $this->title = $title;
@@ -39,7 +39,7 @@ final class Book
     public static function create(
         BookTitle $title,
         UserId $userId,
-        CategoryId $categoryId
+        ?CategoryId $categoryId
     ): self {
         return new self(null, $title, $userId, $categoryId);
     }
@@ -54,7 +54,7 @@ final class Book
         BookId $id,
         BookTitle $title,
         UserId $userId,
-        CategoryId $categoryId
+        ?CategoryId $categoryId
     ): self {
         return new self($id, $title, $userId, $categoryId);
     }
@@ -91,9 +91,14 @@ final class Book
      * @param  CategoryId $categoryId
      * @return void
      */
-    public function changeCategory(CategoryId $categoryId): void
+    public function changeCategory(?CategoryId $categoryId): void
     {
-        if ($this->categoryId->equals($categoryId)) return;
+        if (is_null($this->categoryId) && is_null($categoryId)) return;
+        if (
+            !is_null($this->categoryId) &&
+            !is_null($categoryId) &&
+            $this->categoryId->equals($categoryId)
+        ) return;
         
         $this->categoryId = $categoryId;
     }
@@ -102,5 +107,5 @@ final class Book
     public function id(): ?BookId {return $this->id;}
     public function title(): BookTitle {return $this->title;}
     public function userId(): UserId {return $this->userId;}
-    public function categoryId(): CategoryId {return $this->categoryId;}
+    public function categoryId(): ?CategoryId {return $this->categoryId;}
 }
