@@ -5,4 +5,5 @@ return [
     App\Providers\AuthServiceProvider::class,
     App\Providers\BookServiceProvider::class,
     App\Providers\CategoryServiceProvider::class,
+    App\Providers\ViewServiceProvider::class,
 ];
