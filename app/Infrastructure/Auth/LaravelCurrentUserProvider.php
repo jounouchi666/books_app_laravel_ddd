@@ -19,7 +19,7 @@ class LaravelCurrentUserProvider implements CurrentUserProvider
             : User::reconstruct(
                 new UserId($user->id),
                 new Name($user->name),
-                $user->isAdmin
+                $user->is_admin
             );
     }
 }
