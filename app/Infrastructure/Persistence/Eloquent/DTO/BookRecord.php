@@ -15,7 +15,7 @@ final class BookRecord
         public readonly int $id,
         public readonly string $title,
         public readonly int $userId,
-        public readonly int $categoryId,
+        public readonly ?int $categoryId,
         public readonly string $categoryTitle,
     ) {}
 
@@ -35,7 +35,9 @@ final class BookRecord
             $book->id()->value(),
             $book->title()->value(),
             $book->userId()->value(),
-            $book->categoryId()->value(),
+            is_null($book->categoryId())
+                ? null
+                : $book->categoryId()->value(),
             '',
         );
     }
