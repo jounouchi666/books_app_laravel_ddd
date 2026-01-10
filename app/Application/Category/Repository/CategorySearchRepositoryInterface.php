@@ -19,4 +19,11 @@ interface CategorySearchRepositoryInterface
      * @return CategoryRecord[]
      */
     public function search(ListCategoryQuery $query): array;
+    
+    /**
+     * 全件取得
+     *
+     * @return CategoryRecord[]
+     */
+    public function all(): array;
 }

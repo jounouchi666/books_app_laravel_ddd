@@ -33,4 +33,21 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
             ))
             ->all();
     }
+
+    /**
+     * 全件取得
+     *
+     * @return CategoryRecord[]
+     */
+    public function all(): array
+    {
+        return DB::table('categories')
+            ->orderBy('id')
+            ->get()
+            ->map(fn($model) => new CategoryRecord(
+              $model->id,
+              $model->title
+            ))
+            ->all();
+    }
 }
