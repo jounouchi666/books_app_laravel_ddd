@@ -32,12 +32,10 @@ class ListCategoryUseCase
     {
         $currentUser = $this->currentUserProvider->currentUser();
 
-        $categoryViews = array_map(function($categoryRecord) use($currentUser) {
-            return $this->categoryViewAssembler->fromRecord(
-                $categoryRecord,
-                $currentUser
-            );
-        }, $this->categoryRepository->search($query));
+        $categoryViews = $this->categoryViewAssembler->buildViewsFromRecords(
+            $this->categoryRepository->search($query),
+            $currentUser
+        );
 
         return new CategoryListView(
             $categoryViews,
