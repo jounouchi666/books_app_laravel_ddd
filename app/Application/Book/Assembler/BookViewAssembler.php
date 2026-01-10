@@ -25,16 +25,16 @@ final class BookViewAssembler
      * @param  User $currentUser
      * @return BookView
      */
-    public function fromRecord(BookRecord $record, User $currentUser): BookView
+    public function fromRecord(BookRecord $record, User $user): BookView
     {
         $canUpdate = $this->bookAuthorizationService->canUpdate(
             new UserId($record->userId),
-            $currentUser
+            $user
         );
 
         $canDelete = $this->bookAuthorizationService->canDelete(
             new UserId($record->userId),
-            $currentUser
+            $user
         );
 
         return new BookView(
@@ -46,5 +46,21 @@ final class BookViewAssembler
             $canUpdate,
             $canDelete
         );
+    }
+
+    /**
+     * fromRecordの配列からBookViewの配列を生成する
+     *
+     * @param  BookRecord[] $records
+     * @param  User $user
+     * @return BookView[]
+     */
+    public function buildViewsFromRecords(array $records, User $user): array {
+        return array_map(function($record) use($user) {
+            return $this->fromRecord(
+                $record,
+                $user
+            );
+        }, $records);
     }
 }
