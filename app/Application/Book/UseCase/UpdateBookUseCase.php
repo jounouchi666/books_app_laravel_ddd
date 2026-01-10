@@ -32,7 +32,7 @@ class UpdateBookUseCase
      * @param  int $categoryId
      * @return Book
      */
-    function execute(int $id, string $title, int $userId, int $categoryId): Book
+    function execute(int $id, string $title, int $userId, ?int $categoryId): Book
     {
         $bookId = new BookId($id);
         $book = $this->bookRepository->findById($bookId);
