@@ -22,17 +22,17 @@ final class CategoryViewAssembler
      * fromRecordからCategoryViewを生成する
      *
      * @param  CategoryRecord $record
-     * @param  User $currentUser
+     * @param  User $user
      * @return CategoryView
      */
-    public function fromRecord(CategoryRecord $record, User $currentUser): CategoryView
+    public function fromRecord(CategoryRecord $record, User $user): CategoryView
     {
         $canUpdate = $this->bookAuthorizationService->canUpdate(
-            $currentUser
+            $user
         );
 
         $canDelete = $this->bookAuthorizationService->canDelete(
-            $currentUser
+            $user
         );
 
         return new CategoryView(
@@ -47,14 +47,14 @@ final class CategoryViewAssembler
      * fromRecordの配列からCategoryViewの配列を生成する
      *
      * @param  CategoryRecord[] $records
-     * @param  User $currentUser
+     * @param  User $user
      * @return CategoryView[]
      */
-    public function buildViewsFromRecords(array $records, User $currentUser): array {
-        return array_map(function($categoryRecord) use($currentUser) {
+    public function buildViewsFromRecords(array $records, User $user): array {
+        return array_map(function($record) use($user) {
             return $this->fromRecord(
-                $categoryRecord,
-                $currentUser
+                $record,
+                $user
             );
         }, $records);
     }
