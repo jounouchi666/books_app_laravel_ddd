@@ -46,7 +46,9 @@ class UpdateBookUseCase
 
         $book->changeTitle(new BookTitle($title));
         $book->changeUser(new UserId($userId));
-        $book->changeCategory(new CategoryId($categoryId));
+        $book->changeCategory(
+            is_null($categoryId) ? null : new CategoryId($categoryId)
+        );
 
         return $this->bookRepository->save($book);
     }
