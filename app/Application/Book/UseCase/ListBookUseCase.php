@@ -32,13 +32,11 @@ class ListBookUseCase
     {
         $currentUser = $this->currentUserProvider->currentUser();
 
-        $bookViews = array_map(function($bookRecord) use($currentUser) {
-            return $this->bookViewAssembler->fromRecord(
-                $bookRecord,
-                $currentUser
-            );
-        }, $this->bookRepository->search($query));
-
+        $bookViews = $this->bookViewAssembler->buildViewsFromRecords(
+            $this->bookRepository->search($query),
+            $currentUser
+        );
+        
         return new BookListView(
             $bookViews,
             $this->bookAutorizationService->canCreate($currentUser),
