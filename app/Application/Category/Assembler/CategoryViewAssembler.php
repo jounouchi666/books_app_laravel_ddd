@@ -17,6 +17,7 @@ final class CategoryViewAssembler
     public function __construct(
         private CategoryAuthorizationService $bookAuthorizationService
     ) {}
+
     /**
      * fromRecordからCategoryViewを生成する
      *
@@ -40,5 +41,21 @@ final class CategoryViewAssembler
             $canUpdate,
             $canDelete
         );
+    }
+
+    /**
+     * fromRecordの配列からCategoryViewの配列を生成する
+     *
+     * @param  CategoryRecord[] $records
+     * @param  User $currentUser
+     * @return CategoryView[]
+     */
+    public function buildViewsFromRecords(array $records, User $currentUser): array {
+        return array_map(function($categoryRecord) use($currentUser) {
+            return $this->fromRecord(
+                $categoryRecord,
+                $currentUser
+            );
+        }, $records);
     }
 }
