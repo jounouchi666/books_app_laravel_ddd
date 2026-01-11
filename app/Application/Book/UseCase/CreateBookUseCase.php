@@ -26,15 +26,15 @@ class CreateBookUseCase
      *
      * @param  string $title
      * @param  int $userId
-     * @param  int $categoryId
+     * @param  ?int $categoryId
      * @return Book
      */
-    function execute(string $title, int $userId, int $categoryId): Book
+    function execute(string $title, int $userId, ?int $categoryId): Book
     {
         $book = Book::create(
             new BookTitle($title),
             new UserId($userId),
-            new CategoryId($categoryId)
+            is_null($categoryId) ? null : new CategoryId($categoryId)
         );
         
         return $this->bookRepository->save($book);

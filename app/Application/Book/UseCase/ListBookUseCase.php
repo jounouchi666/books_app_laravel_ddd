@@ -2,9 +2,12 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\CurrentUserProvider;
+use App\Application\Book\Assembler\BookViewAssembler;
+use App\Application\Book\DTO\BookListView;
 use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
-
+use App\Application\Book\Service\BookAuthorizationService;
 
 /**
  * ユースケース
@@ -12,21 +15,31 @@ use App\Application\Book\Repository\BookSearchRepositoryInterface;
  */
 class ListBookUseCase
 {
-    private BookSearchRepositoryInterface $bookRepository;
-
-    public function __construct(BookSearchRepositoryInterface $bookRepository) 
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(
+        private BookAuthorizationService $bookAutorizationService,
+        private BookSearchRepositoryInterface $bookRepository,
+        private BookViewAssembler $bookViewAssembler,
+        private CurrentUserProvider $currentUserProvider
+    ) {}
     
     /**
      * 実行
      *
      * @param  ListBookQuery $query
-     * @return BookView[]
+     * @return BookListView
      */
-    function execute(ListBookQuery $query): array
+    function execute(ListBookQuery $query): BookListView
     {
-        return $this->bookRepository->search($query);
+        $currentUser = $this->currentUserProvider->currentUser();
+
+        $bookViews = $this->bookViewAssembler->buildViewsFromRecords(
+            $this->bookRepository->search($query),
+            $currentUser
+        );
+        
+        return new BookListView(
+            $bookViews,
+            $this->bookAutorizationService->canCreate($currentUser),
+        );
     }
 }

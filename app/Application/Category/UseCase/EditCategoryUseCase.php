@@ -2,7 +2,11 @@
 
 namespace App\Application\Category\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\CategoryPermission;
+use App\Application\Category\DTO\CategoryFormDto;
 use App\Domain\Category\Entity\Category;
+use App\Domain\Category\Exception\CategoryNotFoundException;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
 use App\Domain\Shared\ValueObject\CategoryId;
 
@@ -12,22 +16,31 @@ use App\Domain\Shared\ValueObject\CategoryId;
  */
 class EditCategoryUseCase
 {
-    private CategoryRepositoryInterface $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository) 
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
+    public function __construct(
+        private CategoryRepositoryInterface $categoryRepository,
+        private AuthorizationService $authorizationService
+    ) {}
     
     /**
      * 実行
      *
      * @param  int $id
-     * @return ?Category
+     * @return CategoryFormDto
      */
-    function execute(int $id): ?Category
+    function execute(int $id): CategoryFormDto
     {
         $categoryId = new CategoryId($id);
-        return $this->categoryRepository->findById($categoryId);
+        $category = $this->categoryRepository->findById($categoryId);
+
+        if (is_null($category)) {
+            throw new CategoryNotFoundException($categoryId);
+        }
+
+        // 認可
+        $this->authorizationService->authorize(
+            CategoryPermission::update($category)
+        );
+
+        return CategoryFormDto::fromEntity($category);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Application\Category\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\CategoryPermission;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
 use App\Domain\Category\ValueObject\CategoryTitle;
@@ -12,12 +14,10 @@ use App\Domain\Category\ValueObject\CategoryTitle;
  */
 class CreateCategoryUseCase
 {
-    private CategoryRepositoryInterface $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository) 
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
+    public function __construct(
+        private CategoryRepositoryInterface $categoryRepository,
+        private AuthorizationService $AuthorizationService
+    ) {}
     
     /**
      * 実行
@@ -27,6 +27,11 @@ class CreateCategoryUseCase
      */
     function execute(string $title): Category
     {
+        // 認可
+        $this->AuthorizationService->authorize(
+            CategoryPermission::create()
+        );
+
         $category = Category::create(
             new CategoryTitle($title)
         );

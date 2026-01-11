@@ -2,6 +2,9 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\AuthorizationService;
+use App\Application\Auth\Permission\BookPermission;
+use App\Application\Book\DTO\BookFormDto;
 use App\Domain\Book\Entity\Book;
 use App\Domain\Book\Exception\BookNotFoundException;
 use App\Domain\Book\Repository\BookRepositoryInterface;
@@ -13,20 +16,18 @@ use App\Domain\Book\ValueObject\BookId;
  */
 class EditBookUseCase
 {
-    private BookRepositoryInterface $bookRepository;
-
-    public function __construct(BookRepositoryInterface $bookRepository) 
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(
+        private BookRepositoryInterface $bookRepository,
+        private AuthorizationService $authorizationService
+    ) {}
     
     /**
      * 実行
      *
      * @param  int $id
-     * @return Book
+     * @return BookFormDto
      */
-    function execute(int $id): Book
+    function execute(int $id): BookFormDto
     {
         $bookId = new BookId($id);
         $book = $this->bookRepository->findById($bookId);
@@ -35,6 +36,11 @@ class EditBookUseCase
             throw new BookNotFoundException($bookId);
         }
 
-        return $book;
+        // 認可
+        $this->authorizationService->authorize(
+            BookPermission::update($book)
+        );
+
+        return BookFormDto::fromEntity($book);
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Infrastructure\Persistence\Eloquent\Repository;
 
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
-use App\Application\Book\DTO\BookView;
 use App\Application\Book\Query\ListBookQuery;
 use App\Domain\Book\ValueObject\BookId;
+use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +19,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * 検索
      *
      * @param  ListBookQuery $query
-     * @return BookView[]
+     * @return BookRecord[]
      */
     public function search(ListBookQuery $query): array
     {
@@ -41,7 +41,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
         $q->orderBy($query->sortColumn(), $query->direction);
 
         return $q->get()
-            ->map(fn($model) => new BookView(
+            ->map(fn($model) => new BookRecord(
               $model->id,
               $model->title,
               $model->user_id,
@@ -55,9 +55,9 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * 単一取得
      *
      * @param  BookId $id
-     * @return BookView
+     * @return BookRecord
      */
-    public function getView(BookId $id): ?BookView
+    public function getView(BookId $id): ?BookRecord
     {
         $q = DB::table('books');
         // 結合
@@ -68,7 +68,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
 
         if (is_null($model)) return null;
 
-        return new BookView(
+        return new BookRecord(
               $model->id,
               $model->title,
               $model->user_id,

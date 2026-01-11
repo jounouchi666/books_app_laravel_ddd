@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Book\DTO\BookFormDto;
 use App\Application\Book\UseCase\CreateBookUseCase;
 use App\Application\Book\UseCase\DeleteBookUseCase;
 use App\Application\Book\UseCase\EditBookUseCase;
 use App\Application\Book\UseCase\ListBookUseCase;
 use App\Application\Book\UseCase\ShowBookUseCase;
 use App\Application\Book\UseCase\UpdateBookUseCase;
+use App\Application\Category\UseCase\ListSelectableCategoryUseCase;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\BookSearchRequest;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +24,8 @@ class BookController extends Controller
         private readonly EditBookUseCase $editBookUseCase,
         private readonly CreateBookUseCase $createBookUseCase,
         private readonly UpdateBookUseCase $updateBookUseCase,
-        private readonly DeleteBookUseCase $deleteBookUseCase
+        private readonly DeleteBookUseCase $deleteBookUseCase,
+        private readonly ListSelectableCategoryUseCase $listSelectableCategoryUseCase
     ) {}
     
     /**
@@ -59,9 +62,13 @@ class BookController extends Controller
      */
     public function create(): View
     {
+        $categories = $this->listSelectableCategoryUseCase->execute();
+
         return view('books.edit', [
-            'book' => null,
-            'mode' => 'create'
+            'book' => BookFormDto::empty(),
+            'categories' => $categories,
+            'mode' => 'create',
+            'title' => '書籍新規登録'
         ]);
     }
     
@@ -74,10 +81,13 @@ class BookController extends Controller
     public function edit(int $id): View
     {
         $book = $this->editBookUseCase->execute($id);
+        $categories = $this->listSelectableCategoryUseCase->execute();
 
         return view('books.edit', [
             'book' => $book,
-            'mode' => 'edit'
+            'categories' => $categories,
+            'mode' => 'edit',
+            'title' => '書籍編集'
         ]);
     }
     

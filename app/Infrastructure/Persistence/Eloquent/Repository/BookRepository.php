@@ -57,7 +57,9 @@ class BookRepository implements BookRepositoryInterface
         $values = [
             'title'       => $book->title()->value(),
             'user_id'     => $book->userId()->value(),
-            'category_id' => $book->categoryId()->value(),
+            'category_id' => is_null($book->categoryId())
+                ? null
+                : $book->categoryId()->value(),
         ];
         
         if (is_null($id)) {
@@ -95,7 +97,9 @@ class BookRepository implements BookRepositoryInterface
             new BookId($model->id),
             new BookTitle($model->title),
             new UserId($model->user_id),
-            new CategoryId($model->category_id),
+            is_null($model->category_id) 
+                ? null
+                : new CategoryId($model->category_id),
         );
     }
 }
