@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Book\DTO\BookFormDto;
 use App\Application\Book\UseCase\CreateBookUseCase;
 use App\Application\Book\UseCase\DeleteBookUseCase;
 use App\Application\Book\UseCase\EditBookUseCase;
@@ -64,7 +65,7 @@ class BookController extends Controller
         $categories = $this->listSelectableCategoryUseCase->execute();
 
         return view('books.edit', [
-            'book' => null,
+            'book' => BookFormDto::empty(),
             'categories' => $categories,
             'mode' => 'create',
             'title' => '書籍新規登録'
