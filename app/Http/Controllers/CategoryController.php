@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Category\DTO\CategoryFormDto;
 use App\Application\Category\UseCase\CreateCategoryUseCase;
 use App\Application\Category\UseCase\DeleteCategoryUseCase;
 use App\Application\Category\UseCase\EditCategoryUseCase;
@@ -33,7 +34,7 @@ class CategoryController extends Controller
         $categories = $this->listCategoryUseCase->execute(
             $request->buildQuery()
         );
-        return view('categories.list', compact('categories'));
+        return view('admin.categories.list', compact('categories'));
     }
     
     /**
@@ -44,8 +45,8 @@ class CategoryController extends Controller
      */
     public function create(): View
     {
-        return view('categories.edit', [
-            'category' => null,
+        return view('admin.categories.edit', [
+            'category' => CategoryFormDto::empty(),
             'mode'     => 'edit'
         ]);
     }
@@ -60,7 +61,7 @@ class CategoryController extends Controller
     {
         $category = $this->editCategoryUseCase->execute($id);
         
-        return view('categories.edit', [
+        return view('admin.categories.edit', [
             'category' => $category,
             'mode'     => 'edit'
         ]);
