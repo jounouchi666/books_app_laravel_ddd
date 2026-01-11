@@ -4,6 +4,7 @@ namespace App\Application\Book\UseCase;
 
 use App\Application\Auth\AuthorizationService;
 use App\Application\Auth\Permission\BookPermission;
+use App\Application\Book\DTO\BookFormDto;
 use App\Domain\Book\Entity\Book;
 use App\Domain\Book\Exception\BookNotFoundException;
 use App\Domain\Book\Repository\BookRepositoryInterface;
@@ -24,9 +25,9 @@ class EditBookUseCase
      * 実行
      *
      * @param  int $id
-     * @return Book
+     * @return BookFormDto
      */
-    function execute(int $id): Book
+    function execute(int $id): BookFormDto
     {
         $bookId = new BookId($id);
         $book = $this->bookRepository->findById($bookId);
@@ -40,6 +41,6 @@ class EditBookUseCase
             BookPermission::update($book)
         );
 
-        return $book;
+        return BookFormDto::fromEntity($book);
     }
 }
