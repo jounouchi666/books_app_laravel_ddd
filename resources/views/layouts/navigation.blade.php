@@ -15,6 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                        書籍
+                    </x-nav-link>
+                    @if ($isAdmin)
+                    <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
+                        管理者メニュー
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +78,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                書籍
+            </x-responsive-nav-link>
+            @if ($isAdmin)
+            <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
+                管理者メニュー
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
