@@ -9,7 +9,7 @@ namespace App\Application\Book\DTO;
  * 一覧表示用
  * 新規作成権限フラグ付き
  */
-class BookListView
+final class BookListView
 {
     public function __construct(
         public readonly array $bookViews,
