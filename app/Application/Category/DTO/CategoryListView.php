@@ -9,7 +9,7 @@ namespace App\Application\Category\DTO;
  * 一覧表示用
  * 新規作成権限フラグ付き
  */
-class CategoryListView
+final class CategoryListView
 {
     public function __construct(
         public readonly array $categoryViews,

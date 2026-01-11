@@ -4,6 +4,7 @@ namespace App\Application\Category\UseCase;
 
 use App\Application\Auth\AuthorizationService;
 use App\Application\Auth\Permission\CategoryPermission;
+use App\Application\Category\DTO\CategoryFormDto;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Exception\CategoryNotFoundException;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
@@ -24,9 +25,9 @@ class EditCategoryUseCase
      * 実行
      *
      * @param  int $id
-     * @return Category
+     * @return CategoryFormDto
      */
-    function execute(int $id): Category
+    function execute(int $id): CategoryFormDto
     {
         $categoryId = new CategoryId($id);
         $category = $this->categoryRepository->findById($categoryId);
@@ -40,6 +41,6 @@ class EditCategoryUseCase
             CategoryPermission::update($category)
         );
 
-        return $category;
+        return CategoryFormDto::fromEntity($category);
     }
 }
