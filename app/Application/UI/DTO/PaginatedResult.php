@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Application\UI\DTO;
+
+final class PaginatedResult
+{
+    public function __construct(
+        public readonly array $records,
+        public readonly int $currentPage,
+        public readonly int $lastPage,
+        public readonly int $perPage,
+        public readonly int $total,
+    ) {}
+}
