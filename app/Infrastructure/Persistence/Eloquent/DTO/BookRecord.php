@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence\Eloquent\DTO;
 
 use App\Domain\Book\Entity\Book;
+use App\Models\Book as ModelsBook;
 use LogicException;
 
 /**
@@ -52,6 +53,29 @@ final class BookRecord
     {
         return array_map(
             fn(Book $book) => self::fromEntity($book),  
+            $books
+        );
+    }
+
+    public static function fromModel(ModelsBook $book): self
+    {
+        if (is_null($book->id)) throw new LogicException('Book must have id');
+
+        return new self(
+            $book->id,
+            $book->title,
+            $book->user_id,
+            is_null($book->category_id)
+                ? null
+                : $book->category_id,
+            $book->category_title ?? ''
+        );
+    }
+
+    public static function fromModels(array $books): array
+    {
+        return array_map(
+            fn(ModelsBook $book) => self::fromModel($book),  
             $books
         );
     }
