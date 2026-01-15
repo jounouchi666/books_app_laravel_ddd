@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Repository;
 
+use App\Application\UI\DTO\PaginatedResult;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Query\ListBookQuery;
 use App\Domain\Book\ValueObject\BookId;
@@ -19,9 +20,9 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * 検索
      *
      * @param  ListBookQuery $query
-     * @return BookRecord[]
+     * @return PaginateResult
      */
-    public function search(ListBookQuery $query): array
+    public function search(ListBookQuery $query): PaginatedResult
     {
         $q = DB::table('books');
 
@@ -40,15 +41,20 @@ class BookSearchRepository implements BookSearchRepositoryInterface
         // ソート
         $q->orderBy($query->sortColumn(), $query->direction);
 
-        return $q->get()
-            ->map(fn($model) => new BookRecord(
-              $model->id,
-              $model->title,
-              $model->user_id,
-              $model->category_id,
-              $model->category_title ?? ''
-            ))
-            ->all();
+        $paginater = $q->paginate(
+            $query->perPage,
+            ['*'],
+            'page',
+            $query->page
+        );
+
+        return new PaginatedResult(
+            BookRecord::fromModels($paginater->items()),
+            $paginater->currentPage(),
+            $paginater->lastPage(),
+            $paginater->perPage(),
+            $paginater->total()
+        );
     }
 
     /**
