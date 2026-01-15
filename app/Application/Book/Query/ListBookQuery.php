@@ -34,17 +34,23 @@ class ListBookQuery
     public readonly ?int $categoryId;
     public readonly string $sort;
     public readonly string $direction;
+    public readonly int $page;
+    public readonly int $perPage;
 
     public function __construct(
         ?int $userId = null,
         ?int $categoryId = null,
         ?string $sort = null,
-        ?string $direction = null
+        ?string $direction = null,
+        int $page = 1,
+        int $perPage = 15
     ) {
         $this->userId = $userId;
         $this->categoryId = $categoryId;
         $this->sort = $this->filterSort($sort);
         $this->direction = $this->filterDirection($direction);
+        $this->page = max(1, $page);
+        $this->perPage = min(max(1, $perPage), 100);
     }
     
     /**
