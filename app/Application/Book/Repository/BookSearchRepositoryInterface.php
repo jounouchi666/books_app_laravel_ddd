@@ -2,6 +2,7 @@
 
 namespace App\Application\Book\Repository;
 
+use App\Application\UI\DTO\PaginatedResult;
 use App\Application\Book\Query\ListBookQuery;
 use App\Domain\Book\ValueObject\BookId;
 use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
@@ -17,9 +18,9 @@ interface BookSearchRepositoryInterface
      * 検索
      *
      * @param  ListBookQuery $query
-     * @return BookRecord[]
+     * @return PaginateResult
      */
-    public function search(ListBookQuery $query): array;
+    public function search(ListBookQuery $query): PaginatedResult;
     
     /**
      * 単一取得
