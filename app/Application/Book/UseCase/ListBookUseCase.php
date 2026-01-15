@@ -32,13 +32,19 @@ class ListBookUseCase
     {
         $currentUser = $this->currentUserProvider->currentUser();
 
+        $result = $this->bookRepository->search($query);
+
         $bookViews = $this->bookViewAssembler->buildViewsFromRecords(
-            $this->bookRepository->search($query),
+            $result->records,
             $currentUser
         );
         
         return new BookListView(
             $bookViews,
+            $result->currentPage,
+            $result->lastPage,
+            $result->perPage,
+            $result->total,
             $this->bookAutorizationService->canCreate($currentUser),
         );
     }
