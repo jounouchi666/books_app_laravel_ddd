@@ -28,13 +28,19 @@ class ListCategoryQuery
 
     public readonly string $sort;
     public readonly string $direction;
+    public readonly int $page;
+    public readonly int $perPage;
 
     public function __construct(
         ?string $sort = null,
-        ?string $direction = null
+        ?string $direction = null,
+        int $page = 1,
+        int $perPage = 50
     ) {
         $this->sort = $this->filterSort($sort);
         $this->direction = $this->filterDirection($direction);
+        $this->page = max(1, $page);
+        $this->perPage = min(max(1, $perPage), 100);
     }
     
     /**
