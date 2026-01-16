@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence\Eloquent\DTO;
 
 use App\Domain\Category\Entity\Category;
+use App\Models\Category as ModelsCategory;
 use LogicException;
 
 /**
@@ -43,6 +44,36 @@ final class CategoryRecord
     {
         return array_map(
             fn(Category $category) => self::fromEntity($category),  
+            $categories
+        );
+    }
+
+    /**
+     * モデルからインスタンスを作成
+     *
+     * @param  ModelsCategory $category
+     * @return self
+     */
+    public static function fromModel(ModelsCategory $category): self
+    {
+        if (is_null($category->id)) throw new LogicException('Category must have id');
+
+        return new self(
+            $category->id,
+            $category->title
+        );
+    }
+
+    /**
+     * モデルの配列からインスタンスを作成
+     *
+     * @param  ModelsCategories[] $categories
+     * @return self
+     */
+    public static function fromModels(array $categories): array
+    {
+        return array_map(
+            fn(ModelsCategory $category) => self::fromModel($category),  
             $categories
         );
     }
