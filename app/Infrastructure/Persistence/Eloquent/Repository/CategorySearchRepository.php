@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Eloquent\Repository;
 
 use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 use App\Application\Category\Query\ListCategoryQuery;
+use App\Application\UI\DTO\SimplePaginatedResult;
 use App\Infrastructure\Persistence\Eloquent\DTO\CategoryRecord;
 use Illuminate\Support\Facades\DB;
 
@@ -17,21 +18,28 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
      * 検索
      *
      * @param  ListCategoryQuery $query
-     * @return CategoryRecord[]
+     * @return SimplePaginatedResult
      */
-    public function search(ListCategoryQuery $query): array
+    public function search(ListCategoryQuery $query): SimplePaginatedResult
     {
         $q = DB::table('categories');
 
         // ソート
         $q->orderBy($query->sortColumn(), $query->direction);
 
-        return $q->get()
-            ->map(fn($model) => new CategoryRecord(
-              $model->id,
-              $model->title
-            ))
-            ->all();
+        $paginater = $q->simplePaginate(
+            $query->perPage,
+            ['id', 'title'],
+            'page',
+            $query->page
+        );
+
+        return new SimplePaginatedResult(
+            CategoryRecord::fromModels($paginater->items()),
+            $paginater->currentPage(),
+            $paginater->perPage(),
+            $paginater->hasMorePages()
+        );
     }
 
     /**
