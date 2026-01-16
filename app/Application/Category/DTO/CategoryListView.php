@@ -13,6 +13,38 @@ final class CategoryListView
 {
     public function __construct(
         public readonly array $categoryViews,
-        public readonly bool $canCreate
+        private readonly bool $hasNext,
+        private readonly bool $hasPrev,
+        public readonly bool $canCreate,
     ) {}
+
+    /**
+     * 次ページの存在チェック
+     *
+     * @return bool
+     */
+    public function hasNext(): bool
+    {
+        return $this->hasNext;
+    }
+    
+    /**
+     * 前ページの存在チェック
+     *
+     * @return bool
+     */
+    public function hasPrev(): bool
+    {
+        return $this->hasPrev;
+    }
+    
+    /**
+     * ページネーションの有無チェック
+     *
+     * @return bool
+     */
+    public function hasPagination(): bool
+    {
+        return $this->hasNext() || $this->hasPrev();
+    }
 }
