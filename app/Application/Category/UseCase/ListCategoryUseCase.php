@@ -32,13 +32,17 @@ class ListCategoryUseCase
     {
         $currentUser = $this->currentUserProvider->currentUser();
 
+        $result = $this->categoryRepository->search($query);
+
         $categoryViews = $this->categoryViewAssembler->buildViewsFromRecords(
-            $this->categoryRepository->search($query),
+            $result->records,
             $currentUser
         );
 
         return new CategoryListView(
             $categoryViews,
+            $result->hasNext,
+            $result->hasPrev,
             $this->categoryAuthorizationService->canCreate($currentUser)
         );
     }
