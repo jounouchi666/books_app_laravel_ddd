@@ -56,7 +56,13 @@ final class BookRecord
             $books
         );
     }
-
+  
+    /**
+     * モデルからインスタンスを作成
+     *
+     * @param  ModelsBook $book
+     * @return self
+     */
     public static function fromModel(ModelsBook $book): self
     {
         if (is_null($book->id)) throw new LogicException('Book must have id');
@@ -72,6 +78,12 @@ final class BookRecord
         );
     }
 
+    /**
+     * モデルの配列からインスタンスを作成
+     *
+     * @param  ModelsBook[] $books
+     * @return self
+     */
     public static function fromModels(array $books): array
     {
         return array_map(
