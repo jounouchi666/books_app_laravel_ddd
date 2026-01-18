@@ -7,6 +7,8 @@ use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Query\ListBookQuery;
 use App\Domain\Book\ValueObject\BookId;
 use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
+use App\Models\Book;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +26,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      */
     public function search(ListBookQuery $query): PaginatedResult
     {
-        $q = DB::table('books');
+        $q = Book::query();
 
         // 結合
         $this->withCategory($q);
@@ -89,7 +91,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * @param  Builder $q
      * @return void
      */
-    private function withCategory(Builder $q): void
+    private function withCategory(Builder|EloquentBuilder $q): void
     {
         $q->leftJoin('categories', 'categories.id', '=', 'books.category_id');
     }
@@ -100,7 +102,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * @param  Builder $q
      * @return void
      */
-    private function selectBookViewColumns(Builder $q): void
+    private function selectBookViewColumns(Builder|EloquentBuilder $q): void
     {
         $q->select(
             'books.id',
