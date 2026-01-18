@@ -47,7 +47,8 @@ class CategoryController extends Controller
     {
         return view('admin.categories.edit', [
             'category' => CategoryFormDto::empty(),
-            'mode'     => 'edit'
+            'mode'     => 'create',
+            'title'    => 'カテゴリー登録'
         ]);
     }
 
@@ -63,7 +64,8 @@ class CategoryController extends Controller
         
         return view('admin.categories.edit', [
             'category' => $category,
-            'mode'     => 'edit'
+            'mode'     => 'edit',
+            'title'    => 'カテゴリー編集'
         ]);
     }
     
@@ -81,7 +83,7 @@ class CategoryController extends Controller
             $data['title']
         );
         
-        return redirect()->route('categories.list')->with('success', '登録しました');
+        return redirect()->route('admin.categories.list')->with('success', '登録しました');
     }
     
     /**
@@ -100,7 +102,7 @@ class CategoryController extends Controller
             $data['title']
         );
 
-        return redirect()->route('categories.list')->with('success', '更新しました');
+        return redirect()->route('admin.categories.list')->with('success', '更新しました');
     }
     
     /**
@@ -113,6 +115,6 @@ class CategoryController extends Controller
     {
         $this->deleteCategoryUseCase->execute($id);
 
-        return redirect()->route('categories.list')->with('success', '削除しました');
+        return redirect()->route('admin.categories.list')->with('success', '削除しました');
     }
 }
