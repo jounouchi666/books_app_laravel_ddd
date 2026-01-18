@@ -4,9 +4,10 @@ namespace App\Infrastructure\Auth;
 
 use App\Application\Auth\AuthorizationPort;
 use App\Application\Auth\Permission\Permission;
+use App\Domain\Auth\AuthorizableResource;
 use App\Domain\Book\Entity\Book;
-use App\Models\Book as ModelsBook;
 use Illuminate\Support\Facades\Gate;
+use LogicException;
 
 /**
  * LaravelAuthorizationAdapter
@@ -16,13 +17,21 @@ use Illuminate\Support\Facades\Gate;
  */
 class LaravelAuthorizationAdapter implements AuthorizationPort
 {
+    private CONST MODEL_MAP = [
+        'user' => \App\Models\User::class,
+        'book' => \App\Models\Book::class,
+        'category' => \App\Models\Category::class,
+    ];
+
     public function authorize(Permission $permission): void
     {
         $subject = $permission->subject;
 
         // Entityの場合はModelを取得
-        if ($subject instanceof Book) {
-            $subject = ModelsBook::findOrFail($subject->id()->value());
+        if ($subject instanceof AuthorizableResource) {
+            $modelClass = self::MODEL_MAP[$subject->authorizationType()]
+                ?? throw new LogicException('Unsupported authorization resource');
+            $subject = $modelClass::findOrFail($subject->authorizationKey());
         }
 
         Gate::authorize(
