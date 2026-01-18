@@ -2,6 +2,7 @@
 
 namespace App\Domain\Category\Entity;
 
+use App\Domain\Auth\AuthorizableResource;
 use App\Domain\Shared\ValueObject\CategoryId;
 use App\Domain\Category\ValueObject\CategoryTitle;
 
@@ -9,7 +10,7 @@ use App\Domain\Category\ValueObject\CategoryTitle;
  * エンティティ
  * Category
  */
-final class Category
+final class Category implements AuthorizableResource
 {
     private readonly ?CategoryId $id;
     private CategoryTitle $title;
@@ -22,6 +23,28 @@ final class Category
         $this->title = $title;
     }
     
+    /**
+     * 認可対象キー
+     * Modelを取得するために使用
+     *
+     * @return int|string
+     */
+    public function authorizationKey(): int|string
+    {
+        return $this->id()->value();
+    }
+
+    /**
+     * 認可対象タイプ
+     * Model判別に使用
+     *
+     * @return string
+     */
+    public function authorizationType(): string
+    {
+        return 'category';
+    }
+
     /**
      * 新規作成
      * IDを持たない状態

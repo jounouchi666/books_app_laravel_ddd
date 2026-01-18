@@ -2,6 +2,7 @@
 
 namespace App\Domain\Book\Entity;
 
+use App\Domain\Auth\AuthorizableResource;
 use App\Domain\Book\ValueObject\BookId;
 use App\Domain\Book\ValueObject\BookTitle;
 use App\Domain\Shared\ValueObject\UserId;
@@ -11,7 +12,7 @@ use App\Domain\Shared\ValueObject\CategoryId;
  * エンティティ
  * Book
  */
-final class Book
+final class Book implements AuthorizableResource
 {
     private readonly ?BookId $id;
     private BookTitle $title;
@@ -28,6 +29,28 @@ final class Book
         $this->title = $title;
         $this->userId = $userId;
         $this->categoryId = $categoryId;
+    }
+
+    /**
+     * 認可対象キー
+     * Modelを取得するために使用
+     *
+     * @return int|string
+     */
+    public function authorizationKey(): int|string
+    {
+        return $this->id()->value();
+    }
+
+    /**
+     * 認可対象タイプ
+     * Model判別に使用
+     *
+     * @return string
+     */
+    public function authorizationType(): string
+    {
+        return 'book';
     }
     
     /**
