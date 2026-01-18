@@ -6,6 +6,7 @@ use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 use App\Application\Category\Query\ListCategoryQuery;
 use App\Application\UI\DTO\SimplePaginatedResult;
 use App\Infrastructure\Persistence\Eloquent\DTO\CategoryRecord;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -22,7 +23,7 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
      */
     public function search(ListCategoryQuery $query): SimplePaginatedResult
     {
-        $q = DB::table('categories');
+        $q = Category::query();
 
         // ソート
         $q->orderBy($query->sortColumn(), $query->direction);
