@@ -8,9 +8,7 @@ use App\Application\Book\Query\ListBookQuery;
 use App\Domain\Book\ValueObject\BookId;
 use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
 use App\Models\Book;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * リポジトリー
@@ -18,6 +16,13 @@ use Illuminate\Support\Facades\DB;
  */
 class BookSearchRepository implements BookSearchRepositoryInterface
 {
+    private const SORT_COLUMNS = [
+        'title'       => 'books.title',
+        'user_id'     => 'books.user_id',
+        'category_id' => 'books.category_id',
+        'created_at'  => 'books.created_at'
+    ];
+
     /**
      * 検索
      *
@@ -41,7 +46,13 @@ class BookSearchRepository implements BookSearchRepositoryInterface
         }
 
         // ソート
-        $q->orderBy($query->sortColumn(), $query->direction);
+        $q->orderBy(
+            self::SORT_COLUMNS[$query->sort],
+            $query->direction
+        );
+
+        // 削除タイプ
+        $this->applySoftDeleteFilter($q, $query->trashType);
 
         $paginater = $q->paginate(
             $query->perPage,
@@ -67,7 +78,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      */
     public function getView(BookId $id): ?BookRecord
     {
-        $q = DB::table('books');
+        $q = Book::query();;
         // 結合
         $this->withCategory($q);
         $this->selectBookViewColumns($q);
@@ -81,7 +92,8 @@ class BookSearchRepository implements BookSearchRepositoryInterface
               $model->title,
               $model->user_id,
               $model->category_id,
-              $model->category_title ?? ''
+              $model->category_title ?? '',
+              $model->trashed()
         );
     }
     
@@ -91,7 +103,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * @param  Builder $q
      * @return void
      */
-    private function withCategory(Builder|EloquentBuilder $q): void
+    private function withCategory(Builder $q): void
     {
         $q->leftJoin('categories', 'categories.id', '=', 'books.category_id');
     }
@@ -102,7 +114,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * @param  Builder $q
      * @return void
      */
-    private function selectBookViewColumns(Builder|EloquentBuilder $q): void
+    private function selectBookViewColumns(Builder $q): void
     {
         $q->select(
             'books.id',
@@ -111,5 +123,21 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             'books.category_id',
             'categories.title as category_title'
         );
+    }
+
+    /**
+     * 削除ステータスに応じてクエリを修飾
+     *
+     * @param  Builder $q
+     * @param  string $trashType
+     * @return void
+     */
+    private function applySoftDeleteFilter(Builder $q, string $trashType): void
+    {
+        match ($trashType) {
+            'with_trashed' => $q->withTrashed(),
+            'only_trashed' => $q->onlyTrashed(),
+            default        => null
+        };
     }
 }
