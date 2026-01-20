@@ -17,6 +17,7 @@ final class BookView
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
         public readonly bool $canUpdate,
-        public readonly bool $canDelete
+        public readonly bool $canDelete,
+        public readonly bool $trashed
     ) {}
 }
