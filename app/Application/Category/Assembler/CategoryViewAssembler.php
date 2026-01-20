@@ -39,7 +39,8 @@ final class CategoryViewAssembler
             $record->id,
             $record->title,
             $canUpdate,
-            $canDelete
+            $canDelete,
+            $record->trashed
         );
     }
 
