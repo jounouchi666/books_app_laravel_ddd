@@ -18,44 +18,45 @@ final class BookRecord
         public readonly int $userId,
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
+        public readonly bool $trashed
     ) {}
 
         
-    /**
-     * エンティティからインスタンスを作成
-     * リレーション先の情報を持たないため、$catagoryTitleは''(空文字)
-     *
-     * @param  Book $book
-     * @return self
-     */
-    public static function fromEntity(Book $book): self
-    {
-        if (is_null($book->id())) throw new LogicException('Book must have id');
+    // /**
+    //  * エンティティからインスタンスを作成
+    //  * リレーション先の情報を持たないため、$catagoryTitleは''(空文字)
+    //  *
+    //  * @param  Book $book
+    //  * @return self
+    //  */
+    // public static function fromEntity(Book $book): self
+    // {
+    //     if (is_null($book->id())) throw new LogicException('Book must have id');
 
-        return new self(
-            $book->id()->value(),
-            $book->title()->value(),
-            $book->userId()->value(),
-            is_null($book->categoryId())
-                ? null
-                : $book->categoryId()->value(),
-            '',
-        );
-    }
+    //     return new self(
+    //         $book->id()->value(),
+    //         $book->title()->value(),
+    //         $book->userId()->value(),
+    //         is_null($book->categoryId())
+    //             ? null
+    //             : $book->categoryId()->value(),
+    //         '',
+    //     );
+    // }
     
-    /**
-     * エンティティの配列からインスタンスを作成
-     *
-     * @param  Book[] $books
-     * @return self[]
-     */
-    public static function fromEntities(array $books): array
-    {
-        return array_map(
-            fn(Book $book) => self::fromEntity($book),  
-            $books
-        );
-    }
+    // /**
+    //  * エンティティの配列からインスタンスを作成
+    //  *
+    //  * @param  Book[] $books
+    //  * @return self[]
+    //  */
+    // public static function fromEntities(array $books): array
+    // {
+    //     return array_map(
+    //         fn(Book $book) => self::fromEntity($book),  
+    //         $books
+    //     );
+    // }
   
     /**
      * モデルからインスタンスを作成
@@ -74,7 +75,8 @@ final class BookRecord
             is_null($book->category_id)
                 ? null
                 : $book->category_id,
-            $book->category_title ?? ''
+            $book->category_title ?? '',
+            $book->trashed()
         );
     }
 

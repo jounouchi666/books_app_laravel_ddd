@@ -53,7 +53,7 @@ class BookPolicy
      */
     public function restore(User $user, Book $book): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -61,6 +61,6 @@ class BookPolicy
      */
     public function forceDelete(User $user, Book $book): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 }
