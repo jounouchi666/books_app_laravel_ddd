@@ -14,6 +14,7 @@ final class CategoryView
         public readonly int $id,
         public readonly string $title,
         public readonly bool $canUpdate,
-        public readonly bool $canDelete
+        public readonly bool $canDelete,
+        public readonly bool $trashed
     ) {}
 }
