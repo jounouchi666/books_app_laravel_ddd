@@ -35,10 +35,26 @@ interface BookRepositoryInterface
     public function save(Book $book): Book;
     
     /**
-     * 削除
+     * 論理削除
      *
      * @param  BookId $id
      * @return void
      */
     public function delete(BookId $id): void;
+
+    /**
+     * 復元
+     *
+     * @param  BookId $id
+     * @return void
+     */
+    public function restore(BookId $id): void;
+
+    /**
+     * 物理削除
+     *
+     * @param  BookId $id
+     * @return void
+     */
+    public function forceDelete(BookId $id): void;
 }
