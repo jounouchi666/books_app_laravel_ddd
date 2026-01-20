@@ -7,7 +7,7 @@ use App\Application\Category\Query\ListCategoryQuery;
 use App\Application\UI\DTO\SimplePaginatedResult;
 use App\Infrastructure\Persistence\Eloquent\DTO\CategoryRecord;
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * リポジトリー
@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\DB;
  */
 class CategorySearchRepository implements CategorySearchRepositoryInterface
 {
+    private const SORT_COLUMNS = [
+        'title'      => 'categories.title',
+        'created_at' => 'categories.created_at'
+    ];
+
     /**
      * 検索
      *
@@ -26,7 +31,13 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
         $q = Category::query();
 
         // ソート
-        $q->orderBy($query->sortColumn(), $query->direction);
+        $q->orderBy(
+            self::SORT_COLUMNS[$query->sort],
+            $query->direction
+        );
+
+        // 削除タイプ
+        $this->applySoftDeleteFilter($q, $query->trashType);
 
         $paginater = $q->simplePaginate(
             $query->perPage,
@@ -50,13 +61,30 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
      */
     public function all(): array
     {
-        return DB::table('categories')
+        return Category::query()
             ->orderBy('id')
             ->get()
             ->map(fn($model) => new CategoryRecord(
               $model->id,
-              $model->title
+              $model->title,
+              $model->trashed()
             ))
             ->all();
+    }
+    
+    /**
+     * 削除ステータスに応じてクエリを修飾
+     *
+     * @param  Builder $q
+     * @param  string $trashType
+     * @return void
+     */
+    private function applySoftDeleteFilter(Builder $q, string $trashType): void
+    {
+        match ($trashType) {
+            'with_trashed' => $q->withTrashed(),
+            'only_trashed' => $q->onlyTrashed(),
+            default        => null
+        };
     }
 }
