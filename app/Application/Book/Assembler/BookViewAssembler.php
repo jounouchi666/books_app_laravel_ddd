@@ -44,7 +44,8 @@ final class BookViewAssembler
             $record->categoryId,
             $record->categoryTitle,
             $canUpdate,
-            $canDelete
+            $canDelete,
+            $record->trashed
         );
     }
 
