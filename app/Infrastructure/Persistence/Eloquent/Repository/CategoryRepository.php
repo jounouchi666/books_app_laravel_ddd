@@ -69,14 +69,36 @@ class CategoryRepository implements CategoryRepositoryInterface
     }
     
     /**
-     * 削除
+     * 論理削除
      *
      * @param  CategoryId $id
      * @return void
      */
     public function delete(CategoryId $id): void
     {
-        ModelsCategory::destroy($id->value());
+        ModelsCategory::findOrFail($id->value())->delete();
+    }
+
+    /**
+     * 復元
+     *
+     * @param  CategoryId $id
+     * @return void
+     */
+    public function restore(CategoryId $id): void
+    {
+        ModelsCategory::findOrFail($id->value())->restore();
+    }
+
+    /**
+     * 物理削除
+     *
+     * @param  CategoryId $id
+     * @return void
+     */
+    public function forceDelete(CategoryId $id): void
+    {
+        ModelsCategory::findOrFail($id->value())->forceDelete();
     }
     
     /**
