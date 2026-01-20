@@ -35,10 +35,26 @@ interface CategoryRepositoryInterface
     public function save(Category $category): Category;
     
     /**
-     * 削除
+     * 論理削除
      *
      * @param  CategoryId $id
      * @return void
      */
     public function delete(CategoryId $id): void;
+
+    /**
+     * 復元
+     *
+     * @param  CategoryId $id
+     * @return void
+     */
+    public function restore(CategoryId $id): void;
+
+    /**
+     * 物理削除
+     *
+     * @param  CategoryId $id
+     * @return void
+     */
+    public function forceDelete(CategoryId $id): void;
 }
