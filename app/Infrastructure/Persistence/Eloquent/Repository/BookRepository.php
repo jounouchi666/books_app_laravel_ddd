@@ -75,14 +75,36 @@ class BookRepository implements BookRepositoryInterface
     }
     
     /**
-     * 削除
+     * 論理削除
      *
      * @param  BookId $id
      * @return void
      */
     public function delete(BookId $id): void
     {
-        ModelsBook::destroy($id->value());
+        ModelsBook::findOrFail($id->value())->delete();
+    }
+
+    /**
+     * 復元
+     *
+     * @param  BookId $id
+     * @return void
+     */
+    public function restore(BookId $id): void
+    {
+        ModelsBook::findOrFail($id->value())->restore();
+    }
+
+    /**
+     * 物理削除
+     *
+     * @param  BookId $id
+     * @return void
+     */
+    public function forceDelete(BookId $id): void
+    {
+        ModelsBook::findOrFail($id->value())->forceDelete();
     }
     
     /**
