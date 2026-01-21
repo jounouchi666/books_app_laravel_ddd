@@ -5,6 +5,7 @@ namespace App\Application\Book\UseCase;
 use App\Application\Auth\CurrentUserProvider;
 use App\Application\Book\Assembler\BookViewAssembler;
 use App\Application\Book\DTO\BookListView;
+use App\Application\Book\DTO\BookUIQuery;
 use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Service\BookAuthorizationService;
@@ -38,6 +39,12 @@ class ListBookUseCase
             $result->records,
             $currentUser
         );
+
+        $bookUIQuery = new BookUIQuery(
+            $query->sort,
+            $query->direction,
+            $query->trashType
+        );
         
         return new BookListView(
             $bookViews,
@@ -46,6 +53,7 @@ class ListBookUseCase
             $result->perPage,
             $result->total,
             $this->bookAutorizationService->canCreate($currentUser),
+            $bookUIQuery
         );
     }
 }
