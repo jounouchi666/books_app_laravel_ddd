@@ -16,6 +16,7 @@ final class CategoryListView
         private readonly bool $hasNext,
         private readonly bool $hasPrev,
         public readonly bool $canCreate,
+        public readonly CategoryUIQuery $categoryUIQuery
     ) {}
 
     /**

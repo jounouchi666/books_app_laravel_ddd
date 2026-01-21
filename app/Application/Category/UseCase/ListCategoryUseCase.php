@@ -5,6 +5,7 @@ namespace App\Application\Category\UseCase;
 use App\Application\Auth\CurrentUserProvider;
 use App\Application\Category\Assembler\CategoryViewAssembler;
 use App\Application\Category\DTO\CategoryListView;
+use App\Application\Category\DTO\CategoryUIQuery;
 use App\Application\Category\Query\ListCategoryQuery;
 use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 use App\Application\Category\Service\CategoryAuthorizationService;
@@ -39,11 +40,18 @@ class ListCategoryUseCase
             $currentUser
         );
 
+        $categoryUIQuery = new CategoryUIQuery(
+            $query->sort,
+            $query->direction,
+            $query->trashType
+        );
+
         return new CategoryListView(
             $categoryViews,
             $result->hasNext,
             $result->hasPrev,
-            $this->categoryAuthorizationService->canCreate($currentUser)
+            $this->categoryAuthorizationService->canCreate($currentUser),
+            $categoryUIQuery
         );
     }
 }
