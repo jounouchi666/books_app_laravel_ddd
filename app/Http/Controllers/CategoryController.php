@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Book\UseCase\ForceDeleteBookUseCase;
 use App\Application\Category\DTO\CategoryFormDto;
 use App\Application\Category\UseCase\CreateCategoryUseCase;
 use App\Application\Category\UseCase\DeleteCategoryUseCase;
 use App\Application\Category\UseCase\EditCategoryUseCase;
 use App\Application\Category\UseCase\ListCategoryUseCase;
+use App\Application\Category\UseCase\RestoreCategoryUseCase;
 use App\Application\Category\UseCase\UpdateCategoryUseCase;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\CategorySearchRequest;
@@ -20,7 +22,9 @@ class CategoryController extends Controller
         private readonly EditCategoryUseCase $editCategoryUseCase,
         private readonly CreateCategoryUseCase $createCategoryUseCase,
         private readonly UpdateCategoryUseCase $updateCategoryUseCase,
-        private readonly DeleteCategoryUseCase $deleteCategoryUseCase
+        private readonly DeleteCategoryUseCase $deleteCategoryUseCase,
+        private readonly RestoreCategoryUseCase $restoreCategoryUseCase,
+        private readonly ForceDeleteBookUseCase $forceDeleteCategoryUseCase
     ) {}
     
     /**
@@ -114,6 +118,32 @@ class CategoryController extends Controller
     public function delete(int $id): RedirectResponse
     {
         $this->deleteCategoryUseCase->execute($id);
+
+        return redirect()->route('admin.categories.list')->with('success', '削除しました');
+    }
+
+    /**
+     * restore
+     *
+     * @param  int $id
+     * @return RedirectResponse
+     */
+    public function restore(int $id): RedirectResponse
+    {
+        $this->restoreCategoryUseCase->execute($id);
+
+        return redirect()->route('admin.categories.list')->with('success', '復元しました');
+    }
+
+    /**
+     * force delete
+     *
+     * @param  int $id
+     * @return RedirectResponse
+     */
+    public function forceDelete(int $id): RedirectResponse
+    {
+        $this->forceDeleteCategoryUseCase->execute($id);
 
         return redirect()->route('admin.categories.list')->with('success', '削除しました');
     }
