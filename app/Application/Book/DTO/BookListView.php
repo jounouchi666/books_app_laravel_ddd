@@ -18,6 +18,7 @@ final class BookListView
         public readonly int $perPage,
         public readonly int $total,
         public readonly bool $canCreate,
+        public readonly BookUIQuery $bookUIQuery
     ) {}
     
     /**
