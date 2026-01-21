@@ -6,7 +6,9 @@ use App\Application\Book\DTO\BookFormDto;
 use App\Application\Book\UseCase\CreateBookUseCase;
 use App\Application\Book\UseCase\DeleteBookUseCase;
 use App\Application\Book\UseCase\EditBookUseCase;
+use App\Application\Book\UseCase\ForceDeleteBookUseCase;
 use App\Application\Book\UseCase\ListBookUseCase;
+use App\Application\Book\UseCase\RestoreBookUseCase;
 use App\Application\Book\UseCase\ShowBookUseCase;
 use App\Application\Book\UseCase\UpdateBookUseCase;
 use App\Application\Category\UseCase\ListSelectableCategoryUseCase;
@@ -25,6 +27,8 @@ class BookController extends Controller
         private readonly CreateBookUseCase $createBookUseCase,
         private readonly UpdateBookUseCase $updateBookUseCase,
         private readonly DeleteBookUseCase $deleteBookUseCase,
+        private readonly RestoreBookUseCase $restoreBookUseCase,
+        private readonly ForceDeleteBookUseCase $forceDeleteBookUseCase,
         private readonly ListSelectableCategoryUseCase $listSelectableCategoryUseCase
     ) {}
     
@@ -142,6 +146,32 @@ class BookController extends Controller
     public function delete(int $id): RedirectResponse
     {
         $this->deleteBookUseCase->execute($id);
+
+        return redirect()->route('books.index')->with('success', '削除しました');
+    }
+
+    /**
+     * restore
+     *
+     * @param  int $id
+     * @return RedirectResponse
+     */
+    public function restore(int $id): RedirectResponse
+    {
+        $this->restoreBookUseCase->execute($id);
+
+        return redirect()->route('books.index')->with('success', '復元しました');
+    }
+
+    /**
+     * force delete
+     *
+     * @param  int $id
+     * @return RedirectResponse
+     */
+    public function forceDelete(int $id): RedirectResponse
+    {
+        $this->forceDeleteBookUseCase->execute($id);
 
         return redirect()->route('books.index')->with('success', '削除しました');
     }
