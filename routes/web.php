@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', [CategoryController::class, 'store'])->name('store');
             Route::patch('/{id}/update', [CategoryController::class, 'update'])->name('update');
             Route::delete('/{id}/delete', [CategoryController::class, 'delete'])->name('delete');
+            Route::patch('/{id}/restore', [CategoryController::class, 'restore'])->name('restore');
+            Route::delete('/{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('force_delete');
        });
     });
 
@@ -46,6 +48,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [BookController::class, 'store'])->name('store');
         Route::patch('/{id}/update', [BookController::class, 'update'])->name('update');
         Route::delete('/{id}/delete', [BookController::class, 'delete'])->name('delete');
+        Route::patch('/{id}/restore', [BookController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [BookController::class, 'forceDelete'])->name('force_delete');
     });
 });
 
