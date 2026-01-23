@@ -9,6 +9,7 @@ use App\Application\Book\DTO\BookUIQuery;
 use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Service\BookAuthorizationService;
+use App\Application\UI\DTO\PaginateView;
 
 /**
  * ユースケース
@@ -40,6 +41,17 @@ class ListBookUseCase
             $currentUser
         );
 
+        $paginateView = new PaginateView(
+            $result->currentPage,
+            $result->lastPage,
+            $result->perPage,
+            $result->total,
+            $result->onFirstPage,
+            $result->onLastPage,
+            $result->nextPageUrl,
+            $result->previousPageUrl
+        );
+
         $bookUIQuery = new BookUIQuery(
             $query->sort,
             $query->direction,
@@ -48,11 +60,8 @@ class ListBookUseCase
         
         return new BookListView(
             $bookViews,
-            $result->currentPage,
-            $result->lastPage,
-            $result->perPage,
-            $result->total,
             $this->bookAutorizationService->canCreate($currentUser),
+            $paginateView,
             $bookUIQuery
         );
     }

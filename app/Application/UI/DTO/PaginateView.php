@@ -2,10 +2,15 @@
 
 namespace App\Application\UI\DTO;
 
-final class PaginatedResult
+/**
+ * DTO
+ * PaginateView
+ * 
+ * Pagination用
+ */
+final class PaginateView
 {
     public function __construct(
-        public readonly array $records,
         public readonly int $currentPage,
         public readonly int $lastPage,
         public readonly int $perPage,
@@ -15,4 +20,14 @@ final class PaginatedResult
         public readonly ?string $nextPageUrl,
         public readonly ?string $previousPageUrl
     ) {}
+
+    /**
+     * ページネーションの有無チェック
+     *
+     * @return bool
+     */
+    public function hasPagination(): bool
+    {
+        return !$this->onFirstPage || !$this->onLastPage;
+    }
 }
