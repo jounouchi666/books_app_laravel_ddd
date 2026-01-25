@@ -29,7 +29,7 @@ final class PaginateView
      */
     public function hasPagination(): bool
     {
-        return $this->onLastPage > 1;
+        return $this->lastPage > 1;
     }
     
     /**
