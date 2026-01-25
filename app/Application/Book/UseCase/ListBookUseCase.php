@@ -10,6 +10,7 @@ use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Service\BookAuthorizationService;
 use App\Application\UI\DTO\PaginateView;
+use App\Application\UI\PaginationUrlGeneratorFactory;
 
 /**
  * ユースケース
@@ -21,7 +22,8 @@ class ListBookUseCase
         private BookAuthorizationService $bookAutorizationService,
         private BookSearchRepositoryInterface $bookRepository,
         private BookViewAssembler $bookViewAssembler,
-        private CurrentUserProvider $currentUserProvider
+        private CurrentUserProvider $currentUserProvider,
+        private PaginationUrlGeneratorFactory $paginationUrlGeneratorFactory
     ) {}
     
     /**
@@ -41,6 +43,12 @@ class ListBookUseCase
             $currentUser
         );
 
+        $bookUIQuery = new BookUIQuery(
+            $query->sort,
+            $query->direction,
+            $query->trashType
+        );
+
         $paginateView = new PaginateView(
             $result->currentPage,
             $result->lastPage,
@@ -48,14 +56,11 @@ class ListBookUseCase
             $result->total,
             $result->onFirstPage,
             $result->onLastPage,
-            $result->nextPageUrl,
-            $result->previousPageUrl
-        );
-
-        $bookUIQuery = new BookUIQuery(
-            $query->sort,
-            $query->direction,
-            $query->trashType
+            $this->paginationUrlGeneratorFactory->create(
+                $bookUIQuery->toQueryArray(),
+                $result->currentPage,
+                $result->lastPage
+            )
         );
         
         return new BookListView(
