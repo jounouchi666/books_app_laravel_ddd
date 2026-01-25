@@ -10,7 +10,6 @@ use Illuminate\View\Component;
 class Pagination extends Component
 {
     public PaginateView $paginateView;
-    public array $query;
     public int $displayRange;
     public int $displayPerTotalStart;
     public int $displayPerTotalEnd;
@@ -20,11 +19,9 @@ class Pagination extends Component
      */
     public function __construct(
         PaginateView $paginateView,
-        array $query = [],
         ?int $displayRange = null
     ) {
         $this->paginateView = $paginateView;
-        $this->query = $query;
         $this->displayRange = $displayRange ?? 5;
         $this->displayPerTotalStart = $this->calcDisplayPerTotalStart();
         $this->displayPerTotalEnd = $this->calcDisplayPerTotalEnd();
