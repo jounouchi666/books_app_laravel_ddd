@@ -15,4 +15,13 @@ final class BookUIQuery
         public readonly ?string $direction,
         public readonly ?string $trashType
     ) {}
+
+    public function toQueryArray(): array
+    {
+        return array_filter([
+            'sort' => $this->sort,
+            'direction' => $this->direction,
+            'trash_type' => $this->trashType,
+        ]);
+    }
 }
