@@ -2,6 +2,8 @@
 
 namespace App\Application\Category\DTO;
 
+use App\Application\UI\DTO\SimplePaginateView;
+
 /**
  * DTO
  * CategoryListView
@@ -13,39 +15,8 @@ final class CategoryListView
 {
     public function __construct(
         public readonly array $categoryViews,
-        private readonly bool $hasNext,
-        private readonly bool $hasPrev,
         public readonly bool $canCreate,
+        public readonly SimplePaginateView $simplePaginateView,
         public readonly CategoryUIQuery $categoryUIQuery
     ) {}
-
-    /**
-     * 次ページの存在チェック
-     *
-     * @return bool
-     */
-    public function hasNext(): bool
-    {
-        return $this->hasNext;
-    }
-    
-    /**
-     * 前ページの存在チェック
-     *
-     * @return bool
-     */
-    public function hasPrev(): bool
-    {
-        return $this->hasPrev;
-    }
-    
-    /**
-     * ページネーションの有無チェック
-     *
-     * @return bool
-     */
-    public function hasPagination(): bool
-    {
-        return $this->hasNext() || $this->hasPrev();
-    }
 }

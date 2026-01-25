@@ -9,6 +9,8 @@ use App\Application\Category\DTO\CategoryUIQuery;
 use App\Application\Category\Query\ListCategoryQuery;
 use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 use App\Application\Category\Service\CategoryAuthorizationService;
+use App\Application\UI\DTO\SimplePaginateView;
+use App\Application\UI\SimplePaginationUrlGeneratorFactory;
 
 /**
  * ユースケース
@@ -20,7 +22,8 @@ class ListCategoryUseCase
         private CategoryAuthorizationService $categoryAuthorizationService,
         private CategorySearchRepositoryInterface $categoryRepository,
         private CategoryViewAssembler $categoryViewAssembler,
-        private CurrentUserProvider $currentUserProvider
+        private CurrentUserProvider $currentUserProvider,
+        private SimplePaginationUrlGeneratorFactory $simplePaginationUrlGeneratorFactory
     ) {}
     
     /**
@@ -46,11 +49,20 @@ class ListCategoryUseCase
             $query->trashType
         );
 
-        return new CategoryListView(
-            $categoryViews,
+        $simplePaginateView = new SimplePaginateView(
             $result->hasNext,
             $result->hasPrev,
+            $this->simplePaginationUrlGeneratorFactory->create(
+                $categoryUIQuery->toQueryArray(),
+                $result->currentPage,
+                $result->hasNext
+            )
+        );
+
+        return new CategoryListView(
+            $categoryViews,
             $this->categoryAuthorizationService->canCreate($currentUser),
+            $simplePaginateView,
             $categoryUIQuery
         );
     }
