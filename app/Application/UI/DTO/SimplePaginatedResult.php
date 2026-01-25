@@ -14,12 +14,12 @@ final class SimplePaginatedResult
         array $records,
         int $currentPage,
         int $perPage,
-        bool $hasNext
+        bool $hasMorePages
     ) {
         $this->records = $records;
         $this->currentPage = $currentPage;
         $this->perPage = $perPage;
-        $this->hasNext = $hasNext;
-        $this->hasPrev = $currentPage > 1;
+        $this->hasNext = $hasMorePages;
+        $this->hasPrev = $this->currentPage > 1;
     }
 }

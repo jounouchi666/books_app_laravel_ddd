@@ -5,9 +5,12 @@ namespace App\Application\Book\UseCase;
 use App\Application\Auth\CurrentUserProvider;
 use App\Application\Book\Assembler\BookViewAssembler;
 use App\Application\Book\DTO\BookListView;
+use App\Application\Book\DTO\BookUIQuery;
 use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Service\BookAuthorizationService;
+use App\Application\UI\DTO\PaginateView;
+use App\Application\UI\PaginationUrlGeneratorFactory;
 
 /**
  * ユースケース
@@ -19,7 +22,8 @@ class ListBookUseCase
         private BookAuthorizationService $bookAutorizationService,
         private BookSearchRepositoryInterface $bookRepository,
         private BookViewAssembler $bookViewAssembler,
-        private CurrentUserProvider $currentUserProvider
+        private CurrentUserProvider $currentUserProvider,
+        private PaginationUrlGeneratorFactory $paginationUrlGeneratorFactory
     ) {}
     
     /**
@@ -38,14 +42,32 @@ class ListBookUseCase
             $result->records,
             $currentUser
         );
-        
-        return new BookListView(
-            $bookViews,
+
+        $bookUIQuery = new BookUIQuery(
+            $query->sort,
+            $query->direction,
+            $query->trashType
+        );
+
+        $paginateView = new PaginateView(
             $result->currentPage,
             $result->lastPage,
             $result->perPage,
             $result->total,
+            $result->onFirstPage,
+            $result->onLastPage,
+            $this->paginationUrlGeneratorFactory->create(
+                $bookUIQuery->toQueryArray(),
+                $result->currentPage,
+                $result->lastPage
+            )
+        );
+        
+        return new BookListView(
+            $bookViews,
             $this->bookAutorizationService->canCreate($currentUser),
+            $paginateView,
+            $bookUIQuery
         );
     }
 }

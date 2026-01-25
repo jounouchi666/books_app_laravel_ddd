@@ -1,7 +1,7 @@
 @props([
     'id' => "sort-form",
     'action' => '',
-    'sorts' => ['id' => 'ID', 'created_at' => '作成日'],
+    'sorts' => ['created_at' => '作成日'],
     'sortSelected' => 'created_at',
     'directionSelected' => 'desc',
     'errors' => null

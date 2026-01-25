@@ -10,5 +10,7 @@ final class PaginatedResult
         public readonly int $lastPage,
         public readonly int $perPage,
         public readonly int $total,
+        public readonly bool $onFirstPage,
+        public readonly bool $onLastPage,
     ) {}
 }
