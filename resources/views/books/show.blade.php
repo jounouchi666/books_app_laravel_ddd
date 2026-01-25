@@ -5,11 +5,13 @@
         </h2>
     </x-slot>
     
-    <div class="max-w-7xl mx-auto px-6 py-4 mt-4 bg-white">
-        <h1 class="text-3xl font-medium">{{ $book->title }}</h1>
+    <x-main-content-area>
+        <x-main-content-panel>
+            <h1 class="text-3xl font-medium">{{ $book->title }}</h1>
 
-        <div class="mt-4 w-full flex flex-col gap-2">
-            <p>{{ $book->categoryTitle }}</p>
-        </div>
-    </div>
+            <div class="mt-4 w-full flex flex-col gap-2">
+                <p>{{ $book->categoryTitle }}</p>
+            </div>
+        </x-main-content-panel>
+    </x-main-content-area>
 </x-app-layout>
