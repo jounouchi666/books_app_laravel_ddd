@@ -69,8 +69,6 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             $paginater->total(),
             $paginater->onFirstPage(),
             $paginater->onLastPage(),
-            $paginater->nextPageUrl(),
-            $paginater->previousPageUrl(),
         );
     }
 
