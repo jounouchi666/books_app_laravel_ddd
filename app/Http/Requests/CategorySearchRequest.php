@@ -55,7 +55,7 @@ class CategorySearchRequest extends FormRequest
             $this->input('direction'),
             $this->input('trash_type'),
             $this->integer('page', 1),
-            $this->integer('per_page', 50)
+            $this->integer('per_page', 15)
         );
     }
 }
