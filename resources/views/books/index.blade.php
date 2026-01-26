@@ -37,20 +37,20 @@
 
             <table class="mt-2 w-full table-auto border-collapse border border-neutral-200">
                 <thead>
-                    <tr>
-                        <th class="w-32 border border-neutral-600 bg-neutral-600 p-2 text-white text-left">ID</th>
-                        <th class="border border-neutral-600 bg-neutral-600 p-2 text-white text-left">タイトル</th>
-                        <th class="border border-neutral-600 bg-neutral-600 p-2 text-white text-left">カテゴリー</th>
-                        <th class="w-16 border border-neutral-600 bg-neutral-600 p-2 text-white text-left">編集</th>
-                        <th class="w-16 border border-neutral-600 bg-neutral-600 p-2 text-white text-left">削除</th>
+                    <tr class="dark:border dark:border-neutral-200">
+                        <th class="w-32 bg-neutral-600 p-2 text-white text-left">ID</th>
+                        <th class="bg-neutral-600 p-2 text-white text-left">タイトル</th>
+                        <th class="bg-neutral-600 p-2 text-white text-left">カテゴリー</th>
+                        <th class="w-16 bg-neutral-600 p-2 text-white text-left">編集</th>
+                        <th class="w-16 bg-neutral-600 p-2 text-white text-left">削除</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!empty($books->bookViews))
                         @foreach($books->bookViews as $book)
                             <tr class="border border-neutral-200">
-                                <td class="p-2">{{ $book->id }}</td>
-                                <td class="p-2">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->id }}</td>
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
                                     <a
                                         class="focus:underline{{ $book->trashed ? ' line-through text-red-600' : '' }}"
                                         href="{{ route('books.show', ['id' => $book->id]) }}"
@@ -58,8 +58,8 @@
                                         {{ $book->title }}
                                     </a>
                                 </td>
-                                <td class="p-2">{{ $book->categoryTitle }}</td>
-                                <td class="p-2">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</td>
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
                                     @if ($book->canUpdate)
                                     <div>
                                         <a class="hover:text-neutral-500 transition-colors" href="{{ route('books.edit', ['id' => $book->id]) }}">
@@ -68,7 +68,7 @@
                                     </div>
                                     @endif
                                 </td>
-                                <td class="p-2">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
                                     @if ($book->canDelete)
                                     <form action="{{ route('books.delete', ['id' => $book->id]) }}" method="post">
                                         @csrf
