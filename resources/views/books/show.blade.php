@@ -7,10 +7,10 @@
     
     <x-main-content-area>
         <x-main-content-panel>
-            <h1 class="text-3xl font-medium">{{ $book->title }}</h1>
+            <h1 class="text-3xl font-medium text-gray-800 dark:text-gray-200">{{ $book->title }}</h1>
 
             <div class="mt-4 w-full flex flex-col gap-2">
-                <p>{{ $book->categoryTitle }}</p>
+                <p class="text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</p>
             </div>
         </x-main-content-panel>
     </x-main-content-area>
