@@ -40,21 +40,21 @@
             <table class="mt-2 w-full table-auto border-collapse border border-neutral-200">
                 <thead>
                     <tr>
-                        <th class="w-32 border border-neutral-600 bg-neutral-600 p-2 text-white text-left">ID</th>
-                        <th class="border border-neutral-600 bg-neutral-600 p-2 text-white text-left">タイトル</th>
-                        <th class="w-16 border border-neutral-600 bg-neutral-600 p-2 text-white text-left">編集</th>
-                        <th class="w-16 border border-neutral-600 bg-neutral-600 p-2 text-white text-left">削除</th>
+                        <th class="w-32 bg-neutral-600 p-2 text-white text-left">ID</th>
+                        <th class="bg-neutral-600 p-2 text-white text-left">タイトル</th>
+                        <th class="w-16 bg-neutral-600 p-2 text-white text-left">編集</th>
+                        <th class="w-16 bg-neutral-600 p-2 text-white text-left">削除</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!empty($categories->categoryViews))
                         @foreach($categories->categoryViews as $category)
                             <tr class="border border-neutral-200">
-                                <td class="p-2">{{ $category->id }}</td>
-                                <td class="p-2">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">{{ $category->id }}</td>
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
                                     <span class="{{ $category->trashed ? 'line-through text-red-600' : '' }}">{{ $category->title }}</span>
                                 </td>
-                                <td class="p-2">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
                                     @if ($category->canUpdate)
                                     <div>
                                         <a class="hover:text-neutral-500 transition-colors" href="{{ route('admin.categories.edit', ['id' => $category->id]) }}">
@@ -63,7 +63,7 @@
                                     </div>
                                     @endif
                                 </td>
-                                <td class="p-2">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
                                     @if ($category->canDelete)
                                     <form action="{{ route('admin.categories.delete', ['id' => $category->id]) }}" method="post">
                                         @csrf
