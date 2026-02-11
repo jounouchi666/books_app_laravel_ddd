@@ -14,6 +14,7 @@ final class BookView
         public readonly int $id,
         public readonly string $title,
         public readonly int $userId,
+        public readonly string $userName,
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
         public readonly bool $canUpdate,
