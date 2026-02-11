@@ -34,6 +34,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
         $q = Book::query();
 
         // 結合
+        $this->withUser($q);
         $this->withCategory($q);
         $this->selectBookViewColumns($q);
 
@@ -82,6 +83,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
     {
         $q = Book::query();;
         // 結合
+        $this->withUser($q);
         $this->withCategory($q);
         $this->selectBookViewColumns($q);
 
@@ -93,10 +95,22 @@ class BookSearchRepository implements BookSearchRepositoryInterface
               $model->id,
               $model->title,
               $model->user_id,
+              $model->user_name,
               $model->category_id,
               $model->category_title ?? '',
               $model->trashed()
         );
+    }
+
+    /**
+     * Userと結合
+     *
+     * @param  Builder $q
+     * @return void
+     */
+    private function withUser(Builder $q): void
+    {
+        $q->leftJoin('users', 'users.id', '=', 'books.user_id');
     }
     
     /**
@@ -122,6 +136,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             'books.id',
             'books.title',
             'books.user_id',
+            'users.name as user_name',
             'books.category_id',
             'categories.title as category_title'
         );
