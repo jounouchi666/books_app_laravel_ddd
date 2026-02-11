@@ -16,6 +16,7 @@ final class BookRecord
         public readonly int $id,
         public readonly string $title,
         public readonly int $userId,
+        public readonly string $userName,
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
         public readonly bool $trashed
@@ -72,6 +73,7 @@ final class BookRecord
             $book->id,
             $book->title,
             $book->user_id,
+            $book->user_name,
             is_null($book->category_id)
                 ? null
                 : $book->category_id,
