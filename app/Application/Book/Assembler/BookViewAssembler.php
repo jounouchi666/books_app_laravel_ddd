@@ -41,6 +41,7 @@ final class BookViewAssembler
             $record->id,
             $record->title,
             $record->userId,
+            $record->userName,
             $record->categoryId,
             $record->categoryTitle,
             $canUpdate,
