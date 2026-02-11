@@ -27,8 +27,6 @@
             
                 @if ($book->canDelete)
                 <div>
-                    @csrf
-                    @method('delete')
                     <x-danger-button class="w-32" x-data x-on:click="$dispatch('open-modal', 'confirm-delete')">削除</x-danger-button>
                 </div>
 
