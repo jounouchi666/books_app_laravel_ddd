@@ -63,14 +63,14 @@
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         @if ($category->canUpdate)
-                                        <div>
+                                        <div class="flex justify-start">
                                             <x-edit-icon-link href="{{ route('admin.categories.edit', ['id' => $category->id]) }}" />
                                         </div>
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         @if ($category->canDelete)
-                                        <div>
+                                        <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$category->title"
                                                 :action="route('admin.categories.delete', ['id' => $category->id])"
