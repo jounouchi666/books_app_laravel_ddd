@@ -68,14 +68,14 @@
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         @if ($book->canUpdate)
-                                        <div>
+                                        <div class="flex justify-start">
                                             <x-edit-icon-link href="{{ route('books.edit', ['id' => $book->id]) }}" />
                                         </div>
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         @if ($book->canDelete)
-                                        <div>
+                                        <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$book->title"
                                                 :action="route('books.delete', ['id' => $book->id])"
