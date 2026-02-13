@@ -82,5 +82,7 @@
     "Whoops!": "おっと！",
     "You are receiving this email because we received a password reset request for your account.": "パスワード再設定のリクエストを受け付けました。",
     "You're logged in!": "ログイン成功",
-    "Your email address is unverified.": "メールアドレスが未認証です。"
+    "Your email address is unverified.": "メールアドレスが未認証です。",
+    "Page Not Found": "ページが見つかりません",
+    "The page you are looking for could not be found. It may have been moved, deleted, or the URL may be incorrect.": "指定されたページは存在しないか、移動または削除された可能性があります。URLをご確認ください。"
 }
