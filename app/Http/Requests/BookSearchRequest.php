@@ -55,8 +55,8 @@ class BookSearchRequest extends FormRequest
     public function buildQuery(): ListBookQuery
     {
         return new ListBookQuery(
-            $this->integer('user_id'),
-            $this->integer('category_id'),
+            $this->filled('user_id') ? (int)$this->input('user_id') : null,
+            $this->filled('category_id') ? (int)$this->input('category_id') : null,
             $this->input('sort'),
             $this->input('direction'),
             $this->input('trash_type'),
