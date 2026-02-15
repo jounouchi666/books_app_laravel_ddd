@@ -11,6 +11,8 @@ namespace App\Application\Book\DTO;
 final class BookUIQuery
 {
     public function __construct(
+        public readonly ?int $userId,
+        public readonly ?bool $allUser,
         public readonly ?string $sort,
         public readonly ?string $direction,
         public readonly ?string $trashType
@@ -18,10 +20,33 @@ final class BookUIQuery
 
     public function toQueryArray(): array
     {
-        return array_filter([
+        $queryArray = [
             'sort' => $this->sort,
             'direction' => $this->direction,
-            'trash_type' => $this->trashType,
-        ]);
+        ];
+
+        // 管理者用
+        if (!is_null($this->userId)) {
+            $queryArray = [
+                'user_id' => $this->userId,
+                ...$queryArray
+            ];
+        }
+
+        if (!is_null($this->allUser)) {
+            $queryArray = [
+                'all_user' => $this->allUser,
+                ...$queryArray
+            ];
+        }
+
+        if (!is_null($this->trashType)) {
+            $queryArray = [
+                'trash_type' => $this->trashType,
+                ...$queryArray
+            ];
+        }
+
+        return $queryArray;
     }
 }
