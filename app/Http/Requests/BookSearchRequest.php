@@ -56,7 +56,6 @@ class BookSearchRequest extends FormRequest
      */
     public function buildQuery(): ListBookQuery
     {
-        dump($this->all());
         return new ListBookQuery(
             $this->filled('user_id') ? (int)$this->input('user_id') : null,
             $this->filled('all_users') ? $this->boolean('all_users') : false,
