@@ -16,6 +16,7 @@ final class BookListView
     public function __construct(
         public readonly array $bookViews,
         public readonly bool $canCreate,
+        public readonly array $users,
         public readonly PaginateView $paginateView,
         public readonly BookUIQuery $bookUIQuery
     ) {}
