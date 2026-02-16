@@ -11,6 +11,8 @@ use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Service\BookAuthorizationService;
 use App\Application\UI\DTO\PaginateView;
 use App\Application\UI\PaginationUrlGeneratorFactory;
+use App\Application\User\Assembler\UserViewAssembler;
+use App\Application\User\Repository\UserRepositoryInterface;
 use App\Domain\User\Entity\User;
 
 /**
@@ -22,7 +24,9 @@ class ListBookUseCase
     public function __construct(
         private BookAuthorizationService $bookAutorizationService,
         private BookSearchRepositoryInterface $bookRepository,
+        private UserRepositoryInterface $userRepository,
         private BookViewAssembler $bookViewAssembler,
+        private UserViewAssembler $userViewAssembler,
         private CurrentUserProvider $currentUserProvider,
         private PaginationUrlGeneratorFactory $paginationUrlGeneratorFactory
     ) {}
@@ -41,7 +45,7 @@ class ListBookUseCase
         // クエリ再構築
         $secureQuery = new ListBookQuery(
             $this->resolveUserId($query, $currentUser),
-            $this->resolveAllUser($query, $currentUser),
+            $this->resolveAllUsers($query, $currentUser),
             $query->categoryId,
             $query->sort,
             $query->direction,
@@ -50,6 +54,7 @@ class ListBookUseCase
             $query->perPage
         );
 
+        // 取得
         $result = $this->bookRepository->search($secureQuery);
 
         $bookViews = $this->bookViewAssembler->buildViewsFromRecords(
@@ -57,14 +62,12 @@ class ListBookUseCase
             $currentUser
         );
 
+        $users = $isAdmin
+            ? $this->userViewAssembler->buildViewsFromRecords($this->userRepository->getList())
+            : [];
+
         // URL用パラメータ
-        $bookUIQuery = new BookUIQuery(
-            $isAdmin ? $query->userId : null,
-            $isAdmin ? $query->allUser : null,
-            $query->sort,
-            $query->direction,
-            $isAdmin ? $query->trashType : null
-        );
+        $bookUIQuery = BookUIQuery::fromQuery($secureQuery, $isAdmin);
 
         // ページネーション
         $paginateView = new PaginateView(
@@ -84,6 +87,7 @@ class ListBookUseCase
         return new BookListView(
             $bookViews,
             $this->bookAutorizationService->canCreate($currentUser),
+            $users,
             $paginateView,
             $bookUIQuery
         );
@@ -91,7 +95,7 @@ class ListBookUseCase
     
     /**
      * ユーザーIDの強制割り当て
-     * 管理者ユーザー：allUserがtrueならNull、そうでなければそのまま
+     * 管理者ユーザー：allUsersがtrueならNull、そうでなければそのまま
      * 一般ユーザー：ログインユーザー
      *
      * @param  ListBookQuery $query
@@ -106,7 +110,7 @@ class ListBookUseCase
         }
 
         // 管理者
-        if ($query->allUser === true) {
+        if ($query->allUsers === true) {
             return null;
         }
 
@@ -118,7 +122,7 @@ class ListBookUseCase
     }
 
     /**
-     * AllUserの強制割り当て
+     * AllUsersの強制割り当て
      * 管理者ユーザー：そのまま（デフォルトはfalse）
      * 一般ユーザー：false固定
      *
@@ -126,13 +130,13 @@ class ListBookUseCase
      * @param  User $currentUser
      * @return string
      */
-    private function resolveAllUser(ListBookQuery $query, User $currentUser): bool
+    private function resolveAllUsers(ListBookQuery $query, User $currentUser): bool
     {
         if (!$currentUser->isAdmin()) {
             return false;
         }
 
-        return $query->allUser ?? false;
+        return $query->allUsers;
     }
     
     /**
@@ -150,6 +154,6 @@ class ListBookUseCase
             return 'active';
         }
 
-        return $query->trashType ?? 'active';
+        return $query->trashType;
     }
 }
