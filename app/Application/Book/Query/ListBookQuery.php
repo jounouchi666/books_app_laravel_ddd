@@ -31,7 +31,7 @@ class ListBookQuery
     private const TRASH_TYPE_DEFAULT = 'active';
 
     public readonly ?int $userId;
-    public readonly ?bool $allUser;
+    public readonly bool $allUsers;
     public readonly ?int $categoryId;
     public readonly string $sort;
     public readonly string $direction;
@@ -41,7 +41,7 @@ class ListBookQuery
 
     public function __construct(
         ?int $userId = null,
-        ?bool $allUser = null,
+        bool $allUsers = false,
         ?int $categoryId = null,
         ?string $sort = null,
         ?string $direction = null,
@@ -50,7 +50,7 @@ class ListBookQuery
         int $perPage = 15
     ) {
         $this->userId = $userId;
-        $this->allUser = $allUser;
+        $this->allUsers = $allUsers;
         $this->categoryId = $categoryId;
         $this->sort = $this->filterSort($sort);
         $this->direction = $this->filterDirection($direction);
