@@ -24,7 +24,7 @@ class BookSearchRequest extends FormRequest
     {
         return [
             'user_id'     => ['nullable', 'integer', 'min:1'],
-            'all_user'    => ['nullable', 'boolean'],
+            'all_users'    => ['nullable', 'boolean'],
             'category_id' => ['nullable', 'integer', 'min:1'],
             'sort'        => ['nullable', 'string', 'in:title,user_id,category_id,created_at'],
             'direction'   => ['nullable', 'in:desc,asc'],
@@ -41,7 +41,7 @@ class BookSearchRequest extends FormRequest
     {
         return [
             'user_id.integer'     => '正規のユーザーを入力してください',
-            'all_user.boolean'    => '作成者の指定が不正です',
+            'all_users.boolean'    => '作成者の指定が不正です',
             'category_id.integer' => '正規のカテゴリーを入力してください',
             'sort.in'             => 'ソート項目が有効ではありません',
             'direction.in'        => '降順（desc）または昇順（asc）で入力してください',
@@ -56,9 +56,10 @@ class BookSearchRequest extends FormRequest
      */
     public function buildQuery(): ListBookQuery
     {
+        dump($this->all());
         return new ListBookQuery(
             $this->filled('user_id') ? (int)$this->input('user_id') : null,
-            $this->filled('all_user') ? (bool)$this->input('all_user') : null,
+            $this->filled('all_users') ? $this->boolean('all_users') : false,
             $this->filled('category_id') ? (int)$this->input('category_id') : null,
             $this->input('sort'),
             $this->input('direction'),
