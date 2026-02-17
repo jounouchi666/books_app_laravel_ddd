@@ -7,6 +7,21 @@
 
     <x-main-content-area>
         <x-main-content-panel>
+            <div class="flex justify-end gap-3">
+                @if ($isAdmin)
+                <x-user-category-form
+                    route="books.index"
+                    :query="$books->bookUIQuery"
+                    :users="$books->users"
+                />
+
+                <x-trash-type-form
+                    route="books.index"
+                    :query="$books->bookUIQuery"
+                />
+                @endif
+            </div>
+
             <div class="flex justify-between mt-4">
                 <div>
                     @if ($books->canCreate)
@@ -19,7 +34,7 @@
                     @endif
                 </div>
 
-                <div>
+                <div class="flex">
                     <x-sort-form
                         action="{{ route('books.index') }}"
                         :sorts="[
@@ -31,6 +46,7 @@
                         :sortSelected="old('sort', $books->bookUIQuery->sort)"
                         :directionSelected="old('direction', $books->bookUIQuery->direction)"
                         :errors="$errors"
+                        :params="$books->bookUIQuery->toQueryArray()"
                     />
                 </div>
             </div>
