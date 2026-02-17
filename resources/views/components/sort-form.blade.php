@@ -4,7 +4,8 @@
     'sorts' => ['created_at' => '作成日'],
     'sortSelected' => 'created_at',
     'directionSelected' => 'desc',
-    'errors' => null
+    'errors' => null,
+    'params' => []
 ])
 
 <form 
@@ -17,6 +18,8 @@
         ])
     }}
 >
+    <x-form-query-input :params="$params" :except="['sort', 'direction']" />
+
     <div class="flex flex-nowrap gap-2 items-stretch">
 
         <div class="flex flex-nowrap items-stretch">
