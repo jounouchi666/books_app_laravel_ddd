@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Application\UI\Query\HasUserFilter;
 use app\Application\UI\Query\UIQuery;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -22,13 +23,13 @@ class UserCategoryForm extends Component
      */
     public function __construct(
         string $route,
-        UIQuery $query,
+        UIQuery&HasUserFilter $query,
         array $users
     ) {
         $this->currentQueries = $query->except(self::EXCEPT_KEYS);
         $this->route = $route;
-        $this->allUsers = $query->allUsers;
-        $this->selectedUserId = $query->userId;
+        $this->allUsers = $query->allUsers();
+        $this->selectedUserId = $query->userId();
         $this->users = $users;
     }
 
