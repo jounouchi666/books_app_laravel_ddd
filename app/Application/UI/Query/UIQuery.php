@@ -10,12 +10,9 @@ namespace app\Application\UI\Query;
  * 
  * null = 管理者でないため非表示
  */
-class UIQuery
+abstract class UIQuery
 {
     public function __construct(
-        public readonly bool $isAdmin,
-        public readonly ?int $userId,
-        public readonly bool $allUsers,
         public readonly ?string $sort,
         public readonly ?string $direction,
         public readonly ?string $trashType
@@ -26,39 +23,7 @@ class UIQuery
      *
      * @return array
      */
-    public function toQueryArray(): array
-    {
-        $queryArray = [
-            'sort' => $this->sort,
-            'direction' => $this->direction,
-        ];
-
-        if(!$this->isAdmin) return $queryArray;
-
-        // 管理者用
-        if($this->allUsers) {
-            $queryArray = [
-                'all_users' => 1,
-                ...$queryArray
-            ];
-        }
-
-        if ($this->isAdmin && !is_null($this->userId)) {
-            $queryArray = [
-                'user_id' => $this->userId,
-                ...$queryArray
-            ];
-        }
-
-        if (!is_null($this->trashType)) {
-            $queryArray = [
-                'trash_type' => $this->trashType,
-                ...$queryArray
-            ];
-        }
-
-        return $queryArray;
-    }
+    abstract public function toQueryArray(): array;
     
     /**
      * 指定したキーを除外した配列を取得
