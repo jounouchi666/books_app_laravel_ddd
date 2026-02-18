@@ -6,7 +6,7 @@
 >
     <x-form-query-input :params="$currentQueries" />
 
-    <div class="inline-flex flex-nowrap items-stretch h-10">
+    <div class="inline-flex h-10">
 
         <label for="trashed_type_active" class="cursor-pointer">
             <input
@@ -23,9 +23,9 @@
             >
             <span class="
                 inline-flex items-center px-4 h-10
+                border border-gray-300 dark:border-gray-700
                 bg-white dark:bg-gray-900
                 text-gray-700 dark:text-gray-300
-                border border-gray-300 dark:border-gray-700
                 peer-checked:bg-neutral-600
                 peer-checked:text-white
                 dark:peer-checked:bg-neutral-200
@@ -35,7 +35,7 @@
                 含まない
             </span>
         </label>
-        <label for="trashed_type_with_trashed" class="cursor-pointer">
+        <label for="trashed_type_with_trashed" class="relative cursor-pointer -ml-px">
             <input
                 id="trashed_type_with_trashed"
                 type="radio"
@@ -50,9 +50,9 @@
             >
             <span class="
                 inline-flex items-center px-4 h-10
+                border border-gray-300 dark:border-gray-700
                 bg-white dark:bg-gray-900
                 text-gray-700 dark:text-gray-300
-                border border-gray-300 dark:border-gray-700
                 peer-checked:bg-neutral-600
                 peer-checked:text-white
                 dark:peer-checked:bg-neutral-200
@@ -62,7 +62,7 @@
                 含む
             </span>
         </label>
-        <label for="trashed_type_only_trashed" class="cursor-pointer">
+        <label for="trashed_type_only_trashed" class="relative cursor-pointer -ml-px">
             <input
                 id="trashed_type_only_trashed"
                 type="radio"
@@ -77,9 +77,9 @@
             >
             <span class="
                 inline-flex items-center px-4 h-10
+                border border-gray-300 dark:border-gray-700
                 bg-white dark:bg-gray-900
                 text-gray-700 dark:text-gray-300
-                border border-gray-300 dark:border-gray-700
                 peer-checked:bg-neutral-600
                 peer-checked:text-white
                 dark:peer-checked:bg-neutral-200
