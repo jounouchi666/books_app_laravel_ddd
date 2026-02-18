@@ -7,34 +7,45 @@
 
     <x-main-content-area>
         <x-main-content-panel>
-            <div class="flex justify-end gap-3">
-                @if ($isAdmin)
-                <x-user-category-form
-                    route="books.index"
-                    :query="$books->bookUIQuery"
-                    :users="$books->users"
-                />
+            @if ($isAdmin)
+            <div class="mt-6 p-5 border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
 
-                <x-trash-type-form
-                    route="books.index"
-                    :query="$books->bookUIQuery"
-                />
-                @endif
-            </div>
-
-            <div class="flex justify-between mt-4">
-                <div>
-                    @if ($books->canCreate)
-                    <x-primary-link-button
-                        class="rounded-md"
-                        href="{{ route('books.create') }}"
-                    >
-                        ＋ 新規登録
-                    </x-primary-link-button>
-                    @endif
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-xs font-semibold tracking-wider uppercase text-gray-500 dark:text-gray-400">
+                        管理フィルター
+                    </div>
                 </div>
 
-                <div class="flex">
+                <div class="flex flex-col items-end gap-6 lg:flex-row lg:items-start lg:justify-between">
+
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            対象ユーザー
+                        </div>
+                        <x-user-category-form
+                            route="books.index"
+                            :query="$books->bookUIQuery"
+                            :users="$books->users"
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            削除状態
+                        </div>
+                        <x-trash-type-form
+                            class="self-end"
+                            route="books.index"
+                            :query="$books->bookUIQuery"
+                        />
+                    </div>
+                </div>
+                
+            </div>
+            @endif
+
+            <div class="flex flex-col justify-between gap-4 md:flex-row-reverse md:mt-4 mt-5">
+                <div class="flex self-end">
                     <x-sort-form
                         action="{{ route('books.index') }}"
                         :sorts="[
@@ -48,6 +59,17 @@
                         :errors="$errors"
                         :params="$books->bookUIQuery->toQueryArray()"
                     />
+                </div>
+
+                <div>
+                    @if ($books->canCreate)
+                    <x-primary-link-button
+                        class="rounded-md"
+                        href="{{ route('books.create') }}"
+                    >
+                        ＋ 新規登録
+                    </x-primary-link-button>
+                    @endif
                 </div>
             </div>
 
