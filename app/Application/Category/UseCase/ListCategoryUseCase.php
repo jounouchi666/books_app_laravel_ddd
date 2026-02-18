@@ -36,6 +36,7 @@ class ListCategoryUseCase
     {
         $currentUser = $this->currentUserProvider->currentUser();
 
+        // 取得
         $result = $this->categoryRepository->search($query);
 
         $categoryViews = $this->categoryViewAssembler->buildViewsFromRecords(
@@ -43,12 +44,10 @@ class ListCategoryUseCase
             $currentUser
         );
 
-        $categoryUIQuery = new CategoryUIQuery(
-            $query->sort,
-            $query->direction,
-            $query->trashType
-        );
+        // URL用パラメータ
+        $categoryUIQuery = CategoryUIQuery::fromQuery($query);
 
+        // ページネーション
         $simplePaginateView = new SimplePaginateView(
             $result->hasNext,
             $result->hasPrev,
