@@ -49,7 +49,7 @@
 
     </div>
 
-    <div class="mt-2">
+    <div>
         <x-input-error :messages="$errors->get('sort')" />
         <x-input-error :messages="$errors->get('direction')" />
     </div>
