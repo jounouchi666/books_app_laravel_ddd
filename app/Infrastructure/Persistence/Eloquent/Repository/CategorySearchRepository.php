@@ -41,7 +41,7 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
 
         $paginater = $q->simplePaginate(
             $query->perPage,
-            ['id', 'title'],
+            ['id', 'title', 'deleted_at'],
             'page',
             $query->page
         );
