@@ -11,7 +11,36 @@
 
     <x-main-content-area>
         <x-main-content-panel>
-            <div class="flex justify-between">
+
+            <div class="flex flex-col justify-between items-start gap-4 md:flex-row-reverse md:items-end md:mt-4 mt-5">
+                <div class="flex flex-col items-end gap-4 self-end">
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            削除状態
+                        </div>
+                        <x-trash-type-form
+                            route="admin.categories.list"
+                            :query="$categories->categoryUIQuery"
+                        />
+                    </div>
+                    
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            並べ替え
+                        </div>
+                        <x-sort-form
+                            action="{{ route('admin.categories.list') }}"
+                            :sorts="[
+                                'created_at' => '作成日',
+                                'title'      => 'タイトル'
+                            ]"
+                            :sortSelected="old('sort', $categories->categoryUIQuery->sort)"
+                            :directionSelected="old('direction', $categories->categoryUIQuery->direction)"
+                            :errors="$errors"
+                        />
+                    </div>
+                </div>
+
                 <div>
                     @if ($categories->canCreate)
                     <x-primary-link-button
@@ -21,19 +50,6 @@
                         ＋ 新規登録
                     </x-primary-link-button>
                     @endif
-                </div>
-
-                <div>
-                    <x-sort-form
-                        action="{{ route('admin.categories.list') }}"
-                        :sorts="[
-                            'created_at' => '作成日',
-                            'title'      => 'タイトル'
-                        ]"
-                        :sortSelected="old('sort', $categories->categoryUIQuery->sort)"
-                        :directionSelected="old('direction', $categories->categoryUIQuery->direction)"
-                        :errors="$errors"
-                    />
                 </div>
             </div>
 
