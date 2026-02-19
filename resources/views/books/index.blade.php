@@ -7,28 +7,35 @@
 
     <x-main-content-area>
         <x-main-content-panel>
-            
-            <x-admin-filter-forms
-                route="books.index"
-                :query="$books->bookUIQuery"
-                :users="$books->users"
-            />
 
-            <div class="flex flex-col justify-between gap-4 md:flex-row-reverse md:mt-4 mt-5">
-                <div class="flex self-end">
-                    <x-sort-form
-                        action="{{ route('books.index') }}"
-                        :sorts="[
-                            'created_at'  => '登録日',
-                            'title'       => 'タイトル',
-                            'user_id'     => '登録者',
-                            'category_id' => 'カテゴリー'
-                        ]"
-                        :sortSelected="old('sort', $books->bookUIQuery->sort)"
-                        :directionSelected="old('direction', $books->bookUIQuery->direction)"
-                        :errors="$errors"
-                        :params="$books->bookUIQuery->toQueryArray()"
-                    />
+            <div class="flex flex-col justify-between items-start gap-4 md:flex-row-reverse md:items-end md:mt-4 mt-5">
+                <div class="flex flex-col items-end gap-4 self-end">
+                    <div class="flex flex-col gap-2 w-full md:w-aut">
+                        <x-admin-filter-forms
+                            route="books.index"
+                            :query="$books->bookUIQuery"
+                            :users="$books->users"
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            並べ替え
+                        </div>
+                        <x-sort-form
+                            action="{{ route('books.index') }}"
+                            :sorts="[
+                                'created_at'  => '登録日',
+                                'title'       => 'タイトル',
+                                'user_id'     => '登録者',
+                                'category_id' => 'カテゴリー'
+                            ]"
+                            :sortSelected="old('sort', $books->bookUIQuery->sort)"
+                            :directionSelected="old('direction', $books->bookUIQuery->direction)"
+                            :errors="$errors"
+                            :params="$books->bookUIQuery->toQueryArray()"
+                        />
+                    </div>
                 </div>
 
                 <div>
