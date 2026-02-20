@@ -42,4 +42,26 @@ class CategoryAuthorizationService
     {
         return $user->hasId() && $user->isAdmin();
     }
+
+    /**
+     * 復元権限
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function canRestore(User $user): bool
+    {
+        return $user->hasId() && $user->isAdmin();
+    }
+
+    /**
+     * 物理削除権限
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function canForceDelete(User $user): bool
+    {
+        return $user->hasId() && $user->isAdmin();
+    }
 }
