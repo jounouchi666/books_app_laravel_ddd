@@ -37,7 +37,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function findById(CategoryId $id): ?Category
     {
-        $categoryModel = ModelsCategory::find($id->value());
+        $categoryModel = ModelsCategory::withTrashed()->find($id->value());
 
         if (is_null($categoryModel)) return null;
         return $this->modelToEntity($categoryModel);
@@ -87,7 +87,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function restore(CategoryId $id): void
     {
-        ModelsCategory::findOrFail($id->value())->restore();
+        ModelsCategory::withTrashed()->findOrFail($id->value())->restore();
     }
 
     /**
@@ -98,7 +98,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function forceDelete(CategoryId $id): void
     {
-        ModelsCategory::findOrFail($id->value())->forceDelete();
+        ModelsCategory::withTrashed()->findOrFail($id->value())->forceDelete();
     }
     
     /**
