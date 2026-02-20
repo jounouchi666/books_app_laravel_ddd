@@ -37,6 +37,7 @@
                             :sortSelected="old('sort', $categories->categoryUIQuery->sort)"
                             :directionSelected="old('direction', $categories->categoryUIQuery->direction)"
                             :errors="$errors"
+                            :params="$categories->categoryUIQuery->toQueryArray()"
                         />
                     </div>
                 </div>
@@ -54,19 +55,28 @@
             </div>
 
             <div
-                x-data="{ deleteAction: '', title: '' }"
+                x-data="{
+                    deleteAction: '',
+                    restoreAction: '',
+                    title: '' 
+                }"
                 x-on:open-category-delete-modal.window="
                     deleteAction = $event.detail.action
+                    title = $event.detail.title
+                "
+                x-on:open-category-restore-modal.window="
+                    restoreAction = $event.detail.action
                     title = $event.detail.title
                 "
             >
                 <table class="mt-2 w-full table-auto border-collapse border border-neutral-200">
                     <thead>
                         <tr>
-                            <th class="w-32 bg-neutral-600 p-2 text-white text-left">ID</th>
+                            <th class="bg-neutral-600 p-2 text-white text-left">ID</th>
                             <th class="bg-neutral-600 p-2 text-white text-left">タイトル</th>
-                            <th class="w-16 bg-neutral-600 p-2 text-white text-left">編集</th>
-                            <th class="w-16 bg-neutral-600 p-2 text-white text-left">削除</th>
+                            <th class="w-[6em] bg-neutral-600 p-2 text-white text-left">削除状態</th>
+                            <th class="w-[4em] bg-neutral-600 p-2 text-white text-left">編集</th>
+                            <th class="w-[4em] bg-neutral-600 p-2 text-white text-left">削除</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,6 +87,9 @@
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         <span class="{{ $category->trashed ? 'line-through text-red-600' : '' }}">{{ $category->title }}</span>
                                     </td>
+                                    <td class="p-2 text-gray-800 dark:text-gray-200 {{ $category->trashed ? 'text-red-600' : '' }}">
+                                        {{ $category->trashed ? '削除済' : '' }}
+                                    </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         @if ($category->canUpdate)
                                         <div class="flex justify-start">
@@ -85,12 +98,26 @@
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if ($category->canDelete)
+                                        @if ($category->actionType === App\Application\Category\DTO\CategoryActionType::Delete)
                                         <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$category->title"
-                                                :action="route('admin.categories.delete', ['id' => $category->id])"
+                                                :action="route('admin.categories.delete', [
+                                                    'id' => $category->id,
+                                                    ...$categories->categoryUIQuery->toQueryArray()
+                                                ])"
                                                 event="open-category-delete-modal"
+                                            />
+                                        </div>
+                                        @elseif ($category->actionType === App\Application\Category\DTO\CategoryActionType::Restore)
+                                        <div class="flex justify-start">
+                                            <x-restore-icon-button
+                                                :title="$category->title"
+                                                :action="route('admin.categories.restore', [
+                                                    'id' => $category->id,
+                                                    ...$categories->categoryUIQuery->toQueryArray()
+                                                ])"
+                                                event="open-category-restore-modal"
                                             />
                                         </div>
                                         @endif
@@ -120,6 +147,29 @@
                             <x-danger-button class="ms-3" x-bind:disabled="!deleteAction">
                                 削除する
                             </x-danger-button>
+                        </div>
+                    </form>
+                </x-modal>
+
+                <x-modal name="confirm-restore" focusable>
+                    <form
+                        method="post"
+                        class="p-6"
+                        x-bind:action="restoreAction"
+                    >
+                        @csrf
+                        @method('patch')
+
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100" x-text="`${title} を復元しますか？`"></h2>
+
+                        <div class="mt-6 flex justify-end">
+                            <x-secondary-button x-on:click="$dispatch('close-modal', 'confirm-restore')">
+                                キャンセル
+                            </x-secondary-button>
+
+                            <x-agree-button class="ms-3" x-bind:disabled="!restoreAction">
+                                復元する
+                            </x-agree-button>
                         </div>
                     </form>
                 </x-modal>
