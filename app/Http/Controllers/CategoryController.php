@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Application\Book\UseCase\ForceDeleteBookUseCase;
 use App\Application\Category\DTO\CategoryFormDto;
 use App\Application\Category\UseCase\CreateCategoryUseCase;
 use App\Application\Category\UseCase\DeleteCategoryUseCase;
 use App\Application\Category\UseCase\EditCategoryUseCase;
+use App\Application\Category\UseCase\ForceDeleteCategoryUseCase;
 use App\Application\Category\UseCase\ListCategoryUseCase;
 use App\Application\Category\UseCase\RestoreCategoryUseCase;
 use App\Application\Category\UseCase\UpdateCategoryUseCase;
@@ -24,7 +24,7 @@ class CategoryController extends Controller
         private readonly UpdateCategoryUseCase $updateCategoryUseCase,
         private readonly DeleteCategoryUseCase $deleteCategoryUseCase,
         private readonly RestoreCategoryUseCase $restoreCategoryUseCase,
-        private readonly ForceDeleteBookUseCase $forceDeleteCategoryUseCase
+        private readonly ForceDeleteCategoryUseCase $forceDeleteCategoryUseCase
     ) {}
     
     /**
@@ -112,39 +112,66 @@ class CategoryController extends Controller
     /**
      * delete
      *
+     * @param  CategorySearchReques $request
      * @param  int $id
      * @return RedirectResponse
      */
-    public function delete(int $id): RedirectResponse
+    public function delete(CategorySearchRequest $request, int $id): RedirectResponse
     {
-        $this->deleteCategoryUseCase->execute($id);
+        $response = $this->deleteCategoryUseCase->execute(
+            $id,
+            $request->buildQuery()
+        );
 
-        return redirect()->route('admin.categories.list')->with('success', '削除しました');
+        return redirect()
+            ->route(
+                'admin.categories.list',
+                $response->categoryUIQuery->toQueryArray()
+            )
+            ->with('success', $response->message);
     }
 
     /**
      * restore
      *
+     * @param  CategorySearchReques $request
      * @param  int $id
      * @return RedirectResponse
      */
-    public function restore(int $id): RedirectResponse
+    public function restore(CategorySearchRequest $request, int $id): RedirectResponse
     {
-        $this->restoreCategoryUseCase->execute($id);
+        $response = $this->restoreCategoryUseCase->execute(
+            $id,
+            $request->buildQuery()
+        );
 
-        return redirect()->route('admin.categories.list')->with('success', '復元しました');
+        return redirect()
+            ->route(
+                'admin.categories.list',
+                $response->categoryUIQuery->toQueryArray()
+            )
+            ->with('success', $response->message);
     }
 
     /**
      * force delete
      *
+     * @param  CategorySearchReques $request
      * @param  int $id
      * @return RedirectResponse
      */
-    public function forceDelete(int $id): RedirectResponse
+    public function forceDelete(CategorySearchRequest $request, int $id): RedirectResponse
     {
-        $this->forceDeleteCategoryUseCase->execute($id);
+        $response = $this->forceDeleteCategoryUseCase->execute(
+            $id,
+            $request->buildQuery()
+        );
 
-        return redirect()->route('admin.categories.list')->with('success', '削除しました');
+        return redirect()
+            ->route(
+                'admin.categories.list',
+                $response->categoryUIQuery->toQueryArray()
+            )
+            ->with('success', $response->message);
     }
 }
