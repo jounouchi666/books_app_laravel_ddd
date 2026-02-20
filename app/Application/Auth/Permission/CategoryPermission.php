@@ -51,4 +51,26 @@ final class CategoryPermission extends Permission
     {
         return new self('delete', $category);
     }
+
+    /**
+     * 復元
+     *
+     * @param  Category $category
+     * @return self
+     */
+    public static function restore(Category $category): self
+    {
+        return new self('restore', $category);
+    }
+
+    /**
+     * 物理削除
+     *
+     * @param  Category $category
+     * @return self
+     */
+    public static function forceDelete(Category $category): self
+    {
+        return new self('forceDelete', $category);
+    }
 }
