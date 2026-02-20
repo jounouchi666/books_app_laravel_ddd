@@ -31,7 +31,7 @@ class LaravelAuthorizationAdapter implements AuthorizationPort
         if ($subject instanceof AuthorizableResource) {
             $modelClass = self::MODEL_MAP[$subject->authorizationType()]
                 ?? throw new LogicException('Unsupported authorization resource');
-            $subject = $modelClass::findOrFail($subject->authorizationKey());
+            $subject = $modelClass::withTrashed()->findOrFail($subject->authorizationKey());
         }
 
         Gate::authorize(
