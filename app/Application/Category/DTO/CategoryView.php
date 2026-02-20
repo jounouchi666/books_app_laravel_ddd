@@ -15,6 +15,9 @@ final class CategoryView
         public readonly string $title,
         public readonly bool $canUpdate,
         public readonly bool $canDelete,
-        public readonly bool $trashed
+        public readonly bool $canRestore,
+        public readonly bool $canForceDelete,
+        public readonly bool $trashed,
+        public readonly CategoryActionType $actionType
     ) {}
 }
