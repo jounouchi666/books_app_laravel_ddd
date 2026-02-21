@@ -4,6 +4,7 @@ namespace App\Application\Book\Assembler;
 
 use App\Application\Book\DTO\BookView;
 use App\Application\Book\Service\BookAuthorizationService;
+use App\Application\UI\DTO\TrashActionType;
 use App\Domain\Shared\ValueObject\UserId;
 use App\Domain\User\Entity\User;
 use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
@@ -37,6 +38,18 @@ final class BookViewAssembler
             $user
         );
 
+        $canRestore = $this->bookAuthorizationService->canRestore(
+            new UserId($record->userId),
+            $user
+        );
+
+        $canForceDelete = $this->bookAuthorizationService->canForceDelete(
+            new UserId($record->userId),
+            $user
+        );
+
+        $trashed = $record->trashed;
+
         return new BookView(
             $record->id,
             $record->title,
@@ -46,7 +59,10 @@ final class BookViewAssembler
             $record->categoryTitle,
             $canUpdate,
             $canDelete,
-            $record->trashed
+            $canRestore,
+            $canForceDelete,
+            $record->trashed,
+            $this->judgeActionType($trashed, $canDelete, $canRestore)
         );
     }
 
@@ -64,5 +80,28 @@ final class BookViewAssembler
                 $user
             );
         }, $records);
+    }
+
+    /**
+     * 操作タイプの判別
+     *
+     * @param  bool $trashed
+     * @param  bool $canDelete
+     * @param  bool $canRestore
+     * @return TrashActionType
+     */
+    private function judgeActionType(bool $trashed, bool $canDelete, bool $canRestore): TrashActionType
+    {
+        $type = TrashActionType::None;
+
+        if (!$trashed && $canDelete) {
+            $type = TrashActionType::Delete;
+        }
+        
+        if ($trashed && $canRestore) {
+            $type = TrashActionType::Restore;
+        }
+
+        return $type;
     }
 }
