@@ -62,7 +62,7 @@ class CategoryRepository implements CategoryRepositoryInterface
             return $this->modelToEntity($newModel);
         } else {
             // 更新
-            $categoryModel = ModelsCategory::findOrFail($id->value());
+            $categoryModel = ModelsCategory::withTrashed()->findOrFail($id->value());
             $categoryModel->update($values);
             return $this->modelToEntity($categoryModel);
         }
