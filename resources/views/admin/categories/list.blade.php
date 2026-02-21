@@ -98,7 +98,7 @@
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if ($category->actionType === App\Application\Category\DTO\CategoryActionType::Delete)
+                                        @if ($category->actionType === App\Application\UI\DTO\CategoryActionType::Delete)
                                         <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$category->title"
@@ -109,7 +109,7 @@
                                                 event="open-category-delete-modal"
                                             />
                                         </div>
-                                        @elseif ($category->actionType === App\Application\Category\DTO\CategoryActionType::Restore)
+                                        @elseif ($category->actionType === App\Application\UI\DTO\CategoryActionType::Restore)
                                         <div class="flex justify-start">
                                             <x-restore-icon-button
                                                 :title="$category->title"
