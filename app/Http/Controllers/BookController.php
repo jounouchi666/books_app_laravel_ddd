@@ -143,11 +143,18 @@ class BookController extends Controller
      * @param  int $id
      * @return RedirectResponse
      */
-    public function delete(int $id): RedirectResponse
+    public function delete(BookSearchRequest $request, int $id): RedirectResponse
     {
-        $this->deleteBookUseCase->execute($id);
+        $response = $this->deleteBookUseCase->execute(
+            $id,
+            $request->buildQuery());
 
-        return redirect()->route('books.index')->with('success', '削除しました');
+        return redirect()
+            ->route(
+                'books.index',
+                $response->bookUIQuery->toQueryArray()
+            )
+            ->with('success', $response->message);
     }
 
     /**
@@ -156,11 +163,18 @@ class BookController extends Controller
      * @param  int $id
      * @return RedirectResponse
      */
-    public function restore(int $id): RedirectResponse
+    public function restore(BookSearchRequest $request, int $id): RedirectResponse
     {
-        $this->restoreBookUseCase->execute($id);
+        $response = $this->restoreBookUseCase->execute(
+            $id,
+            $request->buildQuery());
 
-        return redirect()->route('books.index')->with('success', '復元しました');
+        return redirect()
+            ->route(
+                'books.index',
+                $response->bookUIQuery->toQueryArray()
+            )
+            ->with('success', $response->message);
     }
 
     /**
@@ -169,10 +183,17 @@ class BookController extends Controller
      * @param  int $id
      * @return RedirectResponse
      */
-    public function forceDelete(int $id): RedirectResponse
+    public function forceDelete(BookSearchRequest $request, int $id): RedirectResponse
     {
-        $this->forceDeleteBookUseCase->execute($id);
+        $response = $this->forceDeleteBookUseCase->execute(
+            $id,
+            $request->buildQuery());
 
-        return redirect()->route('books.index')->with('success', '削除しました');
+        return redirect()
+            ->route(
+                'books.index',
+                $response->bookUIQuery->toQueryArray()
+            )
+            ->with('success', $response->message);
     }
 }
