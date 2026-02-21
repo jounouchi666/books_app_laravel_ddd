@@ -51,4 +51,28 @@ class BookAuthorizationService
         return $user->id()->equals($ownerId)
             || $user->isAdmin();
     }
+
+    /**
+     * 復元権限
+     *
+     * @param  UserId $ownerId
+     * @param  User $user
+     * @return bool
+     */
+    public function canRestore(UserId $ownerId, User $user): bool
+    {
+        return $user->hasId() && $user->isAdmin();
+    }
+
+    /**
+     * 物理削除権限
+     *
+     * @param  UserId $ownerId
+     * @param  User $user
+     * @return bool
+     */
+    public function canForceDelete(UserId $ownerId, User $user): bool
+    {
+        return $user->hasId() && $user->isAdmin();
+    }
 }

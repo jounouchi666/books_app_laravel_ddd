@@ -2,6 +2,8 @@
 
 namespace App\Application\Book\DTO;
 
+use App\Application\UI\DTO\TrashActionType;
+
 /**
  * DTO
  * BookView
@@ -19,6 +21,9 @@ final class BookView
         public readonly string $categoryTitle,
         public readonly bool $canUpdate,
         public readonly bool $canDelete,
-        public readonly bool $trashed
+        public readonly bool $canRestore,
+        public readonly bool $canForceDelete,
+        public readonly bool $trashed,
+        public readonly TrashActionType $actionType
     ) {}
 }
