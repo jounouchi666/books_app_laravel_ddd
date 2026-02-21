@@ -40,4 +40,26 @@ final class BookPermission extends Permission
     {
         return new self('delete', $book);
     }
+
+    /**
+     * 復元
+     *
+     * @param  Book $book
+     * @return self
+     */
+    public static function restore(Book $book): self
+    {
+        return new self('restore', $book);
+    }
+
+    /**
+     * 物理削除
+     *
+     * @param  Book $category
+     * @return self
+     */
+    public static function forceDelete(Book $book): self
+    {
+        return new self('forceDelete', $book);
+    }
 }
