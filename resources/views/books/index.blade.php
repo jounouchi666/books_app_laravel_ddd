@@ -50,21 +50,41 @@
                 </div>
             </div>
 
+            @php
+                $modalState = [
+                    'deleteAction' => '',
+                    'title' => '',
+                ];
+
+                if ($isAdmin) {
+                    $modalState['restoreAction'] = '';
+                }
+            @endphp
             <div
-                x-data="{ deleteAction: '', title: '' }"
+                x-data='@json($modalState)'
                 x-on:open-book-delete-modal.window="
                     deleteAction = $event.detail.action
                     title = $event.detail.title
                 "
+                @if ($isAdmin)
+                x-on:open-book-restore-modal.window="
+                    restoreAction = $event.detail.action
+                    title = $event.detail.title
+                "
+                @endif
             >
                 <table class="mt-2 w-full table-auto border-collapse border border-neutral-200">
                     <thead>
                         <tr class="dark:border dark:border-neutral-200">
-                            <th class="w-32 bg-neutral-600 p-2 text-white text-left">ID</th>
+                            <th class="bg-neutral-600 p-2 text-white text-left">ID</th>
                             <th class="bg-neutral-600 p-2 text-white text-left">タイトル</th>
                             <th class="bg-neutral-600 p-2 text-white text-left">カテゴリー</th>
-                            <th class="w-16 bg-neutral-600 p-2 text-white text-left">編集</th>
-                            <th class="w-16 bg-neutral-600 p-2 text-white text-left">削除</th>
+                            @if ($isAdmin)
+                            <th class="bg-neutral-600 p-2 text-white text-left">登録者</th>
+                            <th class="w-[6em] bg-neutral-600 p-2 text-white text-left">削除状態</th>
+                            @endif
+                            <th class="w-[4em] bg-neutral-600 p-2 text-white text-left">編集</th>
+                            <th class="w-[4em] bg-neutral-600 p-2 text-white text-left">削除</th>
                         </tr>
                     </thead>
                     <tbody class="border border-neutral-200">
@@ -81,6 +101,12 @@
                                         </a>
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</td>
+                                    @if($isAdmin)
+                                    <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->userName }}</td>
+                                    <td class="p-2 text-gray-800 dark:text-gray-200 {{ $book->trashed ? 'text-red-600' : '' }}">
+                                        {{ $book->trashed ? '削除済' : '' }}
+                                    </td>
+                                    @endif
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
                                         @if ($book->canUpdate)
                                         <div class="flex justify-start">
@@ -89,12 +115,26 @@
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if ($book->canDelete)
+                                        @if (!$book->trashed && $book->canDelete)
                                         <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$book->title"
-                                                :action="route('books.delete', ['id' => $book->id])"
+                                                :action="route('books.delete', [
+                                                    'id' => $book->id,
+                                                    ...$books->bookUIQuery->toQueryArray()
+                                                ])"
                                                 event="open-book-delete-modal"
+                                            />
+                                        </div>
+                                        @elseif ($book->trashed && $book->canRestore)
+                                        <div class="flex justify-start">
+                                            <x-restore-icon-button
+                                                :title="$book->title"
+                                                :action="route('books.restore', [
+                                                    'id' => $book->id,
+                                                    ...$books->bookUIQuery->toQueryArray()
+                                                ])"
+                                                event="open-book-restore-modal"
                                             />
                                         </div>
                                         @endif
@@ -127,6 +167,31 @@
                         </div>
                     </form>
                 </x-modal>
+
+                @if ($isAdmin)
+                <x-modal name="confirm-restore" focusable>
+                    <form
+                        method="post"
+                        class="p-6"
+                        x-bind:action="restoreAction"
+                    >
+                        @csrf
+                        @method('patch')
+
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100" x-text="`${title} を復元しますか？`"></h2>
+
+                        <div class="mt-6 flex justify-end">
+                            <x-secondary-button x-on:click="$dispatch('close-modal', 'confirm-restore')">
+                                キャンセル
+                            </x-secondary-button>
+
+                            <x-agree-button class="ms-3" x-bind:disabled="!restoreAction">
+                                復元する
+                            </x-agree-button>
+                        </div>
+                    </form>
+                </x-modal>
+                @endif
             </div>
 
             <x-pagination :paginate-view="$books->paginateView" />
