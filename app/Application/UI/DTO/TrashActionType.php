@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\Category\DTO;
+namespace App\Application\UI\DTO;
 
-enum CategoryActionType: string
+enum TrashActionType: string
 {
     case Delete = 'delete';
     case Restore = 'restore';
