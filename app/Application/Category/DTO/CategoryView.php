@@ -2,6 +2,8 @@
 
 namespace App\Application\Category\DTO;
 
+use App\Application\UI\DTO\TrashActionType;
+
 /**
  * DTO
  * CategoryView
@@ -18,6 +20,6 @@ final class CategoryView
         public readonly bool $canRestore,
         public readonly bool $canForceDelete,
         public readonly bool $trashed,
-        public readonly CategoryActionType $actionType
+        public readonly TrashActionType $actionType
     ) {}
 }
