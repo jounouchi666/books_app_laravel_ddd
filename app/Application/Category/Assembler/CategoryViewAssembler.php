@@ -2,9 +2,9 @@
 
 namespace App\Application\Category\Assembler;
 
-use App\Application\Category\DTO\CategoryActionType;
 use App\Application\Category\DTO\CategoryView;
 use App\Application\Category\Service\CategoryAuthorizationService;
+use App\Application\UI\DTO\TrashActionType;
 use App\Domain\User\Entity\User;
 use App\Infrastructure\Persistence\Eloquent\DTO\CategoryRecord;
 
@@ -81,18 +81,18 @@ final class CategoryViewAssembler
      * @param  bool $trashed
      * @param  bool $canDelete
      * @param  bool $canRestore
-     * @return CategoryActionType
+     * @return TrashActionType
      */
-    private function judgeActionType(bool $trashed, bool $canDelete, bool $canRestore): CategoryActionType
+    private function judgeActionType(bool $trashed, bool $canDelete, bool $canRestore): TrashActionType
     {
-        $type = CategoryActionType::None;
+        $type = TrashActionType::None;
 
         if (!$trashed && $canDelete) {
-            $type = CategoryActionType::Delete;
+            $type = TrashActionType::Delete;
         }
         
         if ($trashed && $canRestore) {
-            $type = CategoryActionType::Restore;
+            $type = TrashActionType::Restore;
         }
 
         return $type;
