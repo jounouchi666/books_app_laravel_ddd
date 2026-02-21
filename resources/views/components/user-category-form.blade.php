@@ -17,7 +17,10 @@
                     value="0"
                     class="sr-only peer"
                     :checked="!allUsers"
-                    x-on:change="allUsers = false"
+                    x-on:change="
+                        allUsers = false;
+                        $nextTick(() => $el.form.submit());
+                    "
                 >
                 <span class="
                     inline-flex items-center px-4 h-10
