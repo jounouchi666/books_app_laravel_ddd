@@ -138,7 +138,8 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             'books.user_id',
             'users.name as user_name',
             'books.category_id',
-            'categories.title as category_title'
+            'categories.title as category_title',
+            'books.deleted_at'
         );
     }
 
