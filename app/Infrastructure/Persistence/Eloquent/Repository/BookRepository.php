@@ -39,7 +39,7 @@ class BookRepository implements BookRepositoryInterface
      */
     public function findById(BookId $id): ?Book
     {
-        $bookModel = ModelsBook::find($id->value());
+        $bookModel = ModelsBook::withTrashed()->find($id->value());
 
         if (is_null($bookModel)) return null;
         return $this->modelToEntity($bookModel);
@@ -68,7 +68,7 @@ class BookRepository implements BookRepositoryInterface
             return $this->modelToEntity($newModel);
         } else {
             // 更新
-            $bookModel = ModelsBook::findOrFail($id->value());
+            $bookModel = ModelsBook::withTrashed()->findOrFail($id->value());
             $bookModel->update($values);
             return $this->modelToEntity($bookModel);
         }
@@ -93,7 +93,7 @@ class BookRepository implements BookRepositoryInterface
      */
     public function restore(BookId $id): void
     {
-        ModelsBook::findOrFail($id->value())->restore();
+        ModelsBook::withTrashed()->findOrFail($id->value())->restore();
     }
 
     /**
@@ -104,7 +104,7 @@ class BookRepository implements BookRepositoryInterface
      */
     public function forceDelete(BookId $id): void
     {
-        ModelsBook::findOrFail($id->value())->forceDelete();
+        ModelsBook::withTrashed()->findOrFail($id->value())->forceDelete();
     }
     
     /**
