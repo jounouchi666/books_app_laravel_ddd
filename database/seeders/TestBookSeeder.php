@@ -13,7 +13,9 @@ class TestBookSeeder extends Seeder
      */
     public function run(): void
     {
-        Book::factory(80)->old()->create();
+        Book::factory(10)->reading()->create();
+        Book::factory(30)->completed()->create();
+        Book::factory(60)->old()->create();
         Book::factory(40)->deleted()->create();
     }
 }
