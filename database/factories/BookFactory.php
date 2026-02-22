@@ -32,6 +32,30 @@ class BookFactory extends Factory
     }
 
     /**
+     * 読書状況が読書中
+     */
+    public function reading(): static
+    {
+        return $this->state(function () {
+            return [
+                'reading_status' => 'reading'
+            ];
+        });
+    }
+
+    /**
+     * 読書状況が読了
+     */
+    public function completed(): static
+    {
+        return $this->state(function () {
+            return [
+                'reading_status' => 'completed'
+            ];
+        });
+    }
+
+    /**
      * 作成日、更新日を過去の日時とする
      */
     public function old(): static
