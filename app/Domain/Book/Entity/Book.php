@@ -4,6 +4,7 @@ namespace App\Domain\Book\Entity;
 
 use App\Domain\Auth\AuthorizableResource;
 use App\Domain\Book\ValueObject\BookId;
+use App\Domain\Book\ValueObject\BookReadingStatus;
 use App\Domain\Book\ValueObject\BookTitle;
 use App\Domain\Shared\ValueObject\UserId;
 use App\Domain\Shared\ValueObject\CategoryId;
@@ -14,22 +15,13 @@ use App\Domain\Shared\ValueObject\CategoryId;
  */
 final class Book implements AuthorizableResource
 {
-    private readonly ?BookId $id;
-    private BookTitle $title;
-    private UserId $userId;
-    private ?CategoryId $categoryId;
-
     private function __construct(
-        ?BookId $bookId,
-        BookTitle $title,
-        UserId $userId,
-        ?CategoryId $categoryId
-    ) {
-        $this->id = $bookId;
-        $this->title = $title;
-        $this->userId = $userId;
-        $this->categoryId = $categoryId;
-    }
+        private readonly ?BookId $id,
+        private BookTitle $title,
+        private UserId $userId,
+        private ?CategoryId $categoryId,
+        private BookReadingStatus $readingStatus,
+    ) {}
 
     /**
      * 認可対象キー
@@ -62,9 +54,10 @@ final class Book implements AuthorizableResource
     public static function create(
         BookTitle $title,
         UserId $userId,
-        ?CategoryId $categoryId
+        ?CategoryId $categoryId,
+        BookReadingStatus $readingStatus,
     ): self {
-        return new self(null, $title, $userId, $categoryId);
+        return new self(null, $title, $userId, $categoryId, $readingStatus);
     }
     
     /**
@@ -77,9 +70,10 @@ final class Book implements AuthorizableResource
         BookId $id,
         BookTitle $title,
         UserId $userId,
-        ?CategoryId $categoryId
+        ?CategoryId $categoryId,
+        BookReadingStatus $readingStatus,
     ): self {
-        return new self($id, $title, $userId, $categoryId);
+        return new self($id, $title, $userId, $categoryId, $readingStatus);
     }
     
     /**
@@ -125,10 +119,43 @@ final class Book implements AuthorizableResource
         
         $this->categoryId = $categoryId;
     }
+
+    /**
+     * 未読に変更
+     *
+     * @return void
+     */
+    public function markAsUnread(): void
+    {
+        $this->readingStatus = BookReadingStatus::Unread;
+    }
+
+    /**
+     * 読書中に変更
+     *
+     * @return void
+     */
+    public function markAsReading(): void
+    {
+        $this->readingStatus = BookReadingStatus::Reading;
+    }
         
+    /**
+     * 読了に変更
+     *
+     * @return void
+     */
+    public function markAsCompleted(): void
+    {
+        $this->readingStatus = BookReadingStatus::Completed;
+    }
+    
     /** Getter */
     public function id(): ?BookId {return $this->id;}
     public function title(): BookTitle {return $this->title;}
     public function userId(): UserId {return $this->userId;}
     public function categoryId(): ?CategoryId {return $this->categoryId;}
+    public function isUnread(): bool {return $this->readingStatus->isUnread();}
+    public function isReading(): bool {return $this->readingStatus->isReading();}
+    public function isCompleted(): bool {return $this->readingStatus->isCompleted();}
 }
