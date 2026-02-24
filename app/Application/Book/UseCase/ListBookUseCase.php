@@ -47,6 +47,7 @@ class ListBookUseCase
             $this->resolveUserId($query, $currentUser),
             $this->resolveAllUsers($query, $currentUser),
             $query->categoryId,
+            $query->readingStatus,
             $query->sort,
             $query->direction,
             $this->resolveTrashType($query, $currentUser),
