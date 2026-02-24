@@ -19,6 +19,8 @@ final class BookView
         public readonly string $userName,
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
+        public readonly string $readingStatus,
+        public readonly string $readingStatusLabel,
         public readonly bool $canUpdate,
         public readonly bool $canDelete,
         public readonly bool $canRestore,
