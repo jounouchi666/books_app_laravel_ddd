@@ -3,6 +3,7 @@
 namespace App\Application\Book\DTO;
 
 use App\Application\Book\Query\ListBookQuery;
+use App\Application\UI\Query\HasReadingStatus;
 use App\Application\UI\Query\HasUserFilter;
 use App\Application\UI\Query\UIQuery;
 
@@ -12,16 +13,18 @@ use App\Application\UI\Query\UIQuery;
  * 
  * クエリパラメータ用
  */
-final class BookUIQuery extends UIQuery implements HasUserFilter
+final class BookUIQuery extends UIQuery implements HasUserFilter, HasReadingStatus
 {   
     public readonly bool $isAdmin;
     public readonly ?int $userId;
     public readonly bool $allUsers;
+    public readonly string $readingStatus;
 
     public function __construct(
         bool $isAdmin,
         ?int $userId,
         bool $allUsers,
+        string $readingStatus,
         ?string $sort,
         ?string $direction,
         ?string $trashType
@@ -31,6 +34,7 @@ final class BookUIQuery extends UIQuery implements HasUserFilter
         $this->isAdmin = $isAdmin;
         $this->userId = $userId;
         $this->allUsers = $allUsers;
+        $this->readingStatus = $readingStatus;
     }
 
     /**
@@ -46,6 +50,7 @@ final class BookUIQuery extends UIQuery implements HasUserFilter
             $isAdmin,
             $isAdmin ? $query->userId : null,
             $query->allUsers,
+            $query->readingStatus,
             $query->sort,
             $query->direction,
             $isAdmin ? $query->trashType : null
@@ -75,6 +80,17 @@ final class BookUIQuery extends UIQuery implements HasUserFilter
     }
 
     /**
+     * Getter
+     * readingStatus
+     *
+     * @return bool
+     */
+    public function readingStatus(): string
+    {
+        return $this->readingStatus;
+    }
+
+    /**
      * クエリを配列化
      *
      * @return array
@@ -82,6 +98,7 @@ final class BookUIQuery extends UIQuery implements HasUserFilter
     public function toQueryArray(): array
     {
         $queryArray = [
+            'reading_status' => $this->readingStatus,
             'sort' => $this->sort,
             'direction' => $this->direction,
         ];
