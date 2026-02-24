@@ -20,6 +20,16 @@
 
                     <div class="flex flex-col gap-2">
                         <div class="text-xs text-gray-500 dark:text-gray-400">
+                            読書状況
+                        </div>
+                        <x-reading_status-form
+                            route="books.index"
+                            :query="$books->bookUIQuery"
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
                             並べ替え
                         </div>
                         <x-sort-form
@@ -79,6 +89,7 @@
                             <th class="bg-neutral-600 p-2 text-white text-left">ID</th>
                             <th class="bg-neutral-600 p-2 text-white text-left">タイトル</th>
                             <th class="bg-neutral-600 p-2 text-white text-left">カテゴリー</th>
+                            <th class="bg-neutral-600 p-2 text-white text-left">読書状況</th>
                             @if ($isAdmin)
                             <th class="bg-neutral-600 p-2 text-white text-left">登録者</th>
                             <th class="w-[6em] bg-neutral-600 p-2 text-white text-left">削除状態</th>
@@ -101,6 +112,7 @@
                                         </a>
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</td>
+                                    <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->readingStatusLabel }}</td>
                                     @if($isAdmin)
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->userName }}</td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200 {{ $book->trashed ? 'text-red-600' : '' }}">
@@ -115,7 +127,7 @@
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if (!$book->trashed && $book->canDelete)
+                                        @if ($book->actionType === App\Application\UI\DTO\TrashActionType::Delete)
                                         <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$book->title"
@@ -126,7 +138,7 @@
                                                 event="open-book-delete-modal"
                                             />
                                         </div>
-                                        @elseif ($book->trashed && $book->canRestore)
+                                        @elseif ($book->actionType === App\Application\UI\DTO\TrashActionType::Restore)
                                         <div class="flex justify-start">
                                             <x-restore-icon-button
                                                 :title="$book->title"
