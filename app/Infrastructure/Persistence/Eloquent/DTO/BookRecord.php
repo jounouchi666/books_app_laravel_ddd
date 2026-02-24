@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence\Eloquent\DTO;
 
 use App\Domain\Book\Entity\Book;
+use App\Domain\Book\ValueObject\BookReadingStatus;
 use App\Models\Book as ModelsBook;
 use LogicException;
 
@@ -19,6 +20,7 @@ final class BookRecord
         public readonly string $userName,
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
+        public readonly BookReadingStatus $readingStatus,
         public readonly bool $trashed
     ) {}
 
@@ -78,6 +80,7 @@ final class BookRecord
                 ? null
                 : $book->category_id,
             $book->category_title ?? '',
+            $book->reading_status,
             $book->trashed()
         );
     }
