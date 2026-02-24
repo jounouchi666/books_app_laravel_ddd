@@ -122,6 +122,7 @@ class BookRepository implements BookRepositoryInterface
             is_null($model->category_id) 
                 ? null
                 : new CategoryId($model->category_id),
+            $model->reading_status
         );
     }
 }
