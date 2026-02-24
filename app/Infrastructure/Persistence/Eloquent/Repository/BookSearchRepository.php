@@ -46,6 +46,10 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             $q->where('books.category_id', $query->categoryId);
         }
 
+        if ($query->readingStatus !== 'all') {
+            $q->where('reading_status', $query->readingStatus);
+        }
+
         // ソート
         $q->orderBy(
             self::SORT_COLUMNS[$query->sort],
@@ -98,6 +102,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
               $model->user_name,
               $model->category_id,
               $model->category_title ?? '',
+              $model->reading_status,
               $model->trashed()
         );
     }
@@ -139,6 +144,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             'users.name as user_name',
             'books.category_id',
             'categories.title as category_title',
+            'books.reading_status',
             'books.deleted_at'
         );
     }
