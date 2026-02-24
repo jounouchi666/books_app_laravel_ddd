@@ -57,6 +57,8 @@ final class BookViewAssembler
             $record->userName,
             $record->categoryId,
             $record->categoryTitle,
+            $record->readingStatus->value,
+            $record->readingStatus->label(),
             $canUpdate,
             $canDelete,
             $canRestore,
@@ -92,16 +94,14 @@ final class BookViewAssembler
      */
     private function judgeActionType(bool $trashed, bool $canDelete, bool $canRestore): TrashActionType
     {
-        $type = TrashActionType::None;
-
-        if (!$trashed && $canDelete) {
-            $type = TrashActionType::Delete;
-        }
-        
-        if ($trashed && $canRestore) {
-            $type = TrashActionType::Restore;
+        if (!$trashed) {
+            return $canDelete
+                ? TrashActionType::Delete
+                : TrashActionType::None;
         }
 
-        return $type;
+        return $canRestore
+            ? TrashActionType::Restore
+            : TrashActionType::None;
     }
 }
