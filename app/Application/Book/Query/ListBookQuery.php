@@ -2,6 +2,8 @@
 
 namespace App\Application\Book\Query;
 
+use App\Application\Shared\Enum\SortDirection;
+use App\Application\Shared\Enum\TrashType;
 use App\Domain\Book\ValueObject\BookReadingStatus;
 
 /**
@@ -17,29 +19,18 @@ class ListBookQuery
         'created_at'
     ];
 
-    private const ALLOWED_DIRECTIONS = [
-        'desc',
-        'asc'
-    ];
-
-    private const ALLOWED_TRASH_TYPES = [
-        'active',
-        'with_trashed',
-        'only_trashed'
-    ];
-
-    private const READING_STATUS_DEFAULT = 'all';
+    private const READING_STATUS_DEFAULT = null;
     private const SORT_DEFAULT = 'created_at';
-    private const DIRECTION_DEFAULT = 'desc';
-    private const TRASH_TYPE_DEFAULT = 'active';
+    private const DIRECTION_DEFAULT = SortDirection::Desc;
+    private const TRASH_TYPE_DEFAULT = TrashType::Without;
 
     public readonly ?int $userId;
     public readonly bool $allUsers;
     public readonly ?int $categoryId;
-    public readonly string $readingStatus;
+    public readonly ?BookReadingStatus $readingStatus;
     public readonly string $sort;
-    public readonly string $direction;
-    public readonly string $trashType;
+    public readonly SortDirection $direction;
+    public readonly TrashType $trashType;
     public readonly int $page;
     public readonly int $perPage;
 
@@ -47,10 +38,10 @@ class ListBookQuery
         ?int $userId = null,
         bool $allUsers = false,
         ?int $categoryId = null,
-        ?string $readingStatus = null,
+        ?BookReadingStatus $readingStatus = null,
         ?string $sort = null,
-        ?string $direction = null,
-        ?string $trashType = null,
+        ?SortDirection $direction = null,
+        ?TrashType $trashType = null,
         int $page = 1,
         int $perPage = 15
     ) {
@@ -68,17 +59,12 @@ class ListBookQuery
     /**
      * ReadingStatus用フィルター
      *
-     * @param  ?string $readingStatus
-     * @return string 不正なら強制的にデフォルト値を返す
+     * @param  ?BookReadingStatus $readingStatus
+     * @return ?BookReadingStatus 不正なら強制的にデフォルト値を返す
      */
-    private function filterReadingStatus(?string $readingStatus): string
+    private function filterReadingStatus(?BookReadingStatus $readingStatus): ?BookReadingStatus
     {
-        if ($readingStatus === 'all' || is_null($readingStatus)) {
-            return self::READING_STATUS_DEFAULT;
-        }
-        
-        return BookReadingStatus::tryFrom($readingStatus)?->value
-            ?? self::READING_STATUS_DEFAULT;
+        return $readingStatus ?? self::READING_STATUS_DEFAULT;
     }
     
     /**
@@ -99,30 +85,22 @@ class ListBookQuery
     /**
      * Direction用フィルター
      *
-     * @param  ?string $direction
-     * @return string 不正なら強制的にデフォルト値を返す
+     * @param  ?SortDirection $direction
+     * @return SortDirection 不正なら強制的にデフォルト値を返す
      */
-    private function filterDirection(?string $direction): string
+    private function filterDirection(?SortDirection $direction): SortDirection
     {
-        if (is_null($direction)) return self::DIRECTION_DEFAULT;
-
-        return in_array($direction, self::ALLOWED_DIRECTIONS, true)
-            ? $direction
-            : self::DIRECTION_DEFAULT;
+        return $direction ?? self::DIRECTION_DEFAULT;
     }
 
     /**
      * TrashType用フィルター
      *
-     * @param  ?string $trashType
-     * @return string 不正なら強制的にデフォルト値を返す
+     * @param  ?TrashType $trashType
+     * @return TrashType 不正なら強制的にデフォルト値を返す
      */
-    private function filterTrashType(?string $trashType): string
+    private function filterTrashType(?TrashType $trashType): TrashType
     {
-        if (is_null($trashType)) return self::TRASH_TYPE_DEFAULT;
-        
-        return in_array($trashType, self::ALLOWED_TRASH_TYPES, true)
-            ? $trashType
-            : self::TRASH_TYPE_DEFAULT;
+        return $trashType ?? self::TRASH_TYPE_DEFAULT;
     }
 }
