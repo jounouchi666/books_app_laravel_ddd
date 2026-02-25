@@ -2,8 +2,11 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\CurrentUserProvider;
+use App\Application\Book\DTO\SaveBookDto;
 use App\Domain\Book\Entity\Book;
 use App\Domain\Book\Repository\BookRepositoryInterface;
+use App\Domain\Book\ValueObject\BookReadingStatus;
 use App\Domain\Book\ValueObject\BookTitle;
 use App\Domain\Shared\ValueObject\CategoryId;
 use App\Domain\Shared\ValueObject\UserId;
@@ -14,29 +17,27 @@ use App\Domain\Shared\ValueObject\UserId;
  */
 class CreateBookUseCase
 {
-    private BookRepositoryInterface $bookRepository;
-
-    public function __construct(BookRepositoryInterface $bookRepository) 
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(
+        private BookRepositoryInterface $bookRepository,
+        private CurrentUserProvider $currentUserProvider
+    ) {}
     
     /**
      * 実行
      *
-     * @param  string $title
-     * @param  int $userId
-     * @param  ?int $categoryId
+     * @param  SaveBookDto $book
      * @return Book
      */
-    function execute(string $title, int $userId, ?int $categoryId): Book
+    function execute(SaveBookDto $book): Book
     {
-        $book = Book::create(
-            new BookTitle($title),
-            new UserId($userId),
-            is_null($categoryId) ? null : new CategoryId($categoryId)
+        $currentUser = $this->currentUserProvider->currentUser();
+
+        $newBook = Book::create(
+            new BookTitle($book->title),
+            new UserId($currentUser->id()->value()),
+            is_null($book->categoryId) ? null : new CategoryId($book->categoryId),
         );
         
-        return $this->bookRepository->save($book);
+        return $this->bookRepository->save($newBook);
     }
 }
