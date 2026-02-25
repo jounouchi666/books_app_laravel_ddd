@@ -1,21 +1,22 @@
 <?php
 
-namespace app\Application\UI\Query;
+namespace App\Application\UI\Query;
+
+use App\Application\Shared\Enum\SortDirection;
+use App\Application\Shared\Enum\TrashType;
 
 /**
  * DTO
  * UIQuery
  * 
  * クエリパラメータ用
- * 
- * null = 管理者でないため非表示
  */
 abstract class UIQuery
 {
     public function __construct(
-        public readonly ?string $sort,
-        public readonly ?string $direction,
-        public readonly ?string $trashType
+        public readonly string $sort,
+        public readonly SortDirection $direction,
+        public readonly ?TrashType $trashType
     ) {}
 
     /**
