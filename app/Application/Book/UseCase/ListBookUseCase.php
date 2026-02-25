@@ -9,6 +9,7 @@ use App\Application\Book\DTO\BookUIQuery;
 use App\Application\Book\Query\ListBookQuery;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Service\BookAuthorizationService;
+use App\Application\Shared\Enum\TrashType;
 use App\Application\UI\DTO\PaginateView;
 use App\Application\UI\PaginationUrlGeneratorFactory;
 use App\Application\User\Assembler\UserViewAssembler;
@@ -111,7 +112,7 @@ class ListBookUseCase
         }
 
         // 管理者
-        if ($query->allUsers === true) {
+        if ($query->allUsers) {
             return null;
         }
 
@@ -147,12 +148,12 @@ class ListBookUseCase
      *
      * @param  ListBookQuery $query
      * @param  User $currentUser
-     * @return string
+     * @return TrashType
      */
-    private function resolveTrashType(ListBookQuery $query, User $currentUser): string
+    private function resolveTrashType(ListBookQuery $query, User $currentUser): TrashType
     {
         if (!$currentUser->isAdmin()) {
-            return 'active';
+            return TrashType::Without;
         }
 
         return $query->trashType;

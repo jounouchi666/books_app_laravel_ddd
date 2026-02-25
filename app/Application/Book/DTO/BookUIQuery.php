@@ -2,10 +2,13 @@
 
 namespace App\Application\Book\DTO;
 
+use App\Application\Book\Query\HasReadingStatus;
 use App\Application\Book\Query\ListBookQuery;
-use App\Application\UI\Query\HasReadingStatus;
+use App\Application\Shared\Enum\SortDirection;
+use App\Application\Shared\Enum\TrashType;
 use App\Application\UI\Query\HasUserFilter;
 use App\Application\UI\Query\UIQuery;
+use App\Domain\Book\ValueObject\BookReadingStatus;
 
 /**
  * DTO
@@ -14,22 +17,29 @@ use App\Application\UI\Query\UIQuery;
  * クエリパラメータ用
  */
 final class BookUIQuery extends UIQuery implements HasUserFilter, HasReadingStatus
-{   
+{
+    private const SORT_DEFAULT = 'created_at';
+    private const DIRECTION_DEFAULT = SortDirection::Desc;
+
     public readonly bool $isAdmin;
     public readonly ?int $userId;
     public readonly bool $allUsers;
-    public readonly string $readingStatus;
+    public readonly ?BookReadingStatus $readingStatus;
 
     public function __construct(
         bool $isAdmin,
         ?int $userId,
         bool $allUsers,
-        string $readingStatus,
+        ?BookReadingStatus $readingStatus,
         ?string $sort,
-        ?string $direction,
-        ?string $trashType
+        ?SortDirection $direction,
+        ?TrashType $trashType
     ) {
-        parent::__construct($sort, $direction, $trashType);
+        parent::__construct(
+            $sort ?? self::SORT_DEFAULT,
+            $direction ?? self::DIRECTION_DEFAULT,
+            $trashType
+        );
 
         $this->isAdmin = $isAdmin;
         $this->userId = $userId;
@@ -83,9 +93,9 @@ final class BookUIQuery extends UIQuery implements HasUserFilter, HasReadingStat
      * Getter
      * readingStatus
      *
-     * @return bool
+     * @return ?BookReadingStatus
      */
-    public function readingStatus(): string
+    public function readingStatus(): ?BookReadingStatus
     {
         return $this->readingStatus;
     }
@@ -98,15 +108,21 @@ final class BookUIQuery extends UIQuery implements HasUserFilter, HasReadingStat
     public function toQueryArray(): array
     {
         $queryArray = [
-            'reading_status' => $this->readingStatus,
             'sort' => $this->sort,
-            'direction' => $this->direction,
+            'direction' => $this->direction->value,
         ];
 
-        if(!$this->isAdmin) return $queryArray;
+        if (!is_null($this->readingStatus)) {
+            $queryArray = [
+                'reading_status' => $this->readingStatus->value,
+                ...$queryArray
+            ];
+        }
+
+        if (!$this->isAdmin) return $queryArray;
 
         // 管理者用
-        if($this->allUsers) {
+        if ($this->allUsers) {
             $queryArray = [
                 'all_users' => 1,
                 ...$queryArray
@@ -122,7 +138,7 @@ final class BookUIQuery extends UIQuery implements HasUserFilter, HasReadingStat
 
         if (!is_null($this->trashType)) {
             $queryArray = [
-                'trash_type' => $this->trashType,
+                'trash_type' => $this->trashType->value,
                 ...$queryArray
             ];
         }
