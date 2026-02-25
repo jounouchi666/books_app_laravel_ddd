@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Application\Shared\Enum\TrashType;
 use app\Application\UI\Query\UIQuery;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -9,6 +10,10 @@ use Illuminate\View\Component;
 
 class TrashTypeForm extends Component
 {
+    public TrashType $all = TrashType::All;
+    public TrashType $without = TrashType::Without;
+    public TrashType $only = TrashType::Only;
+    
     public array $currentQueries;
     public string $route;
     public ?string $selectedTrashType;
@@ -24,7 +29,7 @@ class TrashTypeForm extends Component
     ) {
         $this->currentQueries = $query->except(self::EXCEPT_KEYS);
         $this->route = $route;
-        $this->selectedTrashType = $query->trashType;
+        $this->selectedTrashType = $query->trashType?->value ?? TrashType::Without->value;
     }
 
     /**
