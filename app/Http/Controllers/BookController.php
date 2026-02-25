@@ -103,12 +103,8 @@ class BookController extends Controller
      */
     public function store(BookRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-
         $this->createBookUseCase->execute(
-            $data['title'],
-            Auth::id(),
-            $data['category_id']
+            $request->buildSaveData()
         );
 
         return redirect()->route('books.index')->with('success', '登録しました');
@@ -123,13 +119,9 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, int $id): RedirectResponse
     {
-        $data = $request->validated();
-
         $newBook = $this->updateBookUseCase->execute(
             $id,
-            $data['title'],
-            Auth::id(),
-            $data['category_id']
+            $request->buildSaveData()
         );
 
         return redirect()
