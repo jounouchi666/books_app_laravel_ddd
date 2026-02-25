@@ -55,7 +55,7 @@ final class Book implements AuthorizableResource
         BookTitle $title,
         UserId $userId,
         ?CategoryId $categoryId,
-        BookReadingStatus $readingStatus,
+        BookReadingStatus $readingStatus = BookReadingStatus::Unread,
     ): self {
         return new self(null, $title, $userId, $categoryId, $readingStatus);
     }
@@ -121,6 +121,19 @@ final class Book implements AuthorizableResource
     }
 
     /**
+     * 読書状況変更
+     *
+     * @param  ?BookReadingStatus $readingStatus
+     * @return void
+     */
+    public function chengeStatus(?BookReadingStatus $readingStatus): void
+    {
+        if ($this->readingStatus === $readingStatus) return;
+
+        $this->readingStatus = $readingStatus;
+    }
+    
+    /**
      * 未読に変更
      *
      * @return void
@@ -155,6 +168,7 @@ final class Book implements AuthorizableResource
     public function title(): BookTitle {return $this->title;}
     public function userId(): UserId {return $this->userId;}
     public function categoryId(): ?CategoryId {return $this->categoryId;}
+    public function readingStatus(): BookReadingStatus {return $this->readingStatus;}
     public function isUnread(): bool {return $this->readingStatus->isUnread();}
     public function isReading(): bool {return $this->readingStatus->isReading();}
     public function isCompleted(): bool {return $this->readingStatus->isCompleted();}
