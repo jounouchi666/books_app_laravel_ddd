@@ -2,7 +2,8 @@
 
 namespace App\View\Components;
 
-use App\Application\UI\Query\HasReadingStatus;
+use App\Domain\Book\ValueObject\BookReadingStatus;
+use App\Application\Book\Query\HasReadingStatus;
 use app\Application\UI\Query\UIQuery;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -10,9 +11,13 @@ use Illuminate\View\Component;
 
 class ReadingStatusForm extends Component
 {
+    public BookReadingStatus $unread = BookReadingStatus::Unread;
+    public BookReadingStatus $reading = BookReadingStatus::Reading;
+    public BookReadingStatus $completed = BookReadingStatus::Completed;
+
     public array $currentQueries;
     public string $route;
-    public ?string $selectedReadingStatus;
+    public ?BookReadingStatus $selectedReadingStatus;
 
     private const EXCEPT_KEYS = ['reading_status'];
 
@@ -21,7 +26,7 @@ class ReadingStatusForm extends Component
      */
     public function __construct(
         string $route,
-        UIQuery|HasReadingStatus $query,
+        UIQuery&HasReadingStatus $query,
     )
     {
         $this->currentQueries = $query->except(self::EXCEPT_KEYS);
