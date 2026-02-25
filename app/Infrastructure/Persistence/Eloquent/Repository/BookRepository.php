@@ -55,11 +55,12 @@ class BookRepository implements BookRepositoryInterface
     {
         $id = $book->id();
         $values = [
-            'title'       => $book->title()->value(),
-            'user_id'     => $book->userId()->value(),
-            'category_id' => is_null($book->categoryId())
+            'title'          => $book->title()->value(),
+            'user_id'        => $book->userId()->value(),
+            'category_id'    => is_null($book->categoryId())
                 ? null
                 : $book->categoryId()->value(),
+            'reading_status' => $book->readingStatus()->value
         ];
         
         if (is_null($id)) {
