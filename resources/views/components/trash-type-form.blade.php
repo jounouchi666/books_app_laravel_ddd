@@ -8,16 +8,16 @@
 
     <div class="inline-flex h-10">
 
-        <label for="trashed_type_active" class="cursor-pointer">
+        <label for="trashed_type_{{ $without->value }}" class="cursor-pointer">
             <input
-                id="trashed_type_active"
+                id="trashed_type_{{ $without->value }}"
                 type="radio"
                 name="trash_type"
-                value="active"
+                value="{{ $without->value }}"
                 class="sr-only peer"
-                :checked="checked === 'active'"
+                :checked="checked === '{{ $without->value }}'"
                 x-on:change="
-                    checked = 'active';
+                    checked = '{{ $without->value }}';
                     $el.form.submit();
                 "
             >
@@ -32,19 +32,19 @@
                 dark:peer-checked:text-gray-800
                 transition-colors
             ">
-                含まない
+                {{ $without->label() }}
             </span>
         </label>
-        <label for="trashed_type_with_trashed" class="relative cursor-pointer -ml-px">
+        <label for="trashed_type_{{ $all->value }}" class="relative cursor-pointer -ml-px">
             <input
-                id="trashed_type_with_trashed"
+                id="trashed_type_{{ $all->value }}"
                 type="radio"
                 name="trash_type"
-                value="with_trashed"
+                value="{{ $all->value }}"
                 class="sr-only peer"
-                :checked="checked === 'with_trashed'"
+                :checked="checked === '{{ $all->value }}'"
                 x-on:change="
-                    checked = 'with_trashed';
+                    checked = '{{ $all->value }}';
                     $el.form.submit();
                 "
             >
@@ -59,19 +59,19 @@
                 dark:peer-checked:text-gray-800
                 transition-colors
             ">
-                含む
+                {{ $all->label() }}
             </span>
         </label>
-        <label for="trashed_type_only_trashed" class="relative cursor-pointer -ml-px">
+        <label for="trashed_type_{{ $only->value }}" class="relative cursor-pointer -ml-px">
             <input
-                id="trashed_type_only_trashed"
+                id="trashed_type_{{ $only->value }}"
                 type="radio"
                 name="trash_type"
-                value="only_trashed"
+                value="{{ $only->value }}"
                 class="sr-only peer"
-                :checked="checked === 'only_trashed'"
+                :checked="checked === '{{ $only->value }}'"
                 x-on:change="
-                    checked = 'only_trashed';
+                    checked = '{{ $only->value }}';
                     $el.form.submit();
                 "
             >
@@ -86,7 +86,7 @@
                 dark:peer-checked:text-gray-800
                 transition-colors
             ">
-                削除済みのみ
+                {{ $only->label() }}
             </span>
         </label>
 
