@@ -5,6 +5,7 @@ namespace App\Infrastructure\Persistence\Eloquent\Repository;
 use App\Application\UI\DTO\PaginatedResult;
 use App\Application\Book\Repository\BookSearchRepositoryInterface;
 use App\Application\Book\Query\ListBookQuery;
+use App\Application\Shared\Enum\TrashType;
 use App\Domain\Book\ValueObject\BookId;
 use App\Infrastructure\Persistence\Eloquent\DTO\BookRecord;
 use App\Models\Book;
@@ -39,21 +40,21 @@ class BookSearchRepository implements BookSearchRepositoryInterface
         $this->selectBookViewColumns($q);
 
         // フィルター
-        if ($query->userId) {
+        if (!is_null($query->userId)) {
             $q->where('books.user_id', $query->userId);
         }
         if ($query->categoryId) {
             $q->where('books.category_id', $query->categoryId);
         }
 
-        if ($query->readingStatus !== 'all') {
-            $q->where('reading_status', $query->readingStatus);
+        if (!is_null($query->readingStatus)) {
+            $q->where('reading_status', $query->readingStatus->value);
         }
 
         // ソート
         $q->orderBy(
             self::SORT_COLUMNS[$query->sort],
-            $query->direction
+            $query->direction->value
         );
 
         // 削除タイプ
@@ -153,15 +154,15 @@ class BookSearchRepository implements BookSearchRepositoryInterface
      * 削除ステータスに応じてクエリを修飾
      *
      * @param  Builder $q
-     * @param  string $trashType
+     * @param  TrashType $trashType
      * @return void
      */
-    private function applySoftDeleteFilter(Builder $q, string $trashType): void
+    private function applySoftDeleteFilter(Builder $q, TrashType $trashType): void
     {
         match ($trashType) {
-            'with_trashed' => $q->withTrashed(),
-            'only_trashed' => $q->onlyTrashed(),
-            default        => null
+            TrashType::All  => $q->withTrashed(),
+            TrashType::Only => $q->onlyTrashed(),
+            default         => null
         };
     }
 }
