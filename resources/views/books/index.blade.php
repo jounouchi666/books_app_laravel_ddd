@@ -18,33 +18,35 @@
                         />
                     </div>
 
-                    <div class="flex flex-col gap-2">
-                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                            読書状況
+                    <div class="flex flex-col items-end gap-6 lg:flex-row lg:items-start">
+                        <div class="flex flex-col gap-2">
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                読書状況
+                            </div>
+                            <x-reading_status-form
+                                route="books.index"
+                                :query="$books->bookUIQuery"
+                            />
                         </div>
-                        <x-reading_status-form
-                            route="books.index"
-                            :query="$books->bookUIQuery"
-                        />
-                    </div>
 
-                    <div class="flex flex-col gap-2">
-                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                            並べ替え
+                        <div class="flex flex-col gap-2">
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                並べ替え
+                            </div>
+                            <x-sort-form
+                                action="{{ route('books.index') }}"
+                                :sorts="[
+                                    'created_at'  => '登録日',
+                                    'title'       => 'タイトル',
+                                    'user_id'     => '登録者',
+                                    'category_id' => 'カテゴリー'
+                                ]"
+                                :sortSelected="old('sort', $books->bookUIQuery->sort)"
+                                :directionSelected="old('direction', $books->bookUIQuery->direction)"
+                                :errors="$errors"
+                                :params="$books->bookUIQuery->toQueryArray()"
+                            />
                         </div>
-                        <x-sort-form
-                            action="{{ route('books.index') }}"
-                            :sorts="[
-                                'created_at'  => '登録日',
-                                'title'       => 'タイトル',
-                                'user_id'     => '登録者',
-                                'category_id' => 'カテゴリー'
-                            ]"
-                            :sortSelected="old('sort', $books->bookUIQuery->sort)"
-                            :directionSelected="old('direction', $books->bookUIQuery->direction)"
-                            :errors="$errors"
-                            :params="$books->bookUIQuery->toQueryArray()"
-                        />
                     </div>
                 </div>
 
@@ -116,7 +118,7 @@
                                     @if($isAdmin)
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->userName }}</td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200 {{ $book->trashed ? 'text-red-600' : '' }}">
-                                        {{ $book->trashed ? '削除済' : '' }}
+                                        {{ $book->trashedLabel() }}
                                     </td>
                                     @endif
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
@@ -127,7 +129,7 @@
                                         @endif
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if ($book->actionType === App\Application\UI\DTO\TrashActionType::Delete)
+                                        @if ($book->actionType->isDelete())
                                         <div class="flex justify-start">
                                             <x-delete-icon-button
                                                 :title="$book->title"
@@ -138,7 +140,7 @@
                                                 event="open-book-delete-modal"
                                             />
                                         </div>
-                                        @elseif ($book->actionType === App\Application\UI\DTO\TrashActionType::Restore)
+                                        @elseif ($book->actionType->isRestore())
                                         <div class="flex justify-start">
                                             <x-restore-icon-button
                                                 :title="$book->title"
