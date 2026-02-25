@@ -1,9 +1,10 @@
+<?php use App\Application\Shared\Enum\SortDirection; ?>
 @props([
     'id' => "sort-form",
     'action' => '',
     'sorts' => ['created_at' => '作成日'],
     'sortSelected' => 'created_at',
-    'directionSelected' => 'desc',
+    'directionSelected' => SortDirection::Desc,
     'errors' => null,
     'params' => []
 ])
@@ -38,8 +39,18 @@
                 class="px-3 w-24 h-10 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 outline-none focus:border-teal-500 dark:focus:border-teal-600"
                 name="direction"
             >
-                <option value="desc" @selected($directionSelected === 'desc')>降順</option>
-                <option value="asc" @selected($directionSelected === 'asc')>昇順</option>
+                <option
+                    value="{{ SortDirection::Desc->value }}"
+                    @selected($directionSelected === SortDirection::Desc)
+                >
+                    {{ SortDirection::Desc->label() }}
+                </option>
+                <option
+                    value="{{ SortDirection::Asc->value }}"
+                    @selected($directionSelected === SortDirection::Asc)
+                >
+                    {{ SortDirection::Asc->label() }}
+                </option>
             </select>
         </div>
         
