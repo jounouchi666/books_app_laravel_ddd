@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Application\Category\DTO\SaveCategoryDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
@@ -37,5 +38,19 @@ class CategoryRequest extends FormRequest
             'title.min' => 'タイトルは2文字以上で入力してください',
             'title.max' => 'タイトルは100文字以内で入力してください'
         ];
+    }
+
+    /**
+     * 保存用DTOを生成
+     *
+     * @return SaveCategoryDto
+     */
+    public function buildSaveData(): SaveCategoryDto
+    {
+        $data = $this->validated();
+
+        return new SaveCategoryDto(
+            $data['title']
+        );
     }
 }
