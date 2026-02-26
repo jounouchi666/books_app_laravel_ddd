@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application\Book\DTO\BookFormDto;
+use App\Application\Book\UseCase\ChangeBookReadingStatusUseCase;
 use App\Application\Book\UseCase\CreateBookUseCase;
 use App\Application\Book\UseCase\DeleteBookUseCase;
 use App\Application\Book\UseCase\EditBookUseCase;
@@ -14,6 +15,7 @@ use App\Application\Book\UseCase\UpdateBookUseCase;
 use App\Application\Category\UseCase\ListSelectableCategoryUseCase;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\BookSearchRequest;
+use App\Http\Requests\ChangeBookReadingStatusRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -26,6 +28,7 @@ class BookController extends Controller
         private readonly EditBookUseCase $editBookUseCase,
         private readonly CreateBookUseCase $createBookUseCase,
         private readonly UpdateBookUseCase $updateBookUseCase,
+        private readonly ChangeBookReadingStatusUseCase $changeBookReadingStatusUseCase,
         private readonly DeleteBookUseCase $deleteBookUseCase,
         private readonly RestoreBookUseCase $restoreBookUseCase,
         private readonly ForceDeleteBookUseCase $forceDeleteBookUseCase,
@@ -127,6 +130,23 @@ class BookController extends Controller
         return redirect()
             ->route('books.show', ['id' => $newBook->id()->value()])
             ->with('success', '登録しました');
+    }
+
+    /**
+     * changeReadingStatus
+     *
+     * @param  ChangeBookReadingStatusRequest $request
+     * @param  int $id
+     * @return RedirectResponse
+     */
+    public function changeReadingStatus(ChangeBookReadingStatusRequest $request, int $id): RedirectResponse
+    {
+        $this->changeBookReadingStatusUseCase->execute(
+            $id,
+            $request->buildSaveData()
+        );
+
+        return redirect()->back()->with('success', '更新しました');
     }
     
     /**
