@@ -4,6 +4,7 @@
     x-data='@json(["checked" => $selectedReadingStatus ?? "all"])'
     class="flex items-center"
 >
+    @csrf
     <x-form-query-input :params="$currentQueries" />
 
     <div class="inline-flex h-10">
