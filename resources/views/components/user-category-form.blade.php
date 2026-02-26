@@ -4,6 +4,7 @@
     x-data='@json(["allUsers" => $allUsers])'
     class="flex items-center gap-2"
 >
+    @csrf
     <x-form-query-input :params="$currentQueries" />
 
     <div class="flex flex-col items-end gap-4 md:flex-row md:gap-2">
