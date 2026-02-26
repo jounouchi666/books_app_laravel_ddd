@@ -81,10 +81,8 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-
         $this->createCategoryUseCase->execute(
-            $data['title']
+            $request->buildSaveData()
         );
         
         return redirect()->route('admin.categories.list')->with('success', '登録しました');
@@ -99,11 +97,9 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, int $id): RedirectResponse
     {
-        $data = $request->validated();
-
         $this->updateCategoryUseCase->execute(
             $id,
-            $data['title']
+            $request->buildSaveData()
         );
 
         return redirect()->route('admin.categories.list')->with('success', '更新しました');
