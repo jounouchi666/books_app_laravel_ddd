@@ -53,7 +53,7 @@ class UpdateBookUseCase
         $bookEntity->changeCategory(
             is_null($book->categoryId) ? null : new CategoryId($book->categoryId)
         );
-        $bookEntity->chengeStatus($book->readingStatus);
+        $bookEntity->changeStatus($book->readingStatus);
 
         return $this->bookRepository->save($bookEntity);
     }
