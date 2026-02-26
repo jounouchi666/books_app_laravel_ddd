@@ -9,6 +9,7 @@
         ])
     }}
 >
+    @csrf
     <x-form-query-input :params="$currentQueries" />
 
     <div class="flex flex-nowrap gap-2 items-stretch">
