@@ -1,7 +1,7 @@
 <form
     action="{{ route($route) }}"
     method="get"
-    x-data='@json(["checked" => $selectedReadingStatus])'
+    x-data='@json(["checked" => $selectedReadingStatus ?? "all"])'
     class="flex items-center"
 >
     <x-form-query-input :params="$currentQueries" />
@@ -35,16 +35,16 @@
                 全て
             </span>
         </label>
-        <label for="reading_status_unread" class="cursor-pointer">
+        <label for="reading_status_{{ $unread->value }}" class="relative cursor-pointer -ml-px">
             <input
-                id="reading_status_unread"
+                id="reading_status_{{ $unread->value }}"
                 type="radio"
                 name="reading_status"
-                value="unread"
+                value="{{ $unread->value }}"
                 class="sr-only peer"
-                :checked="checked === 'unread'"
+                :checked="checked === '{{ $unread->value }}'"
                 x-on:change="
-                    checked = 'unread';
+                    checked = '{{ $unread->value }}';
                     $el.form.submit();
                 "
             >
@@ -59,19 +59,19 @@
                 dark:peer-checked:text-gray-800
                 transition-colors
             ">
-                未読
+                {{ $unread->label() }}
             </span>
         </label>
-        <label for="reading_status_reading" class="relative cursor-pointer -ml-px">
+        <label for="reading_status_{{ $reading->value }}" class="relative cursor-pointer -ml-px">
             <input
-                id="reading_status_reading"
+                id="reading_status_{{ $reading->value }}"
                 type="radio"
                 name="reading_status"
-                value="reading"
+                value="{{ $reading->value }}"
                 class="sr-only peer"
-                :checked="checked === 'reading'"
+                :checked="checked === '{{ $reading->value }}'"
                 x-on:change="
-                    checked = 'reading';
+                    checked = '{{ $reading->value }}';
                     $el.form.submit();
                 "
             >
@@ -86,19 +86,19 @@
                 dark:peer-checked:text-gray-800
                 transition-colors
             ">
-                読書中
+                {{ $reading->label() }}
             </span>
         </label>
-        <label for="reading_status_completed" class="relative cursor-pointer -ml-px">
+        <label for="reading_status_{{ $completed->value }}" class="relative cursor-pointer -ml-px">
             <input
-                id="reading_status_completed"
+                id="reading_status_{{ $completed->value }}"
                 type="radio"
                 name="reading_status"
-                value="completed"
+                value="{{ $completed->value }}"
                 class="sr-only peer"
-                :checked="checked === 'completed'"
+                :checked="checked === '{{ $completed->value }}'"
                 x-on:change="
-                    checked = 'completed';
+                    checked = '{{ $completed->value }}';
                     $el.form.submit();
                 "
             >
@@ -113,7 +113,7 @@
                 dark:peer-checked:text-gray-800
                 transition-colors
             ">
-                読了
+                {{ $completed->label() }}
             </span>
         </label>
 

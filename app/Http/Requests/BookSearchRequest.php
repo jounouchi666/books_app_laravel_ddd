@@ -54,6 +54,16 @@ class BookSearchRequest extends FormRequest
             'trash_type.enum'     => '削除タイプが有効ではありません',
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        // reading_statusのallをnullに変換
+        if ($this->reading_status === 'all') {
+            $this->merge([
+                'reading_status' => null,
+            ]);
+        }
+    }
     
     /**
      * クエリオブジェクトを生成
