@@ -85,16 +85,14 @@ final class CategoryViewAssembler
      */
     private function judgeActionType(bool $trashed, bool $canDelete, bool $canRestore): TrashActionType
     {
-        $type = TrashActionType::None;
-
-        if (!$trashed && $canDelete) {
-            $type = TrashActionType::Delete;
-        }
-        
-        if ($trashed && $canRestore) {
-            $type = TrashActionType::Restore;
+        if (!$trashed) {
+            return $canDelete
+                ? TrashActionType::Delete
+                : TrashActionType::None;
         }
 
-        return $type;
+        return $canRestore
+            ? TrashActionType::Restore
+            : TrashActionType::None;
     }
 }

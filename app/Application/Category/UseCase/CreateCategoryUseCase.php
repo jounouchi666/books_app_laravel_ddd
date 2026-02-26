@@ -4,6 +4,7 @@ namespace App\Application\Category\UseCase;
 
 use App\Application\Auth\AuthorizationService;
 use App\Application\Auth\Permission\CategoryPermission;
+use App\Application\Category\DTO\SaveCategoryDto;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
 use App\Domain\Category\ValueObject\CategoryTitle;
@@ -22,20 +23,20 @@ class CreateCategoryUseCase
     /**
      * 実行
      *
-     * @param  string $title
+     * @param  SaveCategoryDto $category
      * @return Category
      */
-    function execute(string $title): Category
+    function execute(SaveCategoryDto $category): Category
     {
         // 認可
         $this->AuthorizationService->authorize(
             CategoryPermission::create()
         );
 
-        $category = Category::create(
-            new CategoryTitle($title)
+        $newCategory = Category::create(
+            new CategoryTitle($category->title)
         );
         
-        return $this->categoryRepository->save($category);
+        return $this->categoryRepository->save($newCategory);
     }
 }

@@ -22,4 +22,14 @@ final class CategoryView
         public readonly bool $trashed,
         public readonly TrashActionType $actionType
     ) {}
+
+    /**
+     * 削除状態ラベル
+     *
+     * @return string
+     */
+    public function trashedLabel(): string
+    {
+        return $this->trashed ? '削除済み': '';
+    }
 }
