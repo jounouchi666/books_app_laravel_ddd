@@ -126,7 +126,7 @@ final class Book implements AuthorizableResource
      * @param  ?BookReadingStatus $readingStatus
      * @return void
      */
-    public function chengeStatus(?BookReadingStatus $readingStatus): void
+    public function changeStatus(?BookReadingStatus $readingStatus): void
     {
         if ($this->readingStatus === $readingStatus) return;
 
