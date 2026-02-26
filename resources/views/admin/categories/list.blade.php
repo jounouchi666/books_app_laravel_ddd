@@ -29,15 +29,12 @@
                             並べ替え
                         </div>
                         <x-sort-form
-                            action="{{ route('admin.categories.list') }}"
+                            route="admin.categories.list"
+                            :query="$categories->categoryUIQuery"
                             :sorts="[
                                 'created_at' => '作成日',
                                 'title'      => 'タイトル'
                             ]"
-                            :sortSelected="old('sort', $categories->categoryUIQuery->sort)"
-                            :directionSelected="old('direction', $categories->categoryUIQuery->direction)"
-                            :errors="$errors"
-                            :params="$categories->categoryUIQuery->toQueryArray()"
                         />
                     </div>
                 </div>
