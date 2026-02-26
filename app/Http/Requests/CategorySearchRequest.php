@@ -3,7 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Application\Category\Query\ListCategoryQuery;
+use App\Application\Shared\Enum\SortDirection;
+use App\Application\Shared\Enum\TrashType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class CategorySearchRequest extends FormRequest
 {
@@ -24,8 +27,8 @@ class CategorySearchRequest extends FormRequest
     {
         return [
             'sort'       => ['nullable', 'string', 'in:title,created_at'],
-            'direction'  => ['nullable', 'in:desc,asc'],
-            'trash_type' => ['nullable', 'string', 'in:active,with_trashed,only_trashed']
+            'direction'  => ['nullable', new Enum(SortDirection::class)],
+            'trash_type' => ['nullable', new Enum(TrashType::class)]
         ];
     }
 
@@ -37,9 +40,9 @@ class CategorySearchRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'sort.in'       => 'ソート項目が有効ではありません',
-            'direction.in'  => '昇順（desc）または降順（asc）で入力してください',
-            'trash_type.in' => '削除タイプが有効ではありません',
+            'sort.in'         => 'ソート項目が有効ではありません',
+            'direction.enum'  => '昇順（desc）または降順（asc）で入力してください',
+            'trash_type.enum' => '削除タイプが有効ではありません',
         ];
     }
 
@@ -51,9 +54,9 @@ class CategorySearchRequest extends FormRequest
     public function buildQuery(): ListCategoryQuery
     {
         return new ListCategoryQuery(
-            $this->input('sort'),
-            $this->input('direction'),
-            $this->input('trash_type'),
+            $this->string('sort') ?: null,
+            $this->enum('direction', SortDirection::class) ?: null,
+            $this->enum('trash_type', TrashType::class) ?: null,
             $this->integer('page', 1),
             $this->integer('per_page', 15)
         );
