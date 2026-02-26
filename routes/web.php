@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/store', [BookController::class, 'store'])->name('store');
         Route::patch('/{id}/update', [BookController::class, 'update'])->name('update');
+        Route::patch('/{id}/reading-status', [BookController::class, 'changeReadingStatus'])->name('reading_status');
         Route::delete('/{id}/delete', [BookController::class, 'delete'])->name('delete');
         Route::patch('/{id}/restore', [BookController::class, 'restore'])->name('restore');
         Route::delete('/{id}/force-delete', [BookController::class, 'forceDelete'])->name('force_delete');
