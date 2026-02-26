@@ -4,6 +4,7 @@ namespace App\Application\Category\UseCase;
 
 use App\Application\Auth\AuthorizationService;
 use App\Application\Auth\Permission\CategoryPermission;
+use App\Application\Category\DTO\SaveCategoryDto;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Exception\CategoryNotFoundException;
 use App\Domain\Category\Repository\CategoryRepositoryInterface;
@@ -26,23 +27,23 @@ class UpdateCategoryUseCase
      * 実行
      *
      * @param  int $id
-     * @param  string $title
+     * @param  SaveCategoryDto $category
      * @return Category
      */
-    function execute(int $id, string $title): Category
+    function execute(int $id, SaveCategoryDto $category): Category
     {
         $CategoryId = new CategoryId($id);
-        $category = $this->categoryRepository->findById($CategoryId);
+        $categorEntity = $this->categoryRepository->findById($CategoryId);
 
-        if (is_null($category)) throw new CategoryNotFoundException($CategoryId);
+        if (is_null($categorEntity)) throw new CategoryNotFoundException($CategoryId);
         
         // 認可
         $this->AuthorizationService->authorize(
-            CategoryPermission::update($category)
+            CategoryPermission::update($categorEntity)
         );
 
-        $category->changeTitle(new CategoryTitle($title));
+        $categorEntity->changeTitle(new CategoryTitle($category->title));
 
-        return $this->categoryRepository->save($category);
+        return $this->categoryRepository->save($categorEntity);
     }
 }
