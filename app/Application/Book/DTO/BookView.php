@@ -3,6 +3,7 @@
 namespace App\Application\Book\DTO;
 
 use App\Application\UI\DTO\TrashActionType;
+use App\Domain\Book\ValueObject\BookReadingStatus;
 
 /**
  * DTO
@@ -19,8 +20,7 @@ final class BookView
         public readonly string $userName,
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
-        public readonly string $readingStatus,
-        public readonly string $readingStatusLabel,
+        public readonly BookReadingStatus $readingStatus,
         public readonly bool $canUpdate,
         public readonly bool $canDelete,
         public readonly bool $canRestore,
