@@ -1,17 +1,7 @@
-<?php use App\Application\Shared\Enum\SortDirection; ?>
-@props([
-    'id' => "sort-form",
-    'action' => '',
-    'sorts' => ['created_at' => '作成日'],
-    'sortSelected' => 'created_at',
-    'directionSelected' => SortDirection::Desc,
-    'errors' => null,
-    'params' => []
-])
-
+@php use App\Application\Shared\Enum\SortDirection; @endphp
 <form 
     id="{{ $id }}"
-    action="{{ $action }}"
+    action="{{ route($route) }}"
     method="get"
     {{ 
         $attributes->merge([
@@ -19,7 +9,7 @@
         ])
     }}
 >
-    <x-form-query-input :params="$params" :except="['sort', 'direction']" />
+    <x-form-query-input :params="$currentQueries" />
 
     <div class="flex flex-nowrap gap-2 items-stretch">
 
@@ -39,18 +29,14 @@
                 class="px-3 w-24 h-10 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 outline-none focus:border-teal-500 dark:focus:border-teal-600"
                 name="direction"
             >
+                @foreach (SortDirection::cases() as $direction)
                 <option
-                    value="{{ SortDirection::Desc->value }}"
-                    @selected($directionSelected === SortDirection::Desc)
+                    value="{{ $direction->value }}"
+                    @selected($directionSelected === $direction)
                 >
-                    {{ SortDirection::Desc->label() }}
+                    {{ $direction->label() }}
                 </option>
-                <option
-                    value="{{ SortDirection::Asc->value }}"
-                    @selected($directionSelected === SortDirection::Asc)
-                >
-                    {{ SortDirection::Asc->label() }}
-                </option>
+                @endforeach
             </select>
         </div>
         
