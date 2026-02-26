@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Eloquent\Repository;
 
 use App\Application\Category\Repository\CategorySearchRepositoryInterface;
 use App\Application\Category\Query\ListCategoryQuery;
+use App\Application\Shared\Enum\TrashType;
 use App\Application\UI\DTO\SimplePaginatedResult;
 use App\Infrastructure\Persistence\Eloquent\DTO\CategoryRecord;
 use App\Models\Category;
@@ -33,7 +34,7 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
         // ソート
         $q->orderBy(
             self::SORT_COLUMNS[$query->sort],
-            $query->direction
+            $query->direction->value
         );
 
         // 削除タイプ
@@ -76,15 +77,15 @@ class CategorySearchRepository implements CategorySearchRepositoryInterface
      * 削除ステータスに応じてクエリを修飾
      *
      * @param  Builder $q
-     * @param  string $trashType
+     * @param  TrashType $trashType
      * @return void
      */
-    private function applySoftDeleteFilter(Builder $q, string $trashType): void
+    private function applySoftDeleteFilter(Builder $q, TrashType $trashType): void
     {
         match ($trashType) {
-            'with_trashed' => $q->withTrashed(),
-            'only_trashed' => $q->onlyTrashed(),
-            default        => null
+            TrashType::All  => $q->withTrashed(),
+            TrashType::Only => $q->onlyTrashed(),
+            default         => null
         };
     }
 }
