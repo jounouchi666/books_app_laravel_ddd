@@ -111,7 +111,15 @@
                                         </a>
                                     </td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</td>
-                                    <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->readingStatusLabel }}</td>
+                                    <td class="p-2 text-gray-800 dark:text-gray-200">
+                                        @if($book->canUpdate)
+                                        <x-change-reading-status-form
+                                            route="books.reading_status"
+                                            :bookId="$book->id"
+                                            :selected="$book->readingStatus"
+                                        />
+                                        @endif
+                                    </td>
                                     @if($isAdmin)
                                     <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->userName }}</td>
                                     <td class="p-2 text-gray-800 dark:text-gray-200 {{ $book->trashed ? 'text-red-600' : '' }}">
