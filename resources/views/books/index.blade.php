@@ -34,17 +34,14 @@
                                 並べ替え
                             </div>
                             <x-sort-form
-                                action="{{ route('books.index') }}"
+                                route="books.index"
+                                :query="$books->bookUIQuery"
                                 :sorts="[
                                     'created_at'  => '登録日',
                                     'title'       => 'タイトル',
                                     'user_id'     => '登録者',
                                     'category_id' => 'カテゴリー'
                                 ]"
-                                :sortSelected="old('sort', $books->bookUIQuery->sort)"
-                                :directionSelected="old('direction', $books->bookUIQuery->direction)"
-                                :errors="$errors"
-                                :params="$books->bookUIQuery->toQueryArray()"
                             />
                         </div>
                     </div>
