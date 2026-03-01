@@ -7,6 +7,10 @@
     
     <x-main-content-area>
         <x-main-content-panel>
+
+            <x-flush-success-message />
+            <x-flush-error-message />
+            
             <dl class="text-lg text-gray-800 dark:text-gray-200 flex flex-wrap max-w-xl">
                 <dd class="font-medium w-1/4">タイトル</dd>
                 <dt class="w-3/4">{{ $book->title }}</dt>
