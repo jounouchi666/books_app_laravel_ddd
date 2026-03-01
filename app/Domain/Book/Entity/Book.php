@@ -128,7 +128,7 @@ final class Book implements AuthorizableResource
      */
     public function changeStatus(?BookReadingStatus $readingStatus): void
     {
-        if ($this->readingStatus === $readingStatus) return;
+        if (is_null($readingStatus) || $this->readingStatus === $readingStatus) return;
 
         $this->readingStatus = $readingStatus;
     }
