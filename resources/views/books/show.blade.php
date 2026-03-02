@@ -8,8 +8,7 @@
     <x-main-content-area>
         <x-main-content-panel>
 
-            <x-flush-success-message />
-            <x-flush-error-message />
+            <x-flush-messages class="md:mb-4 mb-5" />
             
             <dl class="text-lg text-gray-800 dark:text-gray-200 flex flex-wrap max-w-xl">
                 <dd class="font-medium w-1/4">タイトル</dd>
