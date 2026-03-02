@@ -8,10 +8,9 @@
     <x-main-content-area>
         <x-main-content-panel>
 
-            <x-flush-success-message />
-            <x-flush-error-message />
+            <x-flush-messages class="md:mb-4 mb-5" />
 
-            <div class="flex flex-col justify-between items-start gap-4 md:flex-row-reverse md:items-end md:mt-4 mt-5">
+            <div class="flex flex-col justify-between items-start gap-4 md:flex-row-reverse md:items-end">
                 <div class="flex flex-col items-end gap-4 self-end">
                     <div class="flex flex-col gap-2 w-full md:w-aut">
                         <x-admin-filter-forms
