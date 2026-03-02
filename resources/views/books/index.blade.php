@@ -88,7 +88,7 @@
                     @foreach($books->bookViews as $book)
                     <div class="rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 shadow-sm p-4 space-y-3">
 
-                        <div class="flex justify-between items-center text-xs text-neutral-500">
+                        <div class="flex justify-between items-center text-xs text-neutral-500 dark:text-neutral-400">
                             <span>#{{ $book->id }}</span>
                             <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-700">
                                 {{ $book->categoryTitle }}
@@ -120,7 +120,7 @@
                         </div>
 
                         @if($isAdmin)
-                        <div class="text-xs text-neutral-500 space-y-1">
+                        <div class="text-xs text-neutral-500 dark:text-neutral-400 space-y-1">
                             <div>登録者: {{ $book->userName }}</div>
                             <div class="{{ $book->trashed ? 'text-red-600' : '' }}">
                                 {{ $book->trashedLabel() }}
