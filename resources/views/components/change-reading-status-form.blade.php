@@ -3,7 +3,7 @@
     @method('patch')
     <select
         name="reading_status"
-        class="w-full min-h-[44px] px-3 rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+        class="w-full min-h-[44px] px-3 rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 dark:text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
         x-on:change="$el.form.submit()"
     >
         @foreach ($statuses as $status)
