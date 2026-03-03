@@ -63,6 +63,7 @@ final class BookViewAssembler
             $canRestore,
             $canForceDelete,
             $record->trashed,
+            isset($record->categoryDeleted_at),
             $this->judgeActionType($trashed, $canDelete, $canRestore)
         );
     }
