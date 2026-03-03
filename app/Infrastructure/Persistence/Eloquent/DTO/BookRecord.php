@@ -21,7 +21,8 @@ final class BookRecord
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
         public readonly BookReadingStatus $readingStatus,
-        public readonly bool $trashed
+        public readonly bool $trashed,
+        public readonly ?string $categoryDeleted_at
     ) {}
 
         
@@ -76,12 +77,11 @@ final class BookRecord
             $book->title,
             $book->user_id,
             $book->user_name,
-            is_null($book->category_id)
-                ? null
-                : $book->category_id,
+            $book->category_id,
             $book->category_title ?? '',
             $book->reading_status,
-            $book->trashed()
+            $book->trashed(),
+            $book->category_deleted_at
         );
     }
 
