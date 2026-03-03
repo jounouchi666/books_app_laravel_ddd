@@ -4,12 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
-    
+
     return {
         server: {
             host: '0.0.0.0',
             hmr: {
-                host: env.VITE_HMT_HOST || 'localhost',
+                host: env.VITE_HMR_HOST || 'localhost',
                 clientPort: 5173,
             },
             cors: true, 
@@ -21,5 +21,5 @@ export default defineConfig(({ mode }) => {
             }),
             tailwindcss(),
         ],
-    }
+    };
 });
