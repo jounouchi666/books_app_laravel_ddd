@@ -26,6 +26,7 @@ final class BookView
         public readonly bool $canRestore,
         public readonly bool $canForceDelete,
         public readonly bool $trashed,
+        public readonly bool $categoryTrashed,
         public readonly TrashActionType $actionType
     ) {}
     
@@ -37,5 +38,16 @@ final class BookView
     public function trashedLabel(): string
     {
         return $this->trashed ? '削除済み': '';
+    }
+    
+    /**
+     * カテゴリーラベル
+     * 削除されていると削除済みの文字列を返す
+     *
+     * @return string
+     */
+    public function categoryLabel(): string
+    {
+        return $this->categoryTrashed ? '削除されたカテゴリー' : $this->categoryTitle;
     }
 }
