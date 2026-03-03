@@ -91,7 +91,7 @@
                         <div class="flex justify-between items-center text-xs text-neutral-500 dark:text-neutral-400">
                             <span>#{{ $book->id }}</span>
                             <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-700">
-                                {{ $book->categoryTitle }}
+                                {{ $book->categoryLabel() }}
                             </span>
                         </div>
 
@@ -192,7 +192,7 @@
                                                 </svg>
                                             </x-anker>
                                         </td>
-                                        <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryTitle }}</td>
+                                        <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryLabel() }}</td>
                                         <td class="p-2 text-gray-800 dark:text-gray-200">
                                             @if($book->canUpdate)
                                             <x-change-reading-status-form
