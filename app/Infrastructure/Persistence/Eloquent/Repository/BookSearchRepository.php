@@ -96,16 +96,7 @@ class BookSearchRepository implements BookSearchRepositoryInterface
 
         if (is_null($model)) return null;
 
-        return new BookRecord(
-              $model->id,
-              $model->title,
-              $model->user_id,
-              $model->user_name,
-              $model->category_id,
-              $model->category_title ?? '',
-              $model->reading_status,
-              $model->trashed()
-        );
+        return BookRecord::fromModel($model);
     }
 
     /**
@@ -146,7 +137,8 @@ class BookSearchRepository implements BookSearchRepositoryInterface
             'books.category_id',
             'categories.title as category_title',
             'books.reading_status',
-            'books.deleted_at'
+            'books.deleted_at',
+            'categories.deleted_at as category_deleted_at'
         );
     }
 
