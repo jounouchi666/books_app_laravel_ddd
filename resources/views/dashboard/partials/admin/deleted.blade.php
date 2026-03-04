@@ -7,12 +7,12 @@
 
     <dl class="mt-4 space-y-3">
         <div class="flex justify-between">
-            <dt class="text-sm text-neutral-600">書籍</dt>
+            <dt class="text-sm text-gray-800 dark:text-gray-200">書籍</dt>
             <dd class="font-semibold text-red-600">20</dd>
         </div>
 
         <div class="flex justify-between">
-            <dt class="text-sm text-neutral-600">カテゴリー</dt>
+            <dt class="text-sm text-gray-800 dark:text-gray-200">カテゴリー</dt>
             <dd class="font-semibold text-red-600">10</dd>
         </div>
     </dl>
