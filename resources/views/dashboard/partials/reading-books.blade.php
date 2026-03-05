@@ -6,38 +6,20 @@
     </header>
 
     <ul class="mt-4 divide-y divite-neutral-200 dark:divide-neutral-700">
+        @forelse ($dashboard->readingBooks as $book)
         <li class="py-3 flex justify-between items-center">
             <span class="text-sm text-gray-800 dark:text-gray-200">
-                DDD入門
+                {{ $book->title }}
             </span>
             <x-anker
-                href="#"
+                href="{{ route('books.show', ['id' => $book->id]) }}"
                 class="text-xs text-teal-600 dark:text-teal-500"
             >
                 詳細
             </x-anker>
         </li>
-        <li class="py-3 flex justify-between items-center">
-            <span class="text-sm text-gray-800 dark:text-gray-200">
-                Clean Architecture
-            </span>
-            <x-anker
-                href="#"
-                class="text-xs text-teal-600 dark:text-teal-500"
-            >
-                詳細
-            </x-anker>
-        </li>
-        <li class="py-3 flex justify-between items-center">
-            <span class="text-sm text-gray-800 dark:text-gray-200">
-                Go入門
-            </span>
-            <x-anker
-                href="#"
-                class="text-xs text-teal-600 dark:text-teal-500"
-            >
-                詳細
-            </x-anker>
-        </li>
+        @empty
+        <p class="text-sm text-gray-800 dark:text-gray-200">読書中の本はありません</p>
+        @endforelse
     </ul>
 </section>
