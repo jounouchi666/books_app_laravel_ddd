@@ -13,6 +13,7 @@ class ChangeReadingStatusForm extends Component
     public int $bookId;
     public BookReadingStatus $selected;
     public array $statuses;
+    public string $width;
 
     /**
      * Create a new component instance.
@@ -20,13 +21,15 @@ class ChangeReadingStatusForm extends Component
     public function __construct(
         string $route,
         int $bookId,
-        BookReadingStatus $selected
+        BookReadingStatus $selected,
+        ?string $width = null
     )
     {
         $this->route = $route;
         $this->bookId = $bookId;
         $this->selected = $this->judgeSelected($selected);
         $this->statuses = BookReadingStatus::cases();
+        $this->width = 'w-' . ($width ?? 'auto');
     }
     
     /**
