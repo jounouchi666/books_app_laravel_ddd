@@ -11,14 +11,14 @@
             <x-flush-messages class="md:mb-4 mb-5" />
             
             <dl class="text-lg text-gray-800 dark:text-gray-200 flex flex-wrap max-w-xl">
-                <dd class="font-medium w-1/4">タイトル</dd>
-                <dt class="w-3/4">{{ $book->title }}</dt>
+                <dt class="font-medium w-1/4">タイトル</dt>
+                <dd class="w-3/4">{{ $book->title }}</dd>
 
-                <dd class="font-medium w-1/4">カテゴリ</dd>
-                <dt class="w-3/4">{{ $book->categoryTitle }}</dt>
+                <dt class="font-medium w-1/4">カテゴリ</dt>
+                <dd class="w-3/4">{{ $book->categoryTitle }}</dd>
 
-                <dd class="font-medium w-1/4">登録者</dd>
-                <dt class="w-3/4">{{ $book->userName }}</dt>
+                <dt class="font-medium w-1/4">登録者</dt>
+                <dd class="w-3/4">{{ $book->userName }}</dd>
             </dl>
 
             <div class="mt-6 flex gap-2">
