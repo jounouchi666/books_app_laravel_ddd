@@ -94,6 +94,10 @@ class DashboardQueryService implements DashboardQueryServiceInterface
     
     /**
      * カテゴリー別の冊数を取得
+     * 
+     * 以下はNULLとして取得する
+     * ・カテゴリーが未設定
+     * ・カテゴリーが論理削除済み
      *
      * @param  ?int $userId
      * @return Collection
@@ -101,12 +105,19 @@ class DashboardQueryService implements DashboardQueryServiceInterface
     private function getCategoryStats(?int $userId = null): Collection
     {
         return Book::query()
-            ->join('categories', 'categories.id', '=', 'books.category_id')
+            ->leftJoin('categories', function ($join) {
+                $join->on('categories.id', '=', 'books.category_id')
+                    ->whereNull('categories.deleted_at');
+            })
             ->whereNull('books.deleted_at')
-            ->whereNull('categories.deleted_at')
             ->when(!is_null($userId), fn($q) => $q->where('books.user_id', $userId))
+            ->selectRaw('
+                categories.id as id,
+                categories.title as title,
+                COUNT(*) as books_count
+            ')
             ->groupBy('categories.id', 'categories.title')
-            ->selectRaw('categories.id as id, categories.title as title, COUNT(*) as books_count')
+            ->orderByRaw('categories.id IS NULL ASC, categories.id ASC')
             ->get();
     }
 }
