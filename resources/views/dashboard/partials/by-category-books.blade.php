@@ -8,7 +8,7 @@
     <dl class="mt-4 space-y-3">
         @forelse ($dashboard->byCategoryBooks as $category)
         <div class="flex justify-between items-center">
-            <dt class="text-sm text-gray-800 dark:text-gray-200">{{ $category->title }}</dt>
+            <dt class="text-sm text-gray-800 dark:text-gray-200">{{ $category->label() }}</dt>
             <dd class="text-base font-semibold text-neutral-900 dark:text-neutral-100">{{ $category->count }}</dd>
         </div>
         @empty
