@@ -23,9 +23,11 @@
             </div>
 
             @if ($isAdmin)
-            <x-dashboard-panel>
-                @include('dashboard.partials.admin.deleted')
-            </x-dashboard-panel>
+            <div class="grid gap-6 md:grid-cols-2">
+                <x-dashboard-panel>
+                    @include('dashboard.partials.admin.deleted')
+                </x-dashboard-panel>
+            </div>
             @endif
             
         </div>
