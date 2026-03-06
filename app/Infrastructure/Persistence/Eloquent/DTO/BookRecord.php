@@ -22,6 +22,8 @@ final class BookRecord
         public readonly string $categoryTitle,
         public readonly BookReadingStatus $readingStatus,
         public readonly bool $trashed,
+        public readonly string $updated_at,
+        public readonly string $created_at,
         public readonly ?string $categoryDeleted_at
     ) {}
 
@@ -81,6 +83,8 @@ final class BookRecord
             $book->category_title ?? '',
             $book->reading_status,
             $book->trashed(),
+            $book->updated_at,
+            $book->created_at,
             $book->category_deleted_at
         );
     }

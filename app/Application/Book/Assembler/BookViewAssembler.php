@@ -58,6 +58,8 @@ final class BookViewAssembler
             $record->categoryId,
             $record->categoryTitle,
             $record->readingStatus,
+            $record->updated_at,
+            $record->created_at,
             $canUpdate,
             $canDelete,
             $canRestore,

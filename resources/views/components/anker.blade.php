@@ -6,7 +6,7 @@
 @if ($disabled)
 <span
     {{ $attributes->merge([
-        'class' => 'group flex items-center gap-1 text-base font-semibold text-neutral-900 dark:text-neutral-100 line-through text-red-600'
+        'class' => 'group inline-flex items-center gap-1 text-neutral-900 dark:text-neutral-100 line-through text-red-600'
     ]) }}
 >
     {{ $slot }}
@@ -15,7 +15,7 @@
 <a
     href="{{ $href }}"
     {{ $attributes->merge([
-        'class' => 'group flex items-center gap-1 text-base font-semibold text-neutral-900 dark:text-neutral-100 hover:text-teal-600 transition'
+        'class' => 'group inline-flex items-center gap-1 text-neutral-900 dark:text-neutral-100 hover:text-teal-600 transition'
     ]) }}
 >
     {{ $slot }}

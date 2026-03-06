@@ -4,6 +4,7 @@ namespace App\Application\Book\DTO;
 
 use App\Application\UI\DTO\TrashActionType;
 use App\Domain\Book\ValueObject\BookReadingStatus;
+use DateTimeImmutable;
 
 /**
  * DTO
@@ -21,6 +22,8 @@ final class BookView
         public readonly ?int $categoryId,
         public readonly string $categoryTitle,
         public readonly BookReadingStatus $readingStatus,
+        public readonly string $updated_at,
+        public readonly string $created_at,
         public readonly bool $canUpdate,
         public readonly bool $canDelete,
         public readonly bool $canRestore,
@@ -49,5 +52,31 @@ final class BookView
     public function categoryLabel(): string
     {
         return $this->categoryTrashed ? '削除されたカテゴリー' : $this->categoryTitle;
+    }
+ 
+    /**
+     * 更新日時
+     *
+     * @return string
+     */
+    public function updated_at(): string
+    {
+        return $this->formatToSlash($this->updated_at);
+    }
+
+    /**
+     * 登録日時
+     *
+     * @return string
+     */
+    public function created_at(): string
+    {
+        return $this->formatToSlash($this->created_at);
+    }
+
+    private function formatToSlash(string $dateTimeString): string
+    {
+        $date = new DateTimeImmutable($dateTimeString);
+        return $date->format('Y/m/d H:i');
     }
 }

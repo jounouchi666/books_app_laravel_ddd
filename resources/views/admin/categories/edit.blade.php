@@ -12,6 +12,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <x-main-content-panel>
+
+                <x-back-link class="mb-6" href="{{ route('admin.categories.list') }}">一覧に戻る</x-back-link>
+
                 <form
                     action="{{ $mode === 'create' ? route('admin.categories.store') : route('admin.categories.update', ['id' => $category->id]) }}"
                     method="POST"
