@@ -7,6 +7,14 @@
 
     <x-main-content-area>
         <x-main-content-panel>
+
+            <x-back-link
+                class="mb-6"
+                href="{{ $mode === 'create' ? route('books.index') : route('books.show', ['id' => $book->id]) }}"
+            >
+                {{ $mode === 'create' ? '一覧' : 詳細画面 }}に戻る
+            </x-back-link>
+
             <form
                 action="{{ $mode === 'create' ? route('books.store') : route('books.update', ['id' => $book->id]) }}"
                 method="POST"
