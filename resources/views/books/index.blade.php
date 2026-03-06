@@ -96,8 +96,9 @@
                         </div>
 
                         <x-anker
+                            class="text-base font-semibold"
                             :href="route('books.show', ['id' => $book->id])"
-                            :disabled="$book->trashed"   
+                            :disabled="$book->trashed" 
                         >
                             <span>{{ $book->title }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right">
@@ -111,10 +112,11 @@
                                     route="books.reading_status"
                                     :bookId="$book->id"
                                     :selected="$book->readingStatus"
+                                    width="full"
                                 />
                             @else
                                 <span class="text-neutral-600 dark:text-neutral-400">
-                                    {{ $book->readingStatus }}
+                                    {{ $book->readingStatus->label() }}
                                 </span>
                             @endif
                         </div>
@@ -187,7 +189,7 @@
                                                 :disabled="$book->trashed"   
                                             >
                                                 <span>{{ $book->title }}</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right">
                                                     <path d="m9 18 6-6-6-6"/>
                                                 </svg>
                                             </x-anker>
@@ -200,6 +202,8 @@
                                                 :bookId="$book->id"
                                                 :selected="$book->readingStatus"
                                             />
+                                            @else
+                                            <span>{{ $book->readingStatus->label() }}</span>
                                             @endif
                                         </td>
                                         @if($isAdmin)
