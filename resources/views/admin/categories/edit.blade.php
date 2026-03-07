@@ -31,10 +31,11 @@
                             type="text"
                             name="title"
                             :value="old('title', $category->title)"
+                            minlength="2"
                             maxlength="100"
                             required
                         />
-                        <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('title')" class="mt-1" />
                     </div>
                     
                     <x-primary-button class="mt-8 w-48">
