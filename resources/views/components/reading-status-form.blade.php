@@ -2,7 +2,6 @@
     action="{{ route($route) }}"
     method="get"
     x-data='@json(["checked" => $selectedReadingStatus ?? "all"])'
-    class="flex items-center"
 >
     @csrf
     <x-form-query-input :params="$currentQueries" />
@@ -119,4 +118,9 @@
         </label>
 
     </div>
+
+    <div class="mt-1">
+        <x-input-error :messages="$errors->get('reading_status')" class="mt-1" />
+    </div>
+
 </form>
