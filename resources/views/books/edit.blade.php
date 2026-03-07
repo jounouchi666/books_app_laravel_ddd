@@ -12,7 +12,7 @@
                 class="mb-6"
                 href="{{ $mode === 'create' ? route('books.index') : route('books.show', ['id' => $book->id]) }}"
             >
-                {{ $mode === 'create' ? '一覧' : 詳細画面 }}に戻る
+                {{ $mode === 'create' ? '一覧' : '詳細画面' }}に戻る
             </x-back-link>
 
             <form
