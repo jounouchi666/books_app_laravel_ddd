@@ -39,10 +39,12 @@
                 </div>
 
                 <div class="lg:col-span-1 space-y-4 border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 pt-6 lg:pt-0 lg:pl-8">
+                    @if ($isAdmin)
                     <div>
                         <p class="text-sm text-gray-500 dark:text-gray-400">登録者</p>
                         <p class="text-gray-800 dark:text-gray-200">{{ $book->userName }}</p>
                     </div>
+                    @endif
                     <div>
                         <p class="text-sm text-gray-500 dark:text-gray-400">作成日時</p>
                         <p class="text-gray-800 dark:text-gray-200 text-sm">{{ $book->created_at() }}</p>
