@@ -46,6 +46,7 @@ class BookSearchRequest extends FormRequest
     {
         return [
             'user_id.integer'     => '正規のユーザーを入力してください',
+            'user_id.min'         => '正規のユーザーを入力してください',
             'all_users.boolean'   => '作成者の指定が不正です',
             'category_id.integer' => '正規のカテゴリーを入力してください',
             'reading_status.enum' => '読書状況が有効ではありません',
