@@ -41,6 +41,16 @@ class ChangeBookReadingStatusRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation(): void
+    {
+        // エラーバッグにID付きの名称を付与
+        $id = $this->route('id');
+
+        if ($id) {
+            $this->errorBag = 'update_status_' . $id;
+        }
+    }
+
     /**
      * 保存用DTOを生成
      *
