@@ -119,8 +119,6 @@
 
     </div>
 
-    <div class="mt-1">
-        <x-input-error :messages="$errors->get('reading_status')" class="mt-1" />
-    </div>
-
+    <x-input-error :messages="$errors->get('reading_status')" class="mt-1" />
+    
 </form>

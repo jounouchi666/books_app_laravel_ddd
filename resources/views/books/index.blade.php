@@ -114,6 +114,10 @@
                                     :selected="$book->readingStatus"
                                     width="full"
                                 />
+                                <x-input-error
+                                    :messages="$errors->{'update_status_' . $book->id}->get('reading_status')"
+                                    class="mt-1"
+                                />
                             @else
                                 <span class="text-neutral-600 dark:text-neutral-400">
                                     {{ $book->readingStatus->label() }}
@@ -197,11 +201,14 @@
                                         <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->categoryLabel() }}</td>
                                         <td class="p-2 text-gray-800 dark:text-gray-200">
                                             @if($book->canUpdate)
-                                            <x-change-reading-status-form
-                                                route="books.reading_status"
-                                                :bookId="$book->id"
-                                                :selected="$book->readingStatus"
-                                            />
+                                            <div class="flex items-center gap-2">
+                                                <x-change-reading-status-form
+                                                    route="books.reading_status"
+                                                    :bookId="$book->id"
+                                                    :selected="$book->readingStatus"
+                                                />
+                                                <x-popover-input-error :messages="$errors->{'update_status_' . $book->id}->get('reading_status')" /> 
+                                            </div>
                                             @else
                                             <span>{{ $book->readingStatus->label() }}</span>
                                             @endif
