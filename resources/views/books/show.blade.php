@@ -29,6 +29,7 @@
                                     :bookId="$book->id"
                                     :selected="$book->readingStatus"
                                 />
+                                <x-input-error :messages="$errors->{'update_status_' . $book->id}->get('reading_status')" class="mt-1" />
                             @else
                                 <span class="text-neutral-600 dark:text-neutral-400">
                                     {{ $book->readingStatus->label() }}
