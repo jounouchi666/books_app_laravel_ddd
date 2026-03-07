@@ -47,8 +47,6 @@
 
     </div>
 
-    <div class="mt-1">
-        <x-input-error :messages="$errors->get('sort')" />
-        <x-input-error :messages="$errors->get('direction')" />
-    </div>
+    <x-input-error :messages="$errors->get('sort')" class="mt-1" />
+    <x-input-error :messages="$errors->get('direction')" />
 </form>
