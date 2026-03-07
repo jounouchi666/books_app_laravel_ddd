@@ -35,8 +35,9 @@ class CategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.min' => 'タイトルは2文字以上で入力してください',
-            'title.max' => 'タイトルは100文字以内で入力してください'
+            'title.required' => 'タイトルの入力は必須です',
+            'title.min'      => 'タイトルは2文字以上で入力してください',
+            'title.max'      => 'タイトルは100文字以内で入力してください'
         ];
     }
 
