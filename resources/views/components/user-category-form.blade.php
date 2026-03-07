@@ -89,8 +89,7 @@
 
     </div>
 
-    <div class="mt-1">
-        <x-input-error :messages="$errors->get('all_users')" />
-        <x-input-error :messages="$errors->get('user_id')" />
-    </div>
+    <x-input-error :messages="$errors->get('all_users')" class="mt-1" />
+    <x-input-error :messages="$errors->get('user_id')" />
+    
 </form>
