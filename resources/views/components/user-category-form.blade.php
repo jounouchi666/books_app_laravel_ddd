@@ -2,7 +2,6 @@
     action="{{ route($route) }}"
     method="get"
     x-data='@json(["allUsers" => $allUsers])'
-    class="flex items-center gap-2"
 >
     @csrf
     <x-form-query-input :params="$currentQueries" />
@@ -88,5 +87,10 @@
             </select>
         </div>
 
+    </div>
+
+    <div class="mt-1">
+        <x-input-error :messages="$errors->get('all_users')" />
+        <x-input-error :messages="$errors->get('user_id')" />
     </div>
 </form>
