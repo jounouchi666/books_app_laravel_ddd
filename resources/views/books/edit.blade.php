@@ -31,10 +31,11 @@
                         type="text"
                         name="title"
                         :value="old('title', $book->title)"
+                        minlength="2"
                         maxlength="100"
                         required
                     />
-                    <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('title')" class="mt-1" />
                 </div>
 
                 <div class="mt-4 w-full flex flex-col gap-2">
@@ -47,7 +48,7 @@
                     >
                         <option value="">カテゴリーを選択してください</option>
                     </x-select-input>
-                    <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('category_id')" class="mt-1" />
                 </div>
                 
                 <x-primary-button class="mt-8 w-48">

@@ -40,6 +40,7 @@ class BookRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'title.required'      => 'タイトルの入力は必須です',
             'title.min'           => 'タイトルは2文字以上で入力してください',
             'title.max'           => 'タイトルは100文字以内で入力してください',
             'category_id.integer' => '正規のカテゴリーを入力してください',
