@@ -2,7 +2,6 @@
     action="{{ route($route) }}"
     method="get"
     x-data='@json(["checked" => $selectedTrashType])'
-    class="flex items-center"
 >
     @csrf
     <x-form-query-input :params="$currentQueries" />
@@ -91,5 +90,9 @@
             </span>
         </label>
 
+    </div>
+
+    <div class="mt-1">
+        <x-input-error :messages="$errors->get('trash_type')" class="mt-1" />
     </div>
 </form>
