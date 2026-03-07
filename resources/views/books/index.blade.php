@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="flex items-center gap-4">
                     @if ($books->canCreate)
                     <x-primary-link-button
                         class="rounded-md"
@@ -57,6 +57,12 @@
                     >
                         ＋ 新規登録
                     </x-primary-link-button>
+                    @endif
+
+                    @if ($isAdmin)
+                    <x-anker :href="route('admin.categories.list')" class="underline">
+                        カテゴリー編集
+                    </x-anker>
                     @endif
                 </div>
             </div>
