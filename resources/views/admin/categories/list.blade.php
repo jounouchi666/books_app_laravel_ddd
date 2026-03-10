@@ -68,62 +68,76 @@
                     title = $event.detail.title
                 "
             >
-                <table class="mt-2 w-full table-auto border-collapse border border-neutral-200">
+                <table class="mt-2 w-full table-auto border-collapse border border-neutral-300 dark:border-neutral-500">
                     <thead>
-                        <tr>
-                            <th class="bg-neutral-600 p-2 text-white text-left">ID</th>
-                            <th class="bg-neutral-600 p-2 text-white text-left">タイトル</th>
-                            <th class="w-[6em] bg-neutral-600 p-2 text-white text-left">削除状態</th>
-                            <th class="w-[4em] bg-neutral-600 p-2 text-white text-left">編集</th>
-                            <th class="w-[4em] bg-neutral-600 p-2 text-white text-left">削除</th>
+                        <tr class="dark:border dark:border-neutral-500">
+                            <th class="bg-neutral-600 dark:bg-neutral-800/50 p-3 text-white dark:text-neutral-300 text-left font-semibold border-b border-neutral-300 dark:border-neutral-500">
+                                ID
+                            </th>
+                            <th class="bg-neutral-600 dark:bg-neutral-800/50 p-3 text-white dark:text-neutral-300 text-left font-semibold border-b border-neutral-300 dark:border-neutral-500">
+                                タイトル
+                            </th>
+                            <th class="w-[6em] bg-neutral-600 dark:bg-neutral-800/50 p-3 text-white dark:text-neutral-300 text-left font-semibold border-b border-neutral-300 dark:border-neutral-500">
+                                削除状態
+                            </th>
+                            <th class="w-[4em] bg-neutral-600 dark:bg-neutral-800/50 p-3 text-white dark:text-neutral-300 text-left font-semibold border-b border-neutral-300 dark:border-neutral-500">
+                                編集
+                            </th>
+                            <th class="w-[4em] bg-neutral-600 dark:bg-neutral-800/50 p-3 text-white dark:text-neutral-300 text-left font-semibold border-b border-neutral-300 dark:border-neutral-500">
+                                削除
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!empty($categories->categoryViews))
-                            @foreach($categories->categoryViews as $category)
-                                <tr class="border border-neutral-200">
-                                    <td class="p-2 text-gray-800 dark:text-gray-200">{{ $category->id }}</td>
-                                    <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        <span class="{{ $category->trashed ? 'line-through text-red-600' : '' }}">{{ $category->title }}</span>
-                                    </td>
-                                    <td class="p-2 text-gray-800 dark:text-gray-200 {{ $category->trashed ? 'text-red-600' : '' }}">
-                                        {{ $category->trashed ? '削除済' : '' }}
-                                    </td>
-                                    <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if ($category->canUpdate)
-                                        <div class="flex justify-start">
-                                            <x-edit-icon-link href="{{ route('admin.categories.edit', ['id' => $category->id]) }}" />
-                                        </div>
-                                        @endif
-                                    </td>
-                                    <td class="p-2 text-gray-800 dark:text-gray-200">
-                                        @if ($category->actionType === App\Application\UI\DTO\TrashActionType::Delete)
-                                        <div class="flex justify-start">
-                                            <x-delete-icon-button
-                                                :title="$category->title"
-                                                :action="route('admin.categories.delete', [
-                                                    'id' => $category->id,
-                                                    ...$categories->categoryUIQuery->toQueryArray()
-                                                ])"
-                                                event="open-category-delete-modal"
-                                            />
-                                        </div>
-                                        @elseif ($category->actionType === App\Application\UI\DTO\TrashActionType::Restore)
-                                        <div class="flex justify-start">
-                                            <x-restore-icon-button
-                                                :title="$category->title"
-                                                :action="route('admin.categories.restore', [
-                                                    'id' => $category->id,
-                                                    ...$categories->categoryUIQuery->toQueryArray()
-                                                ])"
-                                                event="open-category-restore-modal"
-                                            />
-                                        </div>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
+                        @forelse($categories->categoryViews as $category)
+                        <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors border-b border-neutral-200 dark:border-neutral-700 {{ $category->trashed ? 'opacity-60 grayscale-[0.5]' : '' }}">
+                            <td class="p-2 text-gray-800 dark:text-gray-200">{{ $category->id }}</td>
+                            <td class="p-2 text-gray-800 dark:text-gray-200">
+                                <span class="{{ $category->trashed ? 'line-through text-red-600' : '' }}">{{ $category->title }}</span>
+                            </td>
+                            <td class="p-2 text-gray-800 dark:text-gray-200 {{ $category->trashed ? 'text-red-600' : '' }}">
+                                {{ $category->trashed ? '削除済' : '' }}
+                            </td>
+                            <td class="p-2 text-gray-800 dark:text-gray-200">
+                                @if ($category->canUpdate)
+                                <div class="flex justify-start">
+                                    <x-edit-icon-link href="{{ route('admin.categories.edit', ['id' => $category->id]) }}" />
+                                </div>
+                                @endif
+                            </td>
+                            <td class="p-2 text-gray-800 dark:text-gray-200">
+                                @if ($category->actionType === App\Application\UI\DTO\TrashActionType::Delete)
+                                <div class="flex justify-start">
+                                    <x-delete-icon-button
+                                        :title="$category->title"
+                                        :action="route('admin.categories.delete', [
+                                            'id' => $category->id,
+                                            ...$categories->categoryUIQuery->toQueryArray()
+                                        ])"
+                                        event="open-category-delete-modal"
+                                    />
+                                </div>
+                                @elseif ($category->actionType === App\Application\UI\DTO\TrashActionType::Restore)
+                                <div class="flex justify-start">
+                                    <x-restore-icon-button
+                                        :title="$category->title"
+                                        :action="route('admin.categories.restore', [
+                                            'id' => $category->id,
+                                            ...$categories->categoryUIQuery->toQueryArray()
+                                        ])"
+                                        event="open-category-restore-modal"
+                                    />
+                                </div>
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="{{ $isAdmin ? 8 : 6 }}" class="p-8 text-center text-gray-500">
+                                表示できるカテゴリーがありません。
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
 
