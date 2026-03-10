@@ -57,7 +57,7 @@
         </ul>
     </nav>
 
-    <div class="text-center text-sm mt-2">
+    <div class="text-center text-sm mt-2 dark:text-gray-300">
         {{ $paginateView->total }}件中 {{ $displayPerTotalStart }} - {{ $displayPerTotalEnd }} 件を表示
     </div>
 </div>
