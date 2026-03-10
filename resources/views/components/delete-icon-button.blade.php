@@ -5,7 +5,7 @@
 ])
 
 <button
-    class="dark:text-gray-300 hover:cursor-pointer hover:text-neutral-500 transition-colors"
+    class="text-gray-800 dark:text-gray-300 hover:cursor-pointer hover:shadow-xs hover:text-neutral-500 p-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 transition-colors select-none"
     type="button"
     x-on:click="
         $dispatch('{{ $event }}', {
