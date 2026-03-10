@@ -8,12 +8,12 @@
     <dl class="mt-4 space-y-3">
         <div class="flex justify-between">
             <dt class="text-sm text-gray-800 dark:text-gray-200">書籍</dt>
-            <dd class="font-semibold text-red-600">{{ $dashboard->trashSummary->booksCount }}</dd>
+            <dd class="font-semibold text-red-600 shrink-0">{{ $dashboard->trashSummary->booksCount }}</dd>
         </div>
 
         <div class="flex justify-between">
             <dt class="text-sm text-gray-800 dark:text-gray-200">カテゴリー</dt>
-            <dd class="font-semibold text-red-600">{{ $dashboard->trashSummary->categoriesCount }}</dd>
+            <dd class="font-semibold text-red-600 shrink-0">{{ $dashboard->trashSummary->categoriesCount }}</dd>
         </div>
     </dl>
 </section>
