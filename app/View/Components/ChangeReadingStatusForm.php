@@ -14,6 +14,7 @@ class ChangeReadingStatusForm extends Component
     public BookReadingStatus $selected;
     public array $statuses;
     public string $width;
+    public bool $disabled;
 
     /**
      * Create a new component instance.
@@ -22,7 +23,8 @@ class ChangeReadingStatusForm extends Component
         string $route,
         int $bookId,
         BookReadingStatus $selected,
-        ?string $width = null
+        ?string $width = null,
+        bool $disabled = false
     )
     {
         $this->route = $route;
@@ -30,6 +32,7 @@ class ChangeReadingStatusForm extends Component
         $this->selected = $this->judgeSelected($selected);
         $this->statuses = BookReadingStatus::cases();
         $this->width = 'w-' . ($width ?? 'auto');
+        $this->disabled = $disabled ?? false;
     }
     
     /**
