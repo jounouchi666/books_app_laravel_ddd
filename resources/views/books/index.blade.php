@@ -39,10 +39,11 @@
                                 route="books.index"
                                 :query="$books->bookUIQuery"
                                 :sorts="[
-                                    'created_at'  => '登録日',
+                                    'id'          => 'ID',
                                     'title'       => 'タイトル',
                                     'user_id'     => '登録者',
-                                    'category_id' => 'カテゴリー'
+                                    'category_id' => 'カテゴリー',
+                                    'created_at'  => '登録日'
                                 ]"
                             />
                         </div>
@@ -96,7 +97,7 @@
 
                         <div class="flex justify-between items-center text-xs text-neutral-500 dark:text-neutral-400">
                             <span>#{{ $book->id }}</span>
-                            <x-category-badge>
+                            <x-category-badge class="min-w-0 max-w-64 truncate">
                                 {{ $book->categoryLabel() }}
                             </x-category-badge>
                         </div>
@@ -118,6 +119,7 @@
                                     route="books.reading_status"
                                     :bookId="$book->id"
                                     :selected="$book->readingStatus"
+                                    :disabled="$book->trashed"
                                     width="full"
                                 />
                                 <x-input-error
@@ -134,7 +136,7 @@
                         @if($isAdmin)
                         <div class="text-xs text-neutral-500 dark:text-neutral-400 space-y-1">
                             <div>登録者: {{ $book->userName }}</div>
-                            <div class="{{ $book->trashed ? 'text-red-600' : '' }}">
+                            <div class="{{ $book->trashed ? 'text-red-600 dark:text-red-600' : '' }}">
                                 {{ $book->trashedLabel() }}
                             </div>
                         </div>
@@ -208,7 +210,7 @@
                         </thead>
                         <tbody class="border border-neutral-300 dark:border-neutral-500">
                             @forelse($books->bookViews as $book)
-                            <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors border-b border-neutral-200 dark:border-neutral-700 {{ $book->trashed ? 'opacity-60 grayscale-[0.5]' : '' }}">
+                            <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors border-b border-neutral-200 dark:border-neutral-700">
                                 <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->id }}</td>
                                 <td class="p-2 text-gray-800 dark:text-gray-200">
                                     <x-anker
@@ -223,7 +225,7 @@
                                     </x-anker>
                                 </td>
                                 <td class="p-2 text-gray-800 dark:text-gray-200">
-                                    <x-category-badge>
+                                    <x-category-badge class="min-w-0 max-w-40 truncate">
                                         {{ $book->categoryLabel() }}
                                     </x-category-badge>
                                 </td>
@@ -243,8 +245,10 @@
                                     @endif
                                 </td>
                                 @if($isAdmin)
-                                <td class="p-2 text-gray-800 dark:text-gray-200">{{ $book->userName }}</td>
-                                <td class="p-2 text-gray-800 dark:text-gray-200 {{ $book->trashed ? 'text-red-600' : '' }}">
+                                <td class="p-2 text-gray-800 dark:text-gray-200">
+                                    <span class="inline-block min-w-0 max-w-40 truncate">{{ $book->userName }}</span>
+                                </td>
+                                <td class="p-2 {{ $book->trashed ? 'text-red-600 dark:text-red-600' : 'text-gray-800 dark:text-gray-200' }}">
                                     {{ $book->trashedLabel() }}
                                 </td>
                                 @endif
