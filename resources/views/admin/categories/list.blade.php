@@ -34,8 +34,9 @@
                             route="admin.categories.list"
                             :query="$categories->categoryUIQuery"
                             :sorts="[
-                                'created_at' => '作成日',
-                                'title'      => 'タイトル'
+                                'id'         => 'ID',
+                                'title'      => 'タイトル',
+                                'created_at' => '作成日'
                             ]"
                         />
                     </div>
