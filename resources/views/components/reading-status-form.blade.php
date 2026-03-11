@@ -3,7 +3,6 @@
     method="get"
     x-data='@json(["checked" => $selectedReadingStatus ?? "all"])'
 >
-    @csrf
     <x-form-query-input :params="$currentQueries" />
 
     <div class="inline-flex h-10">

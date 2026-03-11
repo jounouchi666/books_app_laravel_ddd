@@ -3,7 +3,6 @@
     method="get"
     x-data='@json(["allUsers" => $allUsers])'
 >
-    @csrf
     <x-form-query-input :params="$currentQueries" />
 
     <div class="flex flex-col items-end gap-4 md:flex-row md:gap-2">
