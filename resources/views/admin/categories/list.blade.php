@@ -91,7 +91,7 @@
                     </thead>
                     <tbody>
                         @forelse($categories->categoryViews as $category)
-                        <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors border-b border-neutral-200 dark:border-neutral-700 {{ $category->trashed ? 'opacity-60 grayscale-[0.5]' : '' }}">
+                        <tr class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors border-b border-neutral-200 dark:border-neutral-700">
                             <td class="p-2 text-gray-800 dark:text-gray-200">{{ $category->id }}</td>
                             <td class="p-2 text-gray-800 dark:text-gray-200">
                                 <span class="{{ $category->trashed ? 'line-through text-red-600' : '' }}">{{ $category->title }}</span>
