@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 class CategorySearchRepository implements CategorySearchRepositoryInterface
 {
     private const SORT_COLUMNS = [
+        'id'         => 'categories.id',
         'title'      => 'categories.title',
         'created_at' => 'categories.created_at'
     ];
