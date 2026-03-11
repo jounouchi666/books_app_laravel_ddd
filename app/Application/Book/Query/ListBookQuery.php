@@ -13,6 +13,7 @@ use App\Domain\Book\ValueObject\BookReadingStatus;
 class ListBookQuery
 {
     private const ALLOWED_SORTS = [
+        'id',
         'title',
         'user_id',
         'category_id',
