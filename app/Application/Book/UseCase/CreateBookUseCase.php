@@ -2,7 +2,9 @@
 
 namespace App\Application\Book\UseCase;
 
+use App\Application\Auth\AuthorizationService;
 use App\Application\Auth\CurrentUserProvider;
+use App\Application\Auth\Permission\BookPermission;
 use App\Application\Book\DTO\SaveBookDto;
 use App\Domain\Book\Entity\Book;
 use App\Domain\Book\Repository\BookRepositoryInterface;
@@ -19,7 +21,8 @@ class CreateBookUseCase
 {
     public function __construct(
         private BookRepositoryInterface $bookRepository,
-        private CurrentUserProvider $currentUserProvider
+        private CurrentUserProvider $currentUserProvider,
+        private AuthorizationService $authorizationService
     ) {}
     
     /**
@@ -31,6 +34,11 @@ class CreateBookUseCase
     function execute(SaveBookDto $book): Book
     {
         $currentUser = $this->currentUserProvider->currentUser();
+
+        // 認可
+        $this->authorizationService->authorize(
+            BookPermission::create()
+        );
 
         $newBook = Book::create(
             new BookTitle($book->title),
