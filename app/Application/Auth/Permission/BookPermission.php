@@ -18,6 +18,16 @@ final class BookPermission extends Permission
     ) {
         parent::__construct($ability, $subject);
     }
+
+    /**
+     * 新規登録権限
+     *
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self('create', Book::class);
+    }
     
     /**
      * 更新権限
