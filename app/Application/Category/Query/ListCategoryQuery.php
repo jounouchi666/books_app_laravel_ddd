@@ -12,12 +12,13 @@ use App\Application\Shared\Enum\TrashType;
 class ListCategoryQuery
 {
     private const ALLOWED_SORTS = [
+        'id',
         'title',
         'created_at'
     ];
 
-    private const SORT_DEFAULT = 'created_at';
-    private const DIRECTION_DEFAULT = SortDirection::Desc;
+    private const SORT_DEFAULT = 'id';
+    private const DIRECTION_DEFAULT = SortDirection::Asc;
     private const TRASH_TYPE_DEFAULT = TrashType::Without;
 
     public readonly string $sort;
