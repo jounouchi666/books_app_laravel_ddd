@@ -26,7 +26,7 @@ class CategorySearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sort'       => ['nullable', 'string', 'in:title,created_at'],
+            'sort'       => ['nullable', 'string', 'in:id,title,created_at'],
             'direction'  => ['nullable', new Enum(SortDirection::class)],
             'trash_type' => ['nullable', new Enum(TrashType::class)]
         ];
