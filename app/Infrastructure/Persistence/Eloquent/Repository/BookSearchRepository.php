@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 class BookSearchRepository implements BookSearchRepositoryInterface
 {
     private const SORT_COLUMNS = [
+        'id'          => 'books.id',
         'title'       => 'books.title',
         'user_id'     => 'books.user_id',
         'category_id' => 'books.category_id',
@@ -52,10 +53,15 @@ class BookSearchRepository implements BookSearchRepositoryInterface
         }
 
         // ソート
+        $sortColumn = self::SORT_COLUMNS[$query->sort];
         $q->orderBy(
-            self::SORT_COLUMNS[$query->sort],
+            $sortColumn,
             $query->direction->value
         );
+        // 値が同じ場合はID順にする
+        if ($sortColumn !== 'books.id') {
+            $q->orderBy('books.id', $query->direction->value);
+        }
 
         // 削除タイプ
         $this->applySoftDeleteFilter($q, $query->trashType);
