@@ -6,7 +6,7 @@
 @if ($disabled)
 <span
     {{ $attributes->merge([
-        'class' => 'group inline-flex items-center gap-1 text-neutral-900 dark:text-neutral-100 line-through text-red-600'
+        'class' => 'group inline-flex items-center gap-1 text-red-600 line-through'
     ]) }}
 >
     {{ $slot }}
