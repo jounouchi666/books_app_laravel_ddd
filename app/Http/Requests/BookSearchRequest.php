@@ -31,7 +31,7 @@ class BookSearchRequest extends FormRequest
             'all_users'      => ['nullable', 'boolean'],
             'category_id'    => ['nullable', 'integer', 'min:1'],
             'reading_status' => ['nullable', new Enum(BookReadingStatus::class)],
-            'sort'           => ['nullable', 'string', 'in:title,user_id,category_id,created_at'],
+            'sort'           => ['nullable', 'string', 'in:id,title,user_id,category_id,created_at'],
             'direction'      => ['nullable', new Enum(SortDirection::class)],
             'trash_type'     => ['nullable', new Enum(TrashType::class)]
         ];
