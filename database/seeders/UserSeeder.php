@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $now = Carbon::now();
+        $oldestDate = '1970/01/02 00:00:00';
 
         User::updateOrInsert(
             ['email' => env('ADMIN_EMAIL', 'admin@example.com')],
@@ -22,8 +21,8 @@ class UserSeeder extends Seeder
             'name' => 'admin',
             'password' => bcrypt(env('ADMIN_PASSWORD', 'password')),
             'is_admin' => true,
-            'created_at' => $now,
-            'updated_at' => $now
+            'created_at' => $oldestDate,
+            'updated_at' => $oldestDate
         ]);
     }
 }
