@@ -226,28 +226,26 @@ Infrastructure (Eloquent / Adapter / Repository Impl)
 
 ## ディレクトリ構造
 
-<details>
-    <summary style="color: #009689;">ツリーを表示</summary>
-
-    app
-    ├── Application
-    │   ├── Book
-    │   ├── Category
-    │   ├── Dashboard
-    │   └── UI
-    ├── Domain
-    │   ├── Book
-    │   ├── Category
-    │   └── User
-    ├── Infrastructure
-    │   ├── Auth
-    │   └── Persistence
-    ├── Http
-    │   ├── Controllers
-    │   └── Requests
-    └── View
-        └── Components
-</details>
+```
+app
+├── Application
+│   ├── Book
+│   ├── Category
+│   ├── Dashboard
+│   └── UI
+├── Domain
+│   ├── Book
+│   ├── Category
+│   └── User
+├── Infrastructure
+│   ├── Auth
+│   └── Persistence
+├── Http
+│   ├── Controllers
+│   └── Requests
+└── View
+    └── Components
+```
 
 ---
 
@@ -357,8 +355,8 @@ Controller-->>View: render
             <tr>
                 <td valign="top">
                     <picture>
-                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/dashboard-dark.png">
-                        <img src="./docs/images/dashboard-light.png" width="450" alt="PC View">
+                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/dashboard-dark_preview.png">
+                        <img src="./docs/images/preview/dashboard-light_preview.png" width="450" alt="PC View">
                     </picture>
                     <br>
                     <small>View Full:
@@ -368,8 +366,8 @@ Controller-->>View: render
                 </td>
                 <td valign="top">
                     <picture>
-                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/dashboard-mobile-dark.png">
-                        <img src="./docs/images/dashboard-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/dashboard-mobile-dark_preview.png">
+                        <img src="./docs/images/preview/dashboard-mobile-light_preview.png" width="215" alt="Mobile View">
                     </picture>
                     <br>
                     <small>View Full:
@@ -399,8 +397,8 @@ Controller-->>View: render
             <tr>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-list-dark.png">
-                    <img src="./docs/images/books-list-light.png" width="450" alt="PC View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-list-dark_preview.png">
+                    <img src="./docs/images/preview/books-list-light_preview.png" width="450" alt="PC View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -410,8 +408,8 @@ Controller-->>View: render
             </td>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-list-mobile-dark.png">
-                    <img src="./docs/images/books-list-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-list-mobile-dark_preview.png">
+                    <img src="./docs/images/preview/books-list-mobile-light_preview.png" width="215" alt="Mobile View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -441,8 +439,8 @@ Controller-->>View: render
             <tr>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-create-dark.png">
-                    <img src="./docs/images/books-create-light.png" width="450" alt="PC View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-create-dark_preview.png">
+                    <img src="./docs/images/preview/books-create-light_preview.png" width="450" alt="PC View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -452,8 +450,8 @@ Controller-->>View: render
             </td>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-create-mobile-dark.png">
-                    <img src="./docs/images/books-create-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-create-mobile-dark_preview.png">
+                    <img src="./docs/images/preview/books-create-mobile-light_preview.png" width="215" alt="Mobile View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -483,8 +481,8 @@ Controller-->>View: render
             <tr>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-show-dark.png">
-                    <img src="./docs/images/books-show-light.png" width="450" alt="PC View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-show-dark_preview.png">
+                    <img src="./docs/images/preview/books-show-light_preview.png" width="450" alt="PC View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -494,8 +492,8 @@ Controller-->>View: render
             </td>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-show-mobile-dark.png">
-                    <img src="./docs/images/books-show-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-show-mobile-dark_preview.png">
+                    <img src="./docs/images/preview/books-show-mobile-light_preview.png" width="215" alt="Mobile View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -531,8 +529,8 @@ Controller-->>View: render
             <tr>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/categories-list-dark.png">
-                    <img src="./docs/images/categories-list-light.png" width="450" alt="PC View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/categories-list-dark_preview.png">
+                    <img src="./docs/images/preview/categories-list-light_preview.png" width="450" alt="PC View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -542,8 +540,8 @@ Controller-->>View: render
             </td>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/categories-list-mobile-dark.png">
-                    <img src="./docs/images/categories-list-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/categories-list-mobile-dark_preview.png">
+                    <img src="./docs/images/preview/categories-list-mobile-light_preview.png" width="215" alt="Mobile View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -574,8 +572,8 @@ Controller-->>View: render
             <tr>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-admin-dark.png">
-                    <img src="./docs/images/books-admin-light.png" width="450" alt="PC View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-admin-dark_preview.png">
+                    <img src="./docs/images/preview/books-admin-light_preview.png" width="450" alt="PC View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -585,8 +583,8 @@ Controller-->>View: render
             </td>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-admin-mobile-dark.png">
-                    <img src="./docs/images/books-admin-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-admin-mobile-dark_preview.png">
+                    <img src="./docs/images/preview/books-admin-mobile-light_preview.png" width="215" alt="Mobile View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -616,8 +614,8 @@ Soft Deleteされた書籍を確認し、必要に応じて復元できます。
             <tr>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-restore-dark.png">
-                    <img src="./docs/images/books-restore-light.png" width="450" alt="PC View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-restore-dark_preview.png">
+                    <img src="./docs/images/preview/books-restore-light_preview.png" width="450" alt="PC View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -627,8 +625,8 @@ Soft Deleteされた書籍を確認し、必要に応じて復元できます。
             </td>
             <td valign="top">
                 <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/books-restore-mobile-dark.png">
-                    <img src="./docs/images/books-restore-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: top;" alt="Mobile View">
+                    <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/books-restore-mobile-dark_preview.png">
+                    <img src="./docs/images/preview/books-restore-mobile-light_preview.png" width="215" alt="Mobile View">
                 </picture>
                 <br>
                 <small>View Full:
@@ -656,8 +654,8 @@ Soft Deleteされた書籍を確認し、必要に応じて復元できます。
             <tr>
                 <td valign="top">
                     <picture>
-                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/dashboard-deleted-dark.png">
-                        <img src="./docs/images/dashboard-deleted-light.png" width="450" alt="PC View">
+                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/dashboard-deleted-dark_preview.png">
+                        <img src="./docs/images/preview/dashboard-deleted-light_preview.png" width="450" alt="PC View">
                     </picture>
                     <br>
                     <small>View Full:
@@ -667,8 +665,8 @@ Soft Deleteされた書籍を確認し、必要に応じて復元できます。
                 </td>
                 <td valign="top">
                     <picture>
-                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/dashboard-deleted-mobile-dark.png">
-                        <img src="./docs/images/dashboard-deleted-mobile-light.png" width="215" height="355" style="object-fit: cover; object-position: bottom;" alt="Mobile View">
+                        <source media="(prefers-color-scheme: dark)" srcset="./docs/images/preview/dashboard-deleted-mobile-dark_preview.png">
+                        <img src="./docs/images/preview/dashboard-deleted-mobile-light_preview.png" width="215" alt="Mobile View">
                     </picture>
                     <br>
                     <small>View Full:
