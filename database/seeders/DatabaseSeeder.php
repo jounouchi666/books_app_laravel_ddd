@@ -21,13 +21,20 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
         ]);
 
+        // デモデータ
+        $this->call([
+            DemoUserSeeder::class,
+            DemoCategorySeeder::class,
+            DemoBookSeeder::class
+        ]);
+
         // テストデータ
-        if (app()->environment('local')) {
-            $this->call([
-                TestUserSeeder::class,
-                TestCategorySeeder::class,
-                TestBookSeeder::class
-            ]);
-        }
+        // if (app()->environment('local')) {
+        //     $this->call([
+        //         TestUserSeeder::class,
+        //         TestCategorySeeder::class,
+        //         TestBookSeeder::class
+        //     ]);
+        // }
     }
 }
