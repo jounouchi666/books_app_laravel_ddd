@@ -51,7 +51,15 @@ final class BookView
      */
     public function categoryLabel(): string
     {
-        return $this->categoryTrashed ? '削除されたカテゴリー' : $this->categoryTitle;
+        if ($this->categoryTrashed) {
+            return '削除されたカテゴリー';
+        }
+
+        if (is_null($this->categoryId)) {
+            return 'カテゴリーなし';
+        }
+        
+        return $this->categoryTitle;
     }
  
     /**
