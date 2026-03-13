@@ -6,7 +6,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 ## Node
-RUN apk add --no-cache nodejs npm \
+RUN apk add --no-cache nodejs-current npm \
     && npm install \
     && npm run build
 
