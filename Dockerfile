@@ -29,6 +29,6 @@ ENV SESSION_LIFETIME 2440
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Grant execution to script
-RUN chmod +x /var/www/html/scripts/00-laravel-scripts.sh
+RUN chmod +x /var/www/html/scripts/00-laravel-deploy.sh
 
 CMD ["/start.sh"]
