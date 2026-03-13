@@ -1,9 +1,9 @@
-FROM richarvey/nginx-php-fpm:php8-latest
+FROM richarvey/nginx-php-fpm:latest
 
 COPY . .
 
 # Composer install
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 ## Node
 RUN apk add --no-cache nodejs npm \
