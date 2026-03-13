@@ -2,6 +2,9 @@ FROM richarvey/nginx-php-fpm:3.1.6
 
 COPY . .
 
+# Composer install
+RUN composer install --no-dev --optimize-autoloader
+
 ## Node
 RUN apk add --no-cache nodejs npm \
     && npm install \
