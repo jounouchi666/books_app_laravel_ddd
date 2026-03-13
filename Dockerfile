@@ -2,6 +2,11 @@ FROM richarvey/nginx-php-fpm:3.1.6
 
 COPY . .
 
+## Node
+RUN apk add --no-cache nodejs npm \
+    && npm install \
+    && npm run build
+
 # Image config
 ENV SKIP_COMPOSER 0
 ENV WEBROOT /var/www/html/public
