@@ -1,7 +1,10 @@
 echo "Running deployment scripts..."
 
-# Grant execution to storage
-chmod -R 777 storage bootstrap/cache
+# Grant execution
+chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# clear cache
+php artisan config:clear
 
 # migration & seeder
 php artisan migrate:fresh --seed --force
