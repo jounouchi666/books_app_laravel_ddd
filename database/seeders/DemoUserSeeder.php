@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class DemoUserSeeder extends Seeder
 {
@@ -26,7 +28,21 @@ class DemoUserSeeder extends Seeder
             'updated_at' => $oldestDate
         ]);
 
-        // デモユーザー
-        User::factory(10)->create();
+        $users = json_decode(
+            File::get(database_path('seeders/demo/users.json')),
+            true
+        );
+
+        foreach ($users as $user) {
+            DB::table('users')->insert([
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => $user['password'] ?? bcrypt('password'),
+                'is_admin' => $user['is_admin'],
+                'created_at' => $user['created_at'],
+                'updated_at' => $user['updated_at']
+            ]);
+        }
     }
 }
