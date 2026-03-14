@@ -1,0 +1,13 @@
+[
+    {"id": 3, "name": "織田 信長", "email": "nobunaga@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 4, "name": "豊臣 秀吉", "email": "hideyoshi@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 5, "name": "徳川 家康", "email": "ieyasu@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 6, "name": "武田 信玄", "email": "shingen@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 7, "name": "上杉 謙信", "email": "kenshin@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 8, "name": "伊達 政宗", "email": "masamune@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 9, "name": "真田 幸村", "email": "yukimura@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 10, "name": "毛利 元就", "email": "motonari@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 11, "name": "島津 義弘", "email": "yoshihiro@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 12, "name": "北条 氏康", "email": "ujiyasu@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"},
+    {"id": 13, "name": "長宗我部 元親", "email": "motochika@example.com", "password": null, "is_admin": false, "created_at": "2025-01-01 00:00:00", "updated_at": "2025-01-01 00:00:00"}
+]
