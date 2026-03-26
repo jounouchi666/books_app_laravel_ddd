@@ -2,6 +2,15 @@
 
 LaravelでDDD / Clean Architectureを採用したLaravel書籍管理アプリケーション
 
+## Live Demo
+https://books-app-z5ig.onrender.com
+
+**Demo Account**
+email: guest@example.com
+password: password
+
+
+
 [![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge\&logo=laravel\&logoColor=white)](https://laravel.com/)
 [![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge\&logo=php\&logoColor=white)](https://www.php.net/)
 [![DDD](https://img.shields.io/badge/Architecture-DDD%20%2B%20Clean-blue?style=for-the-badge)]()
