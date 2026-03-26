@@ -6,7 +6,7 @@ LaravelでDDD / Clean Architectureを採用したLaravel書籍管理アプリケ
 <a href="https://books-app-z5ig.onrender.com" target="_blank">https://books-app-z5ig.onrender.com</a>
 
 **Demo Account**  
-email: guest@example.com  
+email: guest@example&#46;com
 password: password
 
 
