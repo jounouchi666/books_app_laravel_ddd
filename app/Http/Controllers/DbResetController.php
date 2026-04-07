@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 
 class DbResetController extends Controller
 {    
@@ -20,8 +19,9 @@ class DbResetController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        $command = 'php ' . base_path('artisan') . ' migrate:fresh --seed --force > /dev/null 2>&1 &';
+        exec($command);
 
-        return response()->json(['message' => 'Database reset success'], 200);
+        return response()->json(['message' => 'Database reset started in background'], 202);
     }
 }
